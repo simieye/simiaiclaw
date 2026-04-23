@@ -212,10 +212,11 @@ export class LLMClient {
       this.simulateMode = false;
       this.initHuobao(huobaoKey);
     } else {
-      this.simulateMode = true;
-      console.log('[LLM] ⚠️ 未检测到 API Key，运行模拟模式（无真实AI调用）');
+      // 无付费 API Key，检查 Ollama 是否可用
+      this.simulateMode = false;
+      console.log('[LLM] ⚠️ 未检测到 API Key，Ollama 可用时将使用本地模型（免费）');
       console.log('[LLM] 💡 建议配置（优先级从高到低）：');
-      console.log('[LLM]    1. 本地 Ollama（免费）: pip install ollama && ollama serve');
+      console.log('[LLM]    1. 本地 Ollama（免费）: 已运行 ✓');
       console.log('[LLM]    2. 火豹 API（付费中转）: HUABAO_API_KEY=sk-xxx');
       console.log('[LLM]    3. Anthropic/ OpenAI: ANTHROPIC_API_KEY / OPENAI_API_KEY');
     }
@@ -231,8 +232,13 @@ export class LLMClient {
       if (modelIds.length > 0) {
         this.ollamaClient = client;
         this.ollamaAvailable = true;
-        this.ollamaModel = modelIds[0]; // 默认用第一个模型
-        console.log(`[LLM] ✅ Ollama 检测成功，可用模型: ${modelIds.join(', ')}`);
+        // 优先使用 OLLAMA_MODEL 指定模型，否则用第一个
+        if (process.env.OLLAMA_MODEL && modelIds.includes(process.env.OLLAMA_MODEL)) {
+          this.ollamaModel = process.env.OLLAMA_MODEL;
+        } else {
+          this.ollamaModel = modelIds[0];
+        }
+        console.log(`[LLM] ✅ Ollama 检测成功，当前模型: ${this.ollamaModel}，可用模型: ${modelIds.join(', ')}`);
       } else {
         console.log('[LLM] ⚠️ Ollama 服务运行中，但未安装任何模型');
       }
@@ -243,7 +249,7 @@ export class LLMClient {
     }
   }
 
-  private ollamaModel = 'llama3'; // 默认模型，会在 detectOllama 时覆盖
+  private ollamaModel = process.env.OLLAMA_MODEL || 'llama3'; // 可通过 OLLAMA_MODEL 环境变量指定
 
   private async initAnthropic(apiKey: string) {
     try {

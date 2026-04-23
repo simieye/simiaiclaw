@@ -4,6 +4,7 @@
  * 行业应用工具链赋能平台
  */
 import React, { useState, useRef } from 'react';
+import { NLWorkspaceDialog } from './NLWorkspaceDialog';
 
 // ══════════════════════════════════════════════════════════════
 // 数据定义
@@ -422,6 +423,7 @@ export function OPCWorkbench() {
   const [selectedGua, setSelectedGua] = useState<GuaNode | null>(null);
   const [industrySearch, setIndustrySearch] = useState('');
   const [showAiChat, setShowAiChat] = useState(false);
+  const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
 
   const filteredTools = INDUSTRY_TOOLS.filter(t =>
     t.name.includes(industrySearch) || t.nameEn.toLowerCase().includes(industrySearch.toLowerCase()) ||
@@ -430,6 +432,9 @@ export function OPCWorkbench() {
 
   return (
     <div className="space-y-5">
+      {/* 自然语言创建工作台对话框 */}
+      {showWorkspaceDialog && <NLWorkspaceDialog onClose={() => setShowWorkspaceDialog(false)} />}
+
       {/* SIMIAICLAW AI 在线客服悬浮按钮 */}
       <div className="fixed bottom-20 right-6 z-40 flex flex-col items-end gap-3">
         {/* 聊天窗口 */}
@@ -452,16 +457,28 @@ export function OPCWorkbench() {
       </div>
 
       {/* 头部 */}
-      <div>
-        <h2 className="text-lg font-bold text-white flex items-center gap-2">
-          🦞 全国OPC工作台
-          <span className="text-xs bg-gradient-to-r from-cyan-600/30 to-purple-600/30 border border-cyan-500/30 text-cyan-300 px-2 py-0.5 rounded-full">
-            SIMIAICLAW · 64卦太极系统
-          </span>
-        </h2>
-        <p className="text-xs text-slate-400 mt-1">
-          1人 + 1套太极集群 = 1个行业头部公司 · 已覆盖 <span className="text-cyan-400 font-semibold">18</span> 个垂直赛道 · <span className="text-amber-400 font-semibold">64</span> 个智能体节点
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 min-w-0">
+          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            🦞 全国OPC工作台
+            <span className="text-xs bg-gradient-to-r from-cyan-600/30 to-purple-600/30 border border-cyan-500/30 text-cyan-300 px-2 py-0.5 rounded-full">
+              SIMIAICLAW · 64卦太极系统
+            </span>
+          </h2>
+          <p className="text-xs text-slate-400 mt-1">
+            1人 + 1套太极集群 = 1个行业头部公司 · 已覆盖 <span className="text-cyan-400 font-semibold">18</span> 个垂直赛道 · <span className="text-amber-400 font-semibold">64</span> 个智能体节点
+          </p>
+        </div>
+        {/* 自然语言创建工作台按钮 */}
+        <button
+          onClick={() => setShowWorkspaceDialog(true)}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-bold shadow-lg shadow-indigo-500/20 border border-indigo-500/30 transition-all shrink-0"
+        >
+          <span className="text-base">✨</span>
+          <span className="hidden sm:inline">用自然语言创建工作台</span>
+          <span className="sm:hidden">创建工作台</span>
+          <span className="text-[10px] opacity-70">↗</span>
+        </button>
       </div>
 
       {/* 核心统计 */}

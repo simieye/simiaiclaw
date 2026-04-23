@@ -66,5 +66,39 @@
         "apiCallsThisMonth": 0
       }
     }
+  },
+  {
+    "id": "a9df4b2a-e7cf-4c58-b4ff-c91722142047",
+    "name": "Ollama测试租户",
+    "slug": "ollama测试租户-2fa39b",
+    "plan": "pro",
+    "ownerId": "13179a32-5f97-423a-859a-397d58c32f7c",
+    "members": [
+      {
+        "userId": "13179a32-5f97-423a-859a-397d58c32f7c",
+        "role": "owner",
+        "joinedAt": "2026-04-23T10:38:11.631Z",
+        "nickname": "Ollama测试"
+      }
+    ],
+    "createdAt": "2026-04-23T10:38:11.591Z",
+    "updatedAt": "2026-04-23T10:38:11.631Z",
+    "config": {
+      "maxAgents": 8,
+      "maxUsers": 2,
+      "llmProvider": "anthropic",
+      "customBranding": false,
+      "ssoEnabled": false
+    },
+    "quotas": {
+      "tasksPerDay": 20,
+      "storageMB": 100,
+      "apiCallsPerMonth": 1000,
+      "used": {
+        "tasksToday": 0,
+        "storageUsedMB": 0,
+        "apiCallsThisMonth": 0
+      }
+    }
   }
 ]

@@ -33,6 +33,24 @@
       "theme": "auto",
       "notifications": true
     },
-    "lastLoginAt": "2026-04-23T07:20:59.109Z"
+    "lastLoginAt": "2026-04-23T10:39:34.949Z"
+  },
+  {
+    "id": "13179a32-5f97-423a-859a-397d58c32f7c",
+    "email": "test@ollama.dev",
+    "passwordHash": "d587dd9f29174685d840806eff7dd6c78d9c337f853ef24ad72d573c89506b5ee3abfded58f1a14350ba1e1f50d8fe322b3e2f637300cdf00206fa410f01f926",
+    "salt": "558576375c3c4fa628b1c6d3b604ab80b9b4d81666344654b909431eeefb1dd5",
+    "displayName": "Ollama测试",
+    "tenantIds": [
+      "a9df4b2a-e7cf-4c58-b4ff-c91722142047"
+    ],
+    "createdAt": "2026-04-23T10:38:11.631Z",
+    "updatedAt": "2026-04-23T10:38:11.631Z",
+    "isActive": true,
+    "preferences": {
+      "theme": "auto",
+      "notifications": true
+    },
+    "lastLoginAt": "2026-04-23T10:38:47.689Z"
   }
 ]

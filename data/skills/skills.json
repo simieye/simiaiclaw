@@ -82,5 +82,33 @@
     "isFeatured": false,
     "createdAt": "2026-04-23T07:28:25.466Z",
     "updatedAt": "2026-04-23T07:28:25.466Z"
+  },
+  {
+    "id": "skill-custom-8529946d",
+    "name": "数据分析运营官",
+    "description": "解读销售数据、广告报表，输出可执行优化建议",
+    "source": "custom",
+    "category": "ai",
+    "author": {
+      "userId": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+      "displayName": "tim"
+    },
+    "tags": [
+      "数据",
+      "数据",
+      "AI生成"
+    ],
+    "icon": "📊",
+    "instructions": "你是一个专业的数据分析师。分析用户提供的数据后：\n1. 识别关键指标异常（CTR、CVR、ACOS）\n2. 诊断问题根源（listing/广告/评论/竞品）\n3. 给出优先级排序的可执行优化建议\n4. 预测优化后的预期效果",
+    "installCount": 0,
+    "rating": 0,
+    "reviewCount": 0,
+    "reviews": [],
+    "rewardPool": 0,
+    "rewardCount": 0,
+    "isInstalled": false,
+    "isFeatured": false,
+    "createdAt": "2026-04-23T10:40:23.109Z",
+    "updatedAt": "2026-04-23T10:40:23.109Z"
   }
 ]
