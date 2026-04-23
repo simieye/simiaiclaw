@@ -34,7 +34,10 @@
     "clsx": "^2.1.0",
     "date-fns": "^3.3.1",
     "framer-motion": "^11.0.0",
+    "jszip": "^3.10.1",
     "lucide-react": "^0.344.0",
+    "mammoth": "^1.12.0",
+    "pdfjs-dist": "^5.6.205",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.22.0",
@@ -76,15 +79,24 @@
       "gatekeeperAssess": false,
       "entitlements": "electron/assets/entitlements.plist",
       "entitlementsInherit": "electron/assets/entitlements.plist",
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "win": {
-      "target": ["nsis", "portable"],
+      "target": [
+        "nsis",
+        "portable"
+      ],
       "icon": "electron/assets/icon.ico",
       "publisherName": "SIMIAICLAW"
     },
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "icon": "electron/assets",
       "category": "Development"
     },

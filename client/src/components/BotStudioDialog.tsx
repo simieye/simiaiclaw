@@ -14,6 +14,11 @@ import {
   getCredits,
   type BotKnowledgeContent,
 } from '../api/anygenService';
+import {
+  DocUploadPanel,
+  type ParsedDoc,
+  combineMarkdown,
+} from '../api/docParser';
 
 // ══════════════════════════════════════════════════════════════
 // 数据定义
@@ -34,6 +39,7 @@ interface BotConfig {
   greeting: string;
   language: string;
   personality: string;
+  docs: ParsedDoc[];  // 上传的文档（已转换为 Markdown）
 }
 
 interface PlatformStatus {
@@ -56,6 +62,7 @@ const DEFAULT_BOT: BotConfig = {
   greeting: '您好！我是 {company} 的智能助手，请问有什么可以帮助您的？',
   language: '中文',
   personality: '专业、热情、耐心',
+  docs: [],
 };
 
 const PRODUCT_SUGGESTIONS = [
@@ -110,26 +117,6 @@ function StepIndicator({ current }: { current: Step }) {
 
 // Step1: 企业信息
 function StepOne({ config, update }: { config: BotConfig; update: (c: Partial<BotConfig>) => void }) {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
-  const [docs, setDocs] = useState<Array<{ name: string; size: string; type: string }>>([]);
-
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (!files.length) return;
-    setUploading(true);
-    await new Promise(r => setTimeout(r, 1500));
-    setDocs(prev => [...prev, ...files.map(f => ({
-      name: f.name,
-      size: f.size < 1024 * 1024 ? `${(f.size / 1024).toFixed(1)} KB` : `${(f.size / 1024 / 1024).toFixed(1)} MB`,
-      type: f.type || 'application/octet-stream',
-    }))]);
-    setUploading(false);
-    toast.success(`已上传 ${files.length} 个文件`);
-  };
-
-  const removeDoc = (idx: number) => setDocs(prev => prev.filter((_, i) => i !== idx));
-
   const addProduct = (p: string) => {
     if (p && !config.products.includes(p)) {
       update({ products: [...config.products, p] });
@@ -216,44 +203,16 @@ function StepOne({ config, update }: { config: BotConfig; update: (c: Partial<Bo
         )}
       </div>
 
-      {/* 文档上传 */}
+      {/* 文档上传 → Markdown 解析 */}
       <div>
-        <label className="block text-xs font-medium text-slate-300 mb-1.5">📄 上传品牌/产品文档</label>
-        <input ref={fileRef} type="file" multiple accept=".pdf,.doc,.docx,.txt,.md,.pptx,.xlsx" className="hidden" onChange={handleFile} />
-        <div
-          onClick={() => fileRef.current?.click()}
-          className="border-2 border-dashed border-slate-600/50 hover:border-cyan-500/50 rounded-xl p-5 text-center cursor-pointer transition-colors"
-        >
-          {uploading ? (
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-              <span className="text-xs text-slate-400">正在解析文档...</span>
-            </div>
-          ) : (
-            <>
-              <div className="text-2xl mb-1">📤</div>
-              <div className="text-xs text-slate-400">点击或拖放上传文档</div>
-              <div className="text-[10px] text-slate-600 mt-1">支持 PDF · DOC · DOCX · TXT · MD · PPTX · XLSX</div>
-            </>
-          )}
-        </div>
-        {docs.length > 0 && (
-          <div className="mt-2 space-y-1">
-            {docs.map((d, i) => (
-              <div key={i} className="flex items-center justify-between bg-slate-800/50 rounded-lg px-3 py-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400 text-xs">📄</span>
-                  <span className="text-xs text-slate-300 truncate max-w-[200px]">{d.name}</span>
-                  <span className="text-[10px] text-slate-500">{d.size}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">已解析</span>
-                  <button onClick={() => removeDoc(i)} className="text-slate-500 hover:text-red-400 text-sm">×</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        <label className="block text-xs font-medium text-slate-300 mb-1.5">
+          📄 上传品牌/产品文档（自动转 Markdown）
+        </label>
+        <DocUploadPanel
+          docs={config.docs}
+          onChange={(docs) => update({ docs })}
+          botName={config.name}
+        />
       </div>
     </div>
   );
@@ -624,6 +583,7 @@ function StepFour({ config }: { config: BotConfig }) {
         personality: config.personality,
         language: config.language,
         websiteUrl: config.websiteUrl,
+        docsMarkdown: config.docs.length > 0 ? combineMarkdown(config.docs) : undefined,
       });
       setKnowledge(result);
     } catch (err) {
@@ -632,7 +592,7 @@ function StepFour({ config }: { config: BotConfig }) {
     } finally {
       setLoading(false);
     }
-  }, [config.brandDesc, config.name, config.products, config.type, config.personality, config.language, config.websiteUrl]);
+  }, [config.brandDesc, config.name, config.products, config.type, config.personality, config.language, config.websiteUrl, config.docs.length]);
 
   React.useEffect(() => {
     generateKnowledge();
@@ -870,7 +830,13 @@ function StepFive({ config, onDeploy }: { config: BotConfig; onDeploy: () => voi
     { label: '服务语言', value: config.language, icon: '🌐' },
     { label: '机器人性格', value: config.personality, icon: '🎭' },
     { label: '服务时间', value: config.serviceHours, icon: '⏰' },
-    { label: '知识库文档', value: `${config.products.length} 个产品类别`, icon: '📚' },
+    {
+      label: '知识库文档',
+      value: config.docs.length > 0
+        ? `${config.docs.filter(d => d.status === 'done').length} 个文档（≈${config.docs.reduce((s, d) => s + d.tokenEstimate, 0).toLocaleString()} tokens）`
+        : `${config.products.length} 个产品类别`,
+      icon: '📚',
+    },
     { label: '官网接入', value: config.websiteUrl ? '已配置' : '未配置', icon: '🌐' },
   ];
 

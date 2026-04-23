@@ -138,6 +138,8 @@ export async function pollTaskStatus(
 /**
  * 生成 AI 销售/客服机器人知识库
  * 使用 AnyGen doc operation 生成 FAQ、回复话术、品牌语调等
+ * @param params - 知识库生成参数
+ * @param params.docsMarkdown - 已上传文档转换后的 Markdown 内容（合并字符串）
  */
 export async function generateBotKnowledge(params: {
   botName: string;
@@ -147,12 +149,18 @@ export async function generateBotKnowledge(params: {
   personality: string;
   language: string;
   websiteUrl?: string;
+  docsMarkdown?: string;  // 新增：文档 Markdown 内容
 }): Promise<BotKnowledgeContent> {
-  const { botName, brandDesc, products, botType, personality, language, websiteUrl } = params;
+  const { botName, brandDesc, products, botType, personality, language, websiteUrl, docsMarkdown } = params;
 
   const typeLabel = botType === 'sales' ? 'AI 销售机器人' : 'AI 客服机器人';
   const productsList = products.join('、') || '通用产品';
   const websiteInfo = websiteUrl ? `企业官网：${websiteUrl}` : '未提供官网';
+
+  // 如果有上传文档内容，截取前 4000 字符作为参考
+  const docContext = docsMarkdown && docsMarkdown.length > 500
+    ? `\n\n## 企业文档内容（已转换 Markdown）\n\n${docsMarkdown.slice(0, 4000)}${docsMarkdown.length > 4000 ? '\n\n...(文档内容已截断)...' : ''}`
+    : '\n\n（用户未上传企业文档，知识库将基于基本信息生成）';
 
   const prompt = `
 你是 AnyGen.io 智能机器人训练引擎。请为以下企业 ${typeLabel} 生成完整的知识库配置。
@@ -164,6 +172,7 @@ export async function generateBotKnowledge(params: {
 - ${websiteInfo}
 - 机器人性格：${personality}
 - 服务语言：${language}
+${docContext}
 
 ## 输出要求
 请以 JSON 格式输出完整的机器人知识库，包含以下字段：
@@ -186,6 +195,7 @@ export async function generateBotKnowledge(params: {
 
 要求：
 - 生成 8-12 条 FAQ，覆盖产品介绍、价格咨询、售后服务等常见问题
+- 如有文档内容，FAQ 应基于文档内容提取，不要凭空编造产品细节
 - 生成 5-8 个意图识别配置，包含触发词
 - fallback 回复应引导用户留下联系方式
 - 语气风格与"${personality}"一致
@@ -229,6 +239,7 @@ function generateDefaultKnowledge(params: {
   botType: 'sales' | 'service';
   personality: string;
   language: string;
+  docsMarkdown?: string;
 }): BotKnowledgeContent {
   const { botName, brandDesc, products, botType, personality, language } = params;
   const typeLabel = botType === 'sales' ? '销售' : '客服';
