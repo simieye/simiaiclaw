@@ -1191,15 +1191,15 @@ function AgentsView({ status, health, onTabChange }: { status: SystemStatus; hea
             </div>
             <div>
               <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-                <span>GEO 地理智能体系统</span>
+                <span>GEO · AI SEO 全域曝光平台</span>
                 <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">入口</span>
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">地理信息处理 · 空间智能分析 · dageno.ai 平台</p>
+              <p className="text-xs text-slate-500 mt-0.5">AI 智能建站 + 结构化内容分发全网 · 品牌全域曝光 · 精准触达客户 · dageno.ai</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className="hidden md:block text-right">
-              <div className="text-xs text-emerald-400 font-medium">🌐 app.dageno.ai</div>
+              <div className="text-xs text-emerald-400 font-medium">🌐 AI 建站 · GEO 分发 · 全域曝光</div>
               <div className="text-[10px] text-slate-500">点击直达 GEO Overview</div>
             </div>
             <span className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 border border-emerald-500/30">
