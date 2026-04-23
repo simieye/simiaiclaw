@@ -5,6 +5,7 @@
  */
 import React, { useState, useRef } from 'react';
 import { NLWorkspaceDialog } from './NLWorkspaceDialog';
+import { SOPUploadDialog } from './SOPUploadDialog';
 
 // ══════════════════════════════════════════════════════════════
 // 数据定义
@@ -424,6 +425,7 @@ export function OPCWorkbench() {
   const [industrySearch, setIndustrySearch] = useState('');
   const [showAiChat, setShowAiChat] = useState(false);
   const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
+  const [showSOPUpload, setShowSOPUpload] = useState(false);
 
   const filteredTools = INDUSTRY_TOOLS.filter(t =>
     t.name.includes(industrySearch) || t.nameEn.toLowerCase().includes(industrySearch.toLowerCase()) ||
@@ -434,6 +436,9 @@ export function OPCWorkbench() {
     <div className="space-y-5">
       {/* 自然语言创建工作台对话框 */}
       {showWorkspaceDialog && <NLWorkspaceDialog onClose={() => setShowWorkspaceDialog(false)} />}
+
+      {/* SOP 上传解析对话框 */}
+      {showSOPUpload && <SOPUploadDialog onClose={() => setShowSOPUpload(false)} />}
 
       {/* SIMIAICLAW AI 在线客服悬浮按钮 */}
       <div className="fixed bottom-20 right-6 z-40 flex flex-col items-end gap-3">
@@ -472,11 +477,21 @@ export function OPCWorkbench() {
         {/* 自然语言创建工作台按钮 */}
         <button
           onClick={() => setShowWorkspaceDialog(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-bold shadow-lg shadow-indigo-500/20 border border-indigo-500/30 transition-all shrink-0"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-bold shadow-lg shadow-indigo-500/20 border border-indigo-500/30 transition-all shrink-0"
         >
           <span className="text-base">✨</span>
-          <span className="hidden sm:inline">用自然语言创建工作台</span>
-          <span className="sm:hidden">创建工作台</span>
+          <span className="hidden md:inline">用自然语言创建工作台</span>
+          <span className="md:hidden">创建</span>
+        </button>
+
+        {/* SOP 上传解析按钮 */}
+        <button
+          onClick={() => setShowSOPUpload(true)}
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold shadow-lg shadow-orange-500/20 border border-orange-500/30 transition-all shrink-0"
+        >
+          <span className="text-base">📤</span>
+          <span className="hidden md:inline">上传 SOP 解析工作流</span>
+          <span className="md:hidden">上传 SOP</span>
           <span className="text-[10px] opacity-70">↗</span>
         </button>
       </div>
