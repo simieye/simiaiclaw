@@ -6,6 +6,10 @@
 import React, { useState, useRef } from 'react';
 import { NLWorkspaceDialog } from './NLWorkspaceDialog';
 import { SOPUploadDialog } from './SOPUploadDialog';
+import { BotStudioDialog } from './BotStudioDialog';
+
+type BotType = 'sales' | 'service';
+type Platform = 'whatsapp' | 'slack' | 'wechat';
 
 // ══════════════════════════════════════════════════════════════
 // 数据定义
@@ -298,6 +302,68 @@ function GuaModal({ gua, onClose }: { gua: GuaNode; onClose: () => void }) {
 }
 
 // ══════════════════════════════════════════════════════════════
+// 已部署机器人列表
+// ══════════════════════════════════════════════════════════════
+
+function BotList() {
+  const [bots, setBots] = React.useState<Array<{ id: number; name: string; type: BotType; platforms: Platform[]; createdAt: string }>>([]);
+
+  React.useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('opc_bots') || '[]');
+      setBots(saved);
+    } catch { setBots([]); }
+  }, []);
+
+  if (bots.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <div className="text-3xl mb-2">🤖</div>
+        <p className="text-sm text-slate-400">暂无已部署的机器人</p>
+        <p className="text-[11px] text-slate-600 mt-1">点击上方「创建机器人」开始构建您的 AI 销售/客服机器人</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-2">
+      {bots.map((bot) => (
+        <div key={bot.id} className="flex items-center gap-3 bg-slate-900/50 rounded-xl px-4 py-3 border border-slate-700/40">
+          <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg ${
+            bot.type === 'sales' ? 'bg-emerald-500/20' : 'bg-blue-500/20'
+          }`}>
+            {bot.type === 'sales' ? '💰' : '🎧'}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-white truncate">{bot.name}</span>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                bot.type === 'sales' ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20' :
+                'bg-blue-500/10 text-blue-300 border border-blue-500/20'
+              }`}>
+                {bot.type === 'sales' ? '销售' : '客服'}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 mt-0.5">
+              {bot.platforms.length > 0 ? bot.platforms.map(p => (
+                <span key={p} className="text-[10px] text-slate-500">
+                  {p === 'whatsapp' ? '💬WhatsApp' : p === 'slack' ? '💬Slack' : '💬微信'}
+                </span>
+              )) : <span className="text-[10px] text-slate-600">未部署平台</span>}
+              <span className="text-[10px] text-slate-600">· {new Date(bot.createdAt).toLocaleDateString('zh-CN')}</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+            <span className="text-[10px] text-emerald-400">在线</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
 // SIMIAICLAW AI 在线客服组件（OPC工作台专用）
 // ══════════════════════════════════════════════════════════════
 
@@ -419,13 +485,14 @@ function OPCAiChatWidget({ onClose }: { onClose: () => void }) {
 // ══════════════════════════════════════════════════════════════
 
 export function OPCWorkbench() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'industries' | 'nodes'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'industries' | 'nodes' | 'bots'>('overview');
   const [selectedTool, setSelectedTool] = useState<IndustryTool | null>(null);
   const [selectedGua, setSelectedGua] = useState<GuaNode | null>(null);
   const [industrySearch, setIndustrySearch] = useState('');
   const [showAiChat, setShowAiChat] = useState(false);
   const [showWorkspaceDialog, setShowWorkspaceDialog] = useState(false);
   const [showSOPUpload, setShowSOPUpload] = useState(false);
+  const [showBotStudio, setShowBotStudio] = useState(false);
 
   const filteredTools = INDUSTRY_TOOLS.filter(t =>
     t.name.includes(industrySearch) || t.nameEn.toLowerCase().includes(industrySearch.toLowerCase()) ||
@@ -439,6 +506,9 @@ export function OPCWorkbench() {
 
       {/* SOP 上传解析对话框 */}
       {showSOPUpload && <SOPUploadDialog onClose={() => setShowSOPUpload(false)} />}
+
+      {/* AI 机器人工作室对话框 */}
+      {showBotStudio && <BotStudioDialog onClose={() => setShowBotStudio(false)} />}
 
       {/* SIMIAICLAW AI 在线客服悬浮按钮 */}
       <div className="fixed bottom-20 right-6 z-40 flex flex-col items-end gap-3">
@@ -492,6 +562,16 @@ export function OPCWorkbench() {
           <span className="text-base">📤</span>
           <span className="hidden md:inline">上传 SOP 解析工作流</span>
           <span className="md:hidden">上传 SOP</span>
+        </button>
+
+        {/* AI 机器人工作室按钮 */}
+        <button
+          onClick={() => setShowBotStudio(true)}
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 border border-cyan-500/30 transition-all shrink-0"
+        >
+          <span className="text-base">🤖</span>
+          <span className="hidden lg:inline">AI 机器人工作室</span>
+          <span className="lg:hidden">机器人</span>
           <span className="text-[10px] opacity-70">↗</span>
         </button>
       </div>
@@ -516,6 +596,7 @@ export function OPCWorkbench() {
           { id: 'overview', label: '总览', icon: '🎯' },
           { id: 'industries', label: '行业应用', icon: '🏭' },
           { id: 'nodes', label: '64卦节点', icon: '☯️' },
+          { id: 'bots', label: 'AI机器人', icon: '🤖' },
         ] as const).map(tab => (
           <button
             key={tab.id}
@@ -755,6 +836,123 @@ export function OPCWorkbench() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* AI 机器人工作室 Tab */}
+      {activeTab === 'bots' && (
+        <div className="space-y-4">
+          {/* 工作室入口横幅 */}
+          <div className="bg-gradient-to-r from-cyan-950/60 to-blue-950/60 border border-cyan-800/30 rounded-2xl p-5">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-2xl">🤖</span>
+                  <h3 className="text-white font-bold text-base">AI 机器人工作室</h3>
+                  <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-500/30">
+                    Powered by AnyGen.io
+                  </span>
+                </div>
+                <p className="text-sm text-slate-400 mt-1">
+                  上传企业官网、品牌内容、产品资料，AI 自动构建销售/客服机器人，
+                  一键部署到 WhatsApp、Slack、微信等平台，7×24 小时精准服务全球客户。
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowBotStudio(true)}
+                  className="bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl px-5 py-2.5 text-sm font-medium transition-colors flex items-center gap-2"
+                >
+                  🚀 创建机器人
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* 平台能力展示 */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="bg-emerald-950/40 border border-emerald-800/40 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xl">💬</span>
+                <span className="text-sm font-bold text-emerald-300">WhatsApp</span>
+                <span className="ml-auto text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">全球覆盖</span>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                覆盖 180+ 国家，25亿+ 月活用户，自动识别客户意图，精准推荐产品，支持多语言实时翻译。
+              </p>
+              <div className="mt-3 flex gap-1">
+                <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full">Business API</span>
+                <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full">多语言</span>
+              </div>
+            </div>
+
+            <div className="bg-purple-950/40 border border-purple-800/40 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xl">💬</span>
+                <span className="text-sm font-bold text-purple-300">Slack</span>
+                <span className="ml-auto text-[10px] text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full">企业协作</span>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                深度集成 Slack 工作流，自动创建工单、对接 CRM、实时通知销售团队，提升 B2B 客户响应速度。
+              </p>
+              <div className="mt-3 flex gap-1">
+                <span className="text-[10px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded-full">Bot User</span>
+                <span className="text-[10px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded-full">CRM对接</span>
+              </div>
+            </div>
+
+            <div className="bg-green-950/40 border border-green-800/40 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xl">💬</span>
+                <span className="text-sm font-bold text-green-300">微信 WeChat</span>
+                <span className="ml-auto text-[10px] text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full">中国市场</span>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                公众号/小程序/客服消息全覆盖，基于企业知识库精准回复，支持朋友圈互动和社群运营自动化。
+              </p>
+              <div className="mt-3 flex gap-1">
+                <span className="text-[10px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full">公众号</span>
+                <span className="text-[10px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full">小程序</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 已部署机器人列表 */}
+          <div className="bg-slate-800/40 border border-slate-700/40 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold text-slate-300">🎯 已部署的机器人</h3>
+              <button
+                onClick={() => setShowBotStudio(true)}
+                className="text-xs text-cyan-400 hover:text-cyan-300 font-medium"
+              >
+                + 新建机器人
+              </button>
+            </div>
+            <BotList />
+          </div>
+
+          {/* 机器人能力矩阵 */}
+          <div className="bg-gradient-to-r from-cyan-950/30 to-blue-950/30 border border-slate-700/40 rounded-xl p-4">
+            <h3 className="text-sm font-semibold text-slate-300 mb-3">🧠 AnyGen.io 智能引擎能力</h3>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {[
+                { icon: '🎯', title: '意图识别', desc: '95%+ 准确率，精准理解客户需求', color: 'text-cyan-400' },
+                { icon: '📚', title: '知识库问答', desc: '基于企业文档，自动学习产品知识', color: 'text-emerald-400' },
+                { icon: '🌐', title: '多语言', desc: '中英日韩等 10+ 语言实时互译', color: 'text-amber-400' },
+                { icon: '⏱️', title: '秒级响应', desc: '&lt;2s 平均响应，7×24 不间断服务', color: 'text-pink-400' },
+                { icon: '📊', title: '数据分析', desc: '实时监控对话质量，持续优化', color: 'text-violet-400' },
+                { icon: '🔗', title: 'CRM 集成', desc: '自动创建线索，同步客户档案', color: 'text-blue-400' },
+                { icon: '🔄', title: '持续学习', desc: '未解决的问题自动学习，日益聪明', color: 'text-orange-400' },
+                { icon: '🛡️', title: '合规安全', desc: 'GDPR/HIPAA 合规，数据加密传输', color: 'text-red-400' },
+              ].map((cap, i) => (
+                <div key={i} className="bg-slate-800/60 rounded-lg p-3">
+                  <span className="text-lg">{cap.icon}</span>
+                  <div className={`text-xs font-bold mt-1 ${cap.color}`}>{cap.title}</div>
+                  <div className="text-[10px] text-slate-500 mt-0.5 leading-relaxed">{cap.desc}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
