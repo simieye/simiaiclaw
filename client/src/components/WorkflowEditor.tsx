@@ -5,6 +5,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { api } from '../api/client';
 import { toast } from 'sonner';
+import { NLSOPWorkflowDialog } from './NLSOPWorkflowDialog';
 
 // ══════════════════════════════════════════════════════════════
 // 类型定义
@@ -463,6 +464,7 @@ export function WorkflowEditor() {
   const [runLog, setRunLog] = useState<string[]>([]);
   const [wfName, setWfName] = useState('新工作流');
   const [running, setRunning] = useState(false);
+  const [showNLWorkflow, setShowNLWorkflow] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
 
   // 加载64卦数据
@@ -632,6 +634,18 @@ export function WorkflowEditor() {
   return (
     <div className="flex flex-col h-full bg-slate-950 text-white">
 
+      {/* 自然语言 SOP 工作流创建对话框 */}
+      {showNLWorkflow && (
+        <NLSOPWorkflowDialog
+          onClose={() => setShowNLWorkflow(false)}
+          onGenerated={(wf) => {
+            setWfName(wf.name);
+            setActiveTab('canvas');
+            toast.success(`已加载 SOP 工作流「${wf.name}」，${wf.totalNodes} 个节点`);
+          }}
+        />
+      )}
+
       {/* 顶部工具栏 */}
       <div className="bg-slate-900/90 border-b border-slate-800 px-4 py-2 flex items-center gap-3 shrink-0">
         <span className="text-cyan-400 text-lg">🦞</span>
@@ -658,6 +672,17 @@ export function WorkflowEditor() {
             </button>
           ))}
         </div>
+
+        {/* 自然语言 SOP 创建按钮 */}
+        <button
+          onClick={() => setShowNLWorkflow(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600/60 to-violet-600/60 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-bold border border-indigo-500/30 transition-all shadow-md shadow-indigo-500/10 shrink-0"
+        >
+          <span>📋</span>
+          <span className="hidden lg:inline">自然语言 SOP</span>
+          <span className="lg:hidden">SOP</span>
+          <span className="text-[10px] opacity-70">↗</span>
+        </button>
 
         {/* 操作按钮 */}
         <div className="flex items-center gap-2 ml-auto">
