@@ -728,6 +728,139 @@ export const mcpService = {
 };
 
 // ══════════════════════════════════════════════════════════════
+// Anthropic API Key 管理服务
+// 对接 Anthropic Admin API: GET /v1/organizations/api_keys/{api_key_id}
+// ══════════════════════════════════════════════════════════════
+
+export interface AnthropicApiKey {
+  id: string;
+  created_at: string;
+  created_by: { id: string; type: string };
+  name: string;
+  partial_key_hint: string;
+  status: 'active' | 'inactive' | 'archived';
+  type: 'api_key';
+  workspace_id: string | null;
+}
+
+export interface AnthropicApiKeyResult {
+  success: boolean;
+  data?: AnthropicApiKey;
+  error?: string;
+  hint?: string; // 使用建议（如未配置 key 时）
+}
+
+/**
+ * 获取 Anthropic API Key 详情
+ * 使用 ANTHROPIC_ADMIN_API_KEY 调用 Anthropic Admin API
+ * 文档: https://docs.anthropic.com/zh-CN/docs/admin-reference/api-keys/retrieve
+ */
+export async function getAnthropicApiKey(apiKeyId: string): Promise<AnthropicApiKeyResult> {
+  const adminKey = process.env.ANTHROPIC_ADMIN_API_KEY;
+
+  if (!adminKey) {
+    return {
+      success: false,
+      error: '未配置 ANTHROPIC_ADMIN_API_KEY',
+      hint: '请在 .env 文件中设置 ANTHROPIC_ADMIN_API_KEY 环境变量，可从 console.anthropic.com/settings/keys 获取',
+    };
+  }
+
+  if (!apiKeyId || apiKeyId.trim() === '') {
+    return {
+      success: false,
+      error: 'API Key ID 不能为空',
+      hint: '请提供有效的 API Key ID（格式如: ak_xxx...）',
+    };
+  }
+
+  try {
+    const response = await fetch(
+      `https://api.anthropic.com/v1/organizations/api_keys/${apiKeyId}`,
+      {
+        method: 'GET',
+        headers: {
+          'anthropic-version': '2023-06-01',
+          'X-Api-Key': adminKey,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      let errorMsg = `HTTP ${response.status}`;
+      try {
+        const parsed = JSON.parse(errorBody);
+        errorMsg = parsed.error?.message || parsed.error?.type || errorMsg;
+      } catch { /* ignore */ }
+
+      return {
+        success: false,
+        error: `Anthropic API 调用失败: ${errorMsg}`,
+        hint: `状态码 ${response.status}，请确认 ANTHROPIC_ADMIN_API_KEY 有权访问此 API Key`,
+      };
+    }
+
+    const data = await response.json() as AnthropicApiKey;
+    return { success: true, data };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return {
+      success: false,
+      error: `网络请求失败: ${message}`,
+      hint: '请检查网络连接或确认 ANTHROPIC_ADMIN_API_KEY 配置正确',
+    };
+  }
+}
+
+/**
+ * 列出用户所有 API Keys（通过 Organization 列表接口）
+ * 注意：需要 Admin API Key 权限
+ */
+export async function listAnthropicApiKeys(): Promise<AnthropicApiKeyResult & { keys?: AnthropicApiKey[] }> {
+  const adminKey = process.env.ANTHROPIC_ADMIN_API_KEY;
+
+  if (!adminKey) {
+    return {
+      success: false,
+      error: '未配置 ANTHROPIC_ADMIN_API_KEY',
+      hint: '请在 .env 文件中设置 ANTHROPIC_ADMIN_API_KEY 环境变量',
+    };
+  }
+
+  try {
+    const response = await fetch(
+      'https://api.anthropic.com/v1/organizations/api_keys',
+      {
+        method: 'GET',
+        headers: {
+          'anthropic-version': '2023-06-01',
+          'X-Api-Key': adminKey,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorBody = await response.text();
+      let errorMsg = `HTTP ${response.status}`;
+      try {
+        const parsed = JSON.parse(errorBody);
+        errorMsg = parsed.error?.message || parsed.error?.type || errorMsg;
+      } catch { /* ignore */ }
+      return { success: false, error: `列表获取失败: ${errorMsg}` };
+    }
+
+    const data = await response.json() as { data: AnthropicApiKey[] };
+    return { success: true, data: undefined, keys: data.data };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return { success: false, error: `网络请求失败: ${message}` };
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
 // AI Model Marketplace Service
 // ══════════════════════════════════════════════════════════════
 export const modelService = {

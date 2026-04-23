@@ -554,6 +554,45 @@ class ApiClient {
   }> {
     return this.request(`${this.base}/llm/routing`);
   }
+
+  // ── Anthropic API Key 管理 ────────────────────────────────
+  // 获取 API Key 详情
+  async getAnthropicApiKey(apiKeyId: string): Promise<{
+    success: boolean;
+    data?: {
+      id: string;
+      created_at: string;
+      created_by: { id: string; type: string };
+      name: string;
+      partial_key_hint: string;
+      status: 'active' | 'inactive' | 'archived';
+      type: 'api_key';
+      workspace_id: string | null;
+    };
+    error?: string;
+    hint?: string;
+  }> {
+    return this.request(`${this.base}/anthropic/api-key/${encodeURIComponent(apiKeyId)}`);
+  }
+
+  // 列出所有 API Keys
+  async listAnthropicApiKeys(): Promise<{
+    success: boolean;
+    keys?: Array<{
+      id: string;
+      created_at: string;
+      created_by: { id: string; type: string };
+      name: string;
+      partial_key_hint: string;
+      status: 'active' | 'inactive' | 'archived';
+      type: 'api_key';
+      workspace_id: string | null;
+    }>;
+    error?: string;
+    hint?: string;
+  }> {
+    return this.request(`${this.base}/anthropic/api-keys`);
+  }
 }
 
 // ==================== Skill / Agent 类型 ====================

@@ -22,6 +22,7 @@ import { paymentGateway } from './payments';
 import { subscriptionService, COMPANY_INFO } from './subscription';
 import { authService, authMiddleware, requireAuth, requireRole } from './auth';
 import { JWTPayload } from './auth';
+import { getAnthropicApiKey, listAnthropicApiKeys, type AnthropicApiKey } from './mcp';
 
 // Extend Express Request type
 declare global {
@@ -227,6 +228,47 @@ async function startWebServer(full = false) {
   // LLM 统计
   app.get('/api/llm/stats', (_req, res) => {
     res.json(llmClient.getStats());
+  });
+
+  // ── Anthropic API Key 管理 ──────────────────────────────────
+  // 获取 API Key 详情（调用 Anthropic Admin API）
+  app.get('/api/anthropic/api-key/:apiKeyId', async (req, res) => {
+    const { apiKeyId } = req.params;
+    const result = await getAnthropicApiKey(apiKeyId);
+    if (result.success) {
+      res.json({
+        success: true,
+        data: result.data,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: result.error,
+        hint: result.hint,
+      });
+    }
+  });
+
+  // 列出所有 API Keys
+  app.get('/api/anthropic/api-keys', async (_req, res) => {
+    const result = await listAnthropicApiKeys();
+    if (result.success) {
+      res.json({
+        success: true,
+        keys: result.keys ?? [],
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: result.error,
+        hint: result.hint,
+      });
+    }
+  });
+
+  // 获取 LLM 路由信息（包含 Anthropic 配置状态）
+  app.get('/api/llm/routing', (_req, res) => {
+    res.json(llmClient.getRoutingInfo());
   });
 
   // 支付统计
