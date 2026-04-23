@@ -1,0 +1,70 @@
+[
+  {
+    "id": "7bb408c2-2a76-431a-84cc-0c275671c406",
+    "name": "龙虾科技",
+    "slug": "龙虾科技-e39db8",
+    "plan": "pro",
+    "ownerId": "c70c88ed-a463-4fc0-a98f-aa12a0ed9362",
+    "members": [
+      {
+        "userId": "c70c88ed-a463-4fc0-a98f-aa12a0ed9362",
+        "role": "owner",
+        "joinedAt": "2026-04-22T03:09:15.686Z",
+        "nickname": "演示用户"
+      }
+    ],
+    "createdAt": "2026-04-22T03:09:15.640Z",
+    "updatedAt": "2026-04-22T03:09:15.686Z",
+    "config": {
+      "maxAgents": 8,
+      "maxUsers": 2,
+      "llmProvider": "anthropic",
+      "customBranding": false,
+      "ssoEnabled": false
+    },
+    "quotas": {
+      "tasksPerDay": 20,
+      "storageMB": 100,
+      "apiCallsPerMonth": 1000,
+      "used": {
+        "tasksToday": 0,
+        "storageUsedMB": 0,
+        "apiCallsThisMonth": 0
+      }
+    }
+  },
+  {
+    "id": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "name": "simiaios",
+    "slug": "simiaios-a863eb",
+    "plan": "pro",
+    "ownerId": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+    "members": [
+      {
+        "userId": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+        "role": "owner",
+        "joinedAt": "2026-04-22T14:00:56.049Z",
+        "nickname": "tim"
+      }
+    ],
+    "createdAt": "2026-04-22T14:00:56.003Z",
+    "updatedAt": "2026-04-22T14:00:56.049Z",
+    "config": {
+      "maxAgents": 8,
+      "maxUsers": 2,
+      "llmProvider": "anthropic",
+      "customBranding": false,
+      "ssoEnabled": false
+    },
+    "quotas": {
+      "tasksPerDay": 20,
+      "storageMB": 100,
+      "apiCallsPerMonth": 1000,
+      "used": {
+        "tasksToday": 0,
+        "storageUsedMB": 0,
+        "apiCallsThisMonth": 0
+      }
+    }
+  }
+]

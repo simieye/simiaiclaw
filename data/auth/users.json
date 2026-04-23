@@ -1,0 +1,38 @@
+[
+  {
+    "id": "c70c88ed-a463-4fc0-a98f-aa12a0ed9362",
+    "email": "demo@test.com",
+    "passwordHash": "bfa0ddf713621a73c471f6f53f83047a26b1a7d62d30a12130e6a34bab8e774819d3799c6b825057d10d0af1c3ce1a7a09cc08747c7ffeab907fc55cc124d908",
+    "salt": "3d66965559f57b432158b32ce6d78380f057d84e39e0df81f1684b8faf1776d9",
+    "displayName": "演示用户",
+    "tenantIds": [
+      "7bb408c2-2a76-431a-84cc-0c275671c406"
+    ],
+    "createdAt": "2026-04-22T03:09:15.686Z",
+    "updatedAt": "2026-04-22T03:09:15.686Z",
+    "isActive": true,
+    "preferences": {
+      "theme": "auto",
+      "notifications": true
+    },
+    "lastLoginAt": "2026-04-22T03:09:46.594Z"
+  },
+  {
+    "id": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+    "email": "hmwhtm@gmail.com",
+    "passwordHash": "da9d8efbd75b720e91fd7ae90980f8e685366f32d47e2a5b9ec67ce1d0e391164241c15d8950b57d0a8e418520d91da11f56370cbbf1bfe6229b0cd3d7d07e5e",
+    "salt": "a5948cfe4155fc087eebe70f25585be374139cb6e8a9c9a857b04a27ca8da46f",
+    "displayName": "tim",
+    "tenantIds": [
+      "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269"
+    ],
+    "createdAt": "2026-04-22T14:00:56.049Z",
+    "updatedAt": "2026-04-22T14:00:56.049Z",
+    "isActive": true,
+    "preferences": {
+      "theme": "auto",
+      "notifications": true
+    },
+    "lastLoginAt": "2026-04-23T07:20:59.109Z"
+  }
+]

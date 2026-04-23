@@ -1,0 +1,74 @@
+[
+  {
+    "skillId": "skill-pdf",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:43.553Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-xlsx",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:45.659Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-ai-drawing",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:47.225Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-12306",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:48.043Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-ecommerce",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:49.783Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-code-review",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:50.687Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-deepresearch",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:52.045Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-figma",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:52.852Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-github",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:53.831Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-excalidraw",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-22T15:38:54.692Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-aa148720",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-23T07:27:41.481Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-867ca72f",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-23T07:27:42.731Z",
+    "enabled": true
+  }
+]

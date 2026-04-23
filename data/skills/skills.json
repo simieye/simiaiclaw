@@ -1,0 +1,86 @@
+[
+  {
+    "id": "skill-custom-aa148720",
+    "name": "智能选品分析师",
+    "description": "分析市场趋势、竞品数据，计算ROI并给出选品建议",
+    "source": "custom",
+    "category": "business",
+    "author": {
+      "userId": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+      "displayName": "tim"
+    },
+    "tags": [
+      "选品",
+      "选品",
+      "AI生成"
+    ],
+    "icon": "🔍",
+    "instructions": "你是一个专业的电商选品分析师。根据用户提供的品类关键词，执行以下流程：\n1. 分析市场容量和增长趋势\n2. 扫描主要竞品及其定价/评分\n3. 计算平均ROI和竞争强度\n4. 输出结构化选品报告，包含：潜力评分(1-10)、推荐理由、风险提示",
+    "installCount": 0,
+    "rating": 0,
+    "reviewCount": 0,
+    "reviews": [],
+    "rewardPool": 0,
+    "rewardCount": 0,
+    "isInstalled": false,
+    "isFeatured": false,
+    "createdAt": "2026-04-23T07:22:13.771Z",
+    "updatedAt": "2026-04-23T07:22:13.771Z"
+  },
+  {
+    "id": "skill-custom-867ca72f",
+    "name": "竞品情报分析师",
+    "description": "追踪竞品动态，分析差异化机会",
+    "source": "custom",
+    "category": "business",
+    "author": {
+      "userId": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+      "displayName": "tim"
+    },
+    "tags": [
+      "选品",
+      "竞品",
+      "AI生成"
+    ],
+    "icon": "🔬",
+    "instructions": "你是一个专业的竞品分析师。持续追踪：\n1. 竞品ASIN的销量排名和评分变化\n2. 关键词排名波动\n3. 评论区的新增差评/好评\n4. 定价策略变化\n输出周报：竞品动态摘要 + 机会点建议",
+    "installCount": 0,
+    "rating": 0,
+    "reviewCount": 0,
+    "reviews": [],
+    "rewardPool": 0,
+    "rewardCount": 0,
+    "isInstalled": false,
+    "isFeatured": false,
+    "createdAt": "2026-04-23T07:22:13.816Z",
+    "updatedAt": "2026-04-23T07:22:13.816Z"
+  },
+  {
+    "id": "skill-custom-05cdd92b",
+    "name": "短视频脚本创作师",
+    "description": "生成TikTok/抖音风格的带货短视频脚本",
+    "source": "custom",
+    "category": "creative",
+    "author": {
+      "userId": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+      "displayName": "tim"
+    },
+    "tags": [
+      "视频",
+      "视频",
+      "AI生成"
+    ],
+    "icon": "🎬",
+    "instructions": "你是一个专业的短视频脚本师。根据产品信息生成：\n1. 黄金3秒开场钩子\n2. 产品核心卖点展示（约15秒）\n3. 痛点共鸣片段（约10秒）\n4. 行动号召（约5秒）\n语言风格：口语化、有节奏感、适合短视频平台",
+    "installCount": 0,
+    "rating": 0,
+    "reviewCount": 0,
+    "reviews": [],
+    "rewardPool": 0,
+    "rewardCount": 0,
+    "isInstalled": false,
+    "isFeatured": false,
+    "createdAt": "2026-04-23T07:28:25.466Z",
+    "updatedAt": "2026-04-23T07:28:25.466Z"
+  }
+]

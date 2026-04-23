@@ -1,0 +1,22 @@
+{
+  "name": "🦞 SIMIAICLAW 龙虾集群控制台",
+  "short_name": "龙虾集群",
+  "description": "64个AI智能体协同工作平台，支持MCP连接器与全球AI大模型市场",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#0a0e1a",
+  "orientation": "any",
+  "icons": [
+    { "src": "/favicon.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/apple-touch-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories": ["productivity", "developer tools", "business"],
+  "lang": "zh-CN",
+  "screenshots": [],
+  "shortcuts": [
+    { "name": "仪表盘", "short_name": "仪表盘", "description": "查看系统状态", "url": "/?tab=dashboard" },
+    { "name": "智能体", "short_name": "智能体", "description": "管理AI智能体", "url": "/?tab=agents" },
+    { "name": "设置", "short_name": "设置", "description": "系统设置", "url": "/?tab=settings" }
+  ]
+}

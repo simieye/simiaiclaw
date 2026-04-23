@@ -1,0 +1,90 @@
+{
+  "entries": [
+    {
+      "type": "skill",
+      "title": "[Skill] 跨境电商选品上架闭环",
+      "content": "[\n  {\n    \"type\": \"选品SOP\",\n    \"steps\": [\n      \"扫描类目\",\n      \"筛选增长率\",\n      \"分析竞争度\",\n      \"评估利润空间\"\n    ]\n  }\n]",
+      "sourceAgent": "乾1",
+      "sourceTask": "跨境电商选品上架闭环",
+      "confidence": 0.8,
+      "tags": [
+        "auto-evolved",
+        "skill"
+      ],
+      "lanes": [],
+      "id": "ead004a6-77b2-43eb-9ea7-5b25337d417a",
+      "createdAt": "2026-04-21T17:30:28.140Z",
+      "usageCount": 0,
+      "approved": false
+    },
+    {
+      "type": "insight",
+      "title": "[洞察] 跨境电商选品上架闭环",
+      "content": "本季度智能家居类目搜索量上涨40%，切入时机最佳",
+      "sourceAgent": "乾1",
+      "sourceTask": "跨境电商选品上架闭环",
+      "confidence": 0.7,
+      "tags": [
+        "auto-evolved",
+        "insight"
+      ],
+      "lanes": [],
+      "id": "9cc97e35-ecdc-4f27-beda-23fa41dd04aa",
+      "createdAt": "2026-04-21T17:30:28.142Z",
+      "usageCount": 0,
+      "approved": false
+    },
+    {
+      "type": "lesson",
+      "title": "[教训] 外贸B2B GEO可见性提升",
+      "content": "高转化内容集中在前3秒\n价格敏感度高于预期",
+      "sourceAgent": "离1",
+      "sourceTask": "外贸B2B GEO可见性提升",
+      "confidence": 0.6,
+      "tags": [
+        "auto-evolved",
+        "lesson"
+      ],
+      "lanes": [],
+      "id": "e9683106-7782-41b9-9ae7-a2959de026ae",
+      "createdAt": "2026-04-21T17:30:28.945Z",
+      "usageCount": 0,
+      "approved": false
+    },
+    {
+      "type": "skill",
+      "title": "[Skill] 自媒体爆款内容+打赏进化",
+      "content": "[\n  {\n    \"type\": \"爆款标题模板\",\n    \"template\": \"产品名 + 核心卖点 + 使用场景\"\n  }\n]",
+      "sourceAgent": "坤1",
+      "sourceTask": "自媒体爆款内容+打赏进化",
+      "confidence": 0.8,
+      "tags": [
+        "auto-evolved",
+        "skill"
+      ],
+      "lanes": [],
+      "id": "a197eb7c-61f6-4d40-8ea9-f343e7e3fb11",
+      "createdAt": "2026-04-21T17:30:30.564Z",
+      "usageCount": 0,
+      "approved": false
+    },
+    {
+      "type": "lesson",
+      "title": "[教训] Prompt Gap发现与修复",
+      "content": "高转化内容集中在前3秒\n价格敏感度高于预期",
+      "sourceAgent": "离2",
+      "sourceTask": "Prompt Gap发现与修复",
+      "confidence": 0.6,
+      "tags": [
+        "auto-evolved",
+        "lesson"
+      ],
+      "lanes": [],
+      "id": "a1fc7c4d-6119-4811-a6f4-15f2b8b2aba5",
+      "createdAt": "2026-04-21T17:30:31.378Z",
+      "usageCount": 0,
+      "approved": false
+    }
+  ],
+  "savedAt": "2026-04-21T17:30:31.378Z"
+}
