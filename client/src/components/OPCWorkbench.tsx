@@ -955,6 +955,88 @@ export function OPCWorkbench() {
               ))}
             </div>
           </div>
+
+          {/* AI品牌独立站建站平台 */}
+          <div className="bg-gradient-to-r from-violet-950/50 to-purple-950/50 border border-violet-800/40 rounded-2xl p-5">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-xl">🌐</span>
+              <h3 className="text-sm font-bold text-white">AI 品牌独立站建站平台</h3>
+              <span className="text-[10px] bg-violet-500/20 text-violet-300 px-2 py-0.5 rounded-full border border-violet-500/30">
+                一键跳转
+              </span>
+            </div>
+            <p className="text-xs text-slate-400 mb-4">
+              搭配 AI 机器人与 OPC 工作流，推荐以下主流建站平台，快速搭建品牌独立站
+            </p>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {[
+                {
+                  name: 'Lovable',
+                  url: 'https://lovable.dev',
+                  icon: '💜',
+                  color: '#a855f7',
+                  tag: 'AI Full-Stack',
+                  desc: 'AI 驱动全栈开发，自然语言即可生成品牌站点',
+                },
+                {
+                  name: 'Base44',
+                  url: 'https://base44.com',
+                  icon: '🟠',
+                  color: '#f97316',
+                  tag: 'AI App Builder',
+                  desc: 'AI 应用构建器，分钟级生成可上线产品',
+                },
+                {
+                  name: 'Shopify',
+                  url: 'https://shopify.com',
+                  icon: '🛍️',
+                  color: '#10b981',
+                  tag: 'E-Commerce',
+                  desc: '全球最大电商建站平台，覆盖 175+ 国家',
+                },
+                {
+                  name: 'WooCommerce',
+                  url: 'https://woocommerce.com',
+                  icon: '🟣',
+                  color: '#8b5cf6',
+                  tag: 'WordPress E-Commerce',
+                  desc: 'WordPress 电商插件，灵活定制品牌商城',
+                },
+              ].map((site) => (
+                <a
+                  key={site.name}
+                  href={site.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-slate-900/70 border border-slate-700/50 rounded-xl p-4 hover:scale-[1.02] hover:shadow-lg flex flex-col gap-2"
+                  style={{ borderColor: `${site.color}30` }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">{site.icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-sm font-bold text-white">{site.name}</span>
+                        <span
+                          className="text-[9px] px-1.5 py-0.5 rounded-full font-medium"
+                          style={{ backgroundColor: `${site.color}20`, color: site.color }}
+                        >
+                          {site.tag}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="text-slate-600 group-hover:text-slate-300 text-sm transition-colors">↗</span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 leading-relaxed">{site.desc}</p>
+                  <div
+                    className="mt-auto pt-2 border-t text-[10px] text-center rounded-b-xl py-1 font-medium transition-colors"
+                    style={{ borderColor: `${site.color}30`, color: `${site.color}90` }}
+                  >
+                    访问官网 →
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
