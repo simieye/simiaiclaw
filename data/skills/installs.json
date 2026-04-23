@@ -70,5 +70,11 @@
     "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
     "installedAt": "2026-04-23T07:27:42.731Z",
     "enabled": true
+  },
+  {
+    "skillId": "skill-custom-05cdd92b",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-23T10:02:10.834Z",
+    "enabled": true
   }
 ]

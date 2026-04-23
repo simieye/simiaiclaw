@@ -1177,6 +1177,40 @@ function AgentsView({ status, health, onTabChange }: { status: SystemStatus; hea
 
   return (
     <div className="space-y-4">
+      {/* 🌍 GEO 系统入口 */}
+      <a
+        href="https://app.dageno.ai/hmwhtm/simiai_top/geo/overview"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block glass-card p-5 border border-emerald-500/30 hover:border-emerald-400/50 transition-all group"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600/30 to-teal-600/30 border border-emerald-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+              🌍
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                <span>GEO 地理智能体系统</span>
+                <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">入口</span>
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">地理信息处理 · 空间智能分析 · dageno.ai 平台</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="hidden md:block text-right">
+              <div className="text-xs text-emerald-400 font-medium">🌐 app.dageno.ai</div>
+              <div className="text-[10px] text-slate-500">点击直达 GEO Overview</div>
+            </div>
+            <span className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 border border-emerald-500/30">
+              <span>🗺️</span>
+              <span>打开 GEO 系统</span>
+              <span className="text-[10px] opacity-70">↗</span>
+            </span>
+          </div>
+        </div>
+      </a>
+
       {/* HeyGen Agent 自然语言生成视频入口 */}
       <div className="glass-card p-5 border border-pink-500/20">
         <div className="flex items-center justify-between gap-4">
