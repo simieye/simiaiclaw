@@ -572,8 +572,20 @@ export function OPCWorkbench() {
           <span className="text-base">🤖</span>
           <span className="hidden lg:inline">AI 机器人工作室</span>
           <span className="lg:hidden">机器人</span>
-          <span className="text-[10px] opacity-70">↗</span>
         </button>
+
+        {/* AnyGen.io 官方机器人构建平台 */}
+        <a
+          href="https://www.anygen.io/assistant"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white text-xs font-bold shadow-lg shadow-violet-500/20 border border-violet-500/30 transition-all shrink-0 no-underline"
+        >
+          <span className="text-base">🚀</span>
+          <span className="hidden xl:inline">AnyGen 机器人平台</span>
+          <span className="xl:hidden">AnyGen</span>
+          <span className="text-[10px] opacity-70">↗</span>
+        </a>
       </div>
 
       {/* 核心统计 */}
