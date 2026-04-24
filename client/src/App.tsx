@@ -63,6 +63,7 @@ import { KnowledgeBase } from './components/KnowledgeBase';
 import { AgentKnowledgeGraph } from './components/AgentKnowledgeGraph';
 import { ECommerceAssistant } from './components/ECommerceAssistant';
 import { BazhuyuRPAPanel } from './components/BazhuyuRPAPanel';
+import { HuburpaRPAPanel } from './components/HuburpaRPAPanel';
 
 type AppTab = 'dashboard' | 'agents' | 'opc' | 'knowledge' | 'graph' | 'logs' | 'settings';
 
@@ -498,6 +499,15 @@ function MainConsole({
   }, [onTabChange]);
 
   useEffect(() => {
+    const handler2 = () => {
+      onTabChange('settings');
+      setSettingsTab('huburparpa');
+    };
+    window.addEventListener('huburpa-tab', handler2);
+    return () => window.removeEventListener('huburpa-tab', handler2);
+  }, [onTabChange]);
+
+  useEffect(() => {
     const fetchStatus = async () => {
       setIsLoading(true);
       const [s, h] = await Promise.all([api.getStatus(), api.getHealth()]);
@@ -737,6 +747,7 @@ function SettingsView({ authUser, activeTenant, settingsTab: externalTab, onSett
     { id: 'skillhub', label: 'SkillHub', icon: '⚡' },
     { id: 'openspace', label: 'OpenSpace', icon: '🧬' },
     { id: 'bazhuyurpa', label: '八爪鱼RPA', icon: '🐸' },
+    { id: 'huburparpa', label: '虎步RPA', icon: '🐯' },
     { id: 'models', label: '大模型市场', icon: '🌐' },
     { id: 'subscription', label: '订阅服务', icon: '💎' },
     { id: 'payments', label: '支付管理', icon: '💰' },
@@ -858,6 +869,11 @@ function SettingsView({ authUser, activeTenant, settingsTab: externalTab, onSett
       {/* 八爪鱼RPA · 巽宫执行卦 */}
       {settingsTab === 'bazhuyurpa' && (
         <BazhuyuRPAPanel />
+      )}
+
+      {/* 虎步RPA · 巽宫双引擎（紫鸟生态） */}
+      {settingsTab === 'huburparpa' && (
+        <HuburpaRPAPanel />
       )}
 
       {/* 大模型市场 */}
@@ -1328,6 +1344,68 @@ function AgentsView({ status, health, onTabChange }: { status: SystemStatus; hea
                 }, 100);
               }}
               className="text-[10px] bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 px-2.5 py-1 rounded-full border border-cyan-500/20 hover:border-cyan-500/40 transition-all"
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 虎步RPA × 64卦虾群入口（紫鸟生态·亚马逊专用） */}
+      <div className="glass-card p-5 border border-orange-500/20">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-600/30 to-amber-600/30 border border-orange-500/30 flex items-center justify-center text-2xl">
+              🐯
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                <span>虎步RPA × SIMIAICLAW</span>
+                <span className="bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">巽宫·双引擎</span>
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">紫鸟生态 · API自动化 · 亚马逊跨境电商专用 · 6大预置模板</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="hidden md:block text-right">
+              <div className="text-xs text-orange-400 font-medium">🐯 虎步RPA + 64卦虾群</div>
+              <div className="text-[10px] text-slate-500">huburpa.com · 紫鸟API</div>
+            </div>
+            <button
+              onClick={() => {
+                onTabChange('settings');
+                setTimeout(() => {
+                  const tabs = document.querySelectorAll('button');
+                  tabs.forEach(el => {
+                    if (el.textContent?.includes('虎步RPA') && el.textContent?.includes('设置')) {
+                      (el as HTMLElement).click();
+                    }
+                  });
+                }, 100);
+              }}
+              className="flex items-center gap-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-orange-500/20 border border-orange-500/30"
+            >
+              <span>🐯</span>
+              <span>打开虎步控制台</span>
+            </button>
+          </div>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {['竞品销售', '订单抓取', '差评分析', '动态定价', '库存预警', '主图对比'].map(tag => (
+            <button
+              key={tag}
+              onClick={() => {
+                onTabChange('settings');
+                setTimeout(() => {
+                  const tabs = document.querySelectorAll('button');
+                  tabs.forEach(el => {
+                    if (el.textContent?.includes('虎步RPA') && el.textContent?.includes('设置')) {
+                      (el as HTMLElement).click();
+                    }
+                  });
+                }, 100);
+              }}
+              className="text-[10px] bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 px-2.5 py-1 rounded-full border border-orange-500/20 hover:border-orange-500/40 transition-all"
             >
               {tag}
             </button>
