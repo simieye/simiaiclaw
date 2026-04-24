@@ -62,6 +62,7 @@ import { NewsLanding } from './components/NewsLanding';
 import { KnowledgeBase } from './components/KnowledgeBase';
 import { AgentKnowledgeGraph } from './components/AgentKnowledgeGraph';
 import { ECommerceAssistant } from './components/ECommerceAssistant';
+import { BazhuyuRPAPanel } from './components/BazhuyuRPAPanel';
 
 type AppTab = 'dashboard' | 'agents' | 'opc' | 'knowledge' | 'graph' | 'logs' | 'settings';
 
@@ -486,6 +487,16 @@ function MainConsole({
     return () => window.removeEventListener('openspace-tab', handler);
   }, [onTabChange]);
 
+  // 监听来自八爪鱼RPA按钮的导航事件
+  useEffect(() => {
+    const handler = () => {
+      onTabChange('settings');
+      setSettingsTab('bazhuyurpa');
+    };
+    window.addEventListener('bazhuyu-tab', handler);
+    return () => window.removeEventListener('bazhuyu-tab', handler);
+  }, [onTabChange]);
+
   useEffect(() => {
     const fetchStatus = async () => {
       setIsLoading(true);
@@ -725,6 +736,7 @@ function SettingsView({ authUser, activeTenant, settingsTab: externalTab, onSett
     { id: 'integrations', label: 'MCP 连接器', icon: '🔌' },
     { id: 'skillhub', label: 'SkillHub', icon: '⚡' },
     { id: 'openspace', label: 'OpenSpace', icon: '🧬' },
+    { id: 'bazhuyurpa', label: '八爪鱼RPA', icon: '🐸' },
     { id: 'models', label: '大模型市场', icon: '🌐' },
     { id: 'subscription', label: '订阅服务', icon: '💎' },
     { id: 'payments', label: '支付管理', icon: '💰' },
@@ -841,6 +853,11 @@ function SettingsView({ authUser, activeTenant, settingsTab: externalTab, onSett
       {/* OpenSpace 自进化智能体社区 */}
       {settingsTab === 'openspace' && (
         <OpenSpacePanel />
+      )}
+
+      {/* 八爪鱼RPA · 巽宫执行卦 */}
+      {settingsTab === 'bazhuyurpa' && (
+        <BazhuyuRPAPanel />
       )}
 
       {/* 大模型市场 */}
@@ -1255,6 +1272,68 @@ function AgentsView({ status, health, onTabChange }: { status: SystemStatus; hea
           </div>
         </div>
       </a>
+
+      {/* 八爪鱼RPA × 64卦虾群入口 */}
+      <div className="glass-card p-5 border border-cyan-500/20">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-600/30 to-blue-600/30 border border-cyan-500/30 flex items-center justify-center text-2xl">
+              🐸
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+                <span>八爪鱼RPA × SIMIAICLAW</span>
+                <span className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">巽宫·执行卦</span>
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">AI写流程3.0 · 竞品监控全自动闭环 · 飞书落库 · 二次AI分析</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="hidden md:block text-right">
+              <div className="text-xs text-cyan-400 font-medium">🐸 八爪鱼3.0 + 64卦虾群</div>
+              <div className="text-[10px] text-slate-500">rpa.bazhuayu.com</div>
+            </div>
+            <button
+              onClick={() => {
+                onTabChange('settings');
+                setTimeout(() => {
+                  const event = new CustomEvent('bazhuyu-tab');
+                  window.dispatchEvent(event);
+                  // 模拟tab切换
+                  document.querySelectorAll('[data-settings-tab]').forEach(el => {
+                    if (el.getAttribute('data-settings-tab') === 'bazhuyurpa') el.dispatchEvent(new MouseEvent('click'));
+                  });
+                }, 150);
+              }}
+              className="flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-cyan-500/20 border border-cyan-500/30"
+            >
+              <span>🐸</span>
+              <span>打开RPA控制台</span>
+            </button>
+          </div>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {['竞品监控', '达人库抓取', '差评分析', '动态定价', 'Listing优化', '飞书日报'].map(tag => (
+            <button
+              key={tag}
+              onClick={() => {
+                onTabChange('settings');
+                setTimeout(() => {
+                  const tabs = document.querySelectorAll('button');
+                  tabs.forEach(el => {
+                    if (el.textContent?.includes('八爪鱼RPA') && el.textContent?.includes('设置')) {
+                      (el as HTMLElement).click();
+                    }
+                  });
+                }, 100);
+              }}
+              className="text-[10px] bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 px-2.5 py-1 rounded-full border border-cyan-500/20 hover:border-cyan-500/40 transition-all"
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* HeyGen Agent 自然语言生成视频入口 */}
       <div className="glass-card p-5 border border-pink-500/20">
