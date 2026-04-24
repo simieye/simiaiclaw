@@ -65,6 +65,7 @@
   "build": {
     "appId": "com.simiaiclaw.lobster",
     "productName": "龙虾集群控制台",
+    "publish": null,
     "copyright": "Copyright © 2026 SIMIAICLAW",
     "directories": {
       "output": "release",

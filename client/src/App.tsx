@@ -730,7 +730,7 @@ function SettingsView({ authUser, activeTenant, settingsTab: externalTab, onSett
     { id: 'payments', label: '支付管理', icon: '💰' },
     { id: 'globallogin', label: '全球登录', icon: '🌍' },
     { id: 'newslanding', label: '龙虾资讯', icon: '📰' },
-    { id: 'university', label: '跨境龙虾社大学', icon: '🎓', href: 'https://clawhub.ai/lobster', external: true },
+    { id: 'university', label: '跨境龙虾社大学', icon: '🎓', href: 'https://claw-evolution-university.lovable.app/', external: true },
   ];
 
   return (
@@ -771,7 +771,7 @@ function SettingsView({ authUser, activeTenant, settingsTab: externalTab, onSett
             <span>💰 商业变现</span>
           </div>
           <a
-            href="https://clawhub.ai/lobster"
+            href="https://claw-evolution-university.lovable.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-all shadow-lg shadow-indigo-500/20"

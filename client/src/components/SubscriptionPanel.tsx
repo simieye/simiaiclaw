@@ -6,6 +6,19 @@ import React, { useEffect, useState } from 'react';
 import { api, type SubscriptionPlan, type SubscriptionOrder, type CompanyInfo, type SubscriptionRecord } from '../api/client';
 import { toast } from 'sonner';
 
+// 订阅计划兜底数据（网络失败时使用）
+const FALLBACK_PLANS: SubscriptionPlan[] = [
+  { id: 'personal-monthly', tier: 'personal', name: '个人版', nameEn: 'Personal', description: '适合独立创业者与自由职业者', features: ['✅ 访问所有 AI 太极工具', '✅ 月度任务量：1000 次', '✅ Token 配额：100万/月', '✅ 64卦智能体系统', '✅ MCP 连接器（5个）', '✅ 技能商店访问权', '✅ 邮件支持'], tokenQuota: '100万 token/月', price: { monthly: 199, quarterly: 599, halfyearly: 3999, yearly: 6990 }, color: '#10b981', gradient: 'from-emerald-500 to-teal-600' },
+  { id: 'personal-quarterly', tier: 'personal', name: '个人版·季度', nameEn: 'Personal Q', description: '季度付更优惠，立省 ¥998', features: ['✅ 访问所有 AI 太极工具', '✅ 月度任务量：1200 次', '✅ Token 配额：150万/月', '✅ 64卦智能体系统', '✅ MCP 连接器（8个）', '✅ 优先邮件支持'], tokenQuota: '150万 token/月', price: { monthly: 199.67, quarterly: 599, halfyearly: 0, yearly: 0 }, color: '#10b981', gradient: 'from-emerald-500 to-teal-600' },
+  { id: 'personal-halfyearly', tier: 'personal', name: '个人版·半年', nameEn: 'Personal H', description: '半年付最划算，立省 ¥3005', features: ['✅ 访问所有 AI 太极工具', '✅ 月度任务量：1500 次', '✅ Token 配额：200万/月', '✅ 64卦智能体系统', '✅ MCP 连接器（10个）', '✅ 技能商店 + 打赏特权', '✅ 优先邮件支持'], tokenQuota: '200万 token/月', price: { monthly: 666.5, quarterly: 0, halfyearly: 3999, yearly: 0 }, color: '#10b981', gradient: 'from-emerald-500 to-teal-600' },
+  { id: 'personal-yearly', tier: 'personal', name: '个人版·年费', nameEn: 'Personal Y', description: '年度订阅，享最大优惠，立省 ¥4602', features: ['✅ 访问所有 AI 太极工具', '✅ 月度任务量：2000 次', '✅ Token 配额：300万/月', '✅ 64卦智能体系统', '✅ MCP 连接器（15个）', '✅ 专属客户成功经理'], tokenQuota: '300万 token/月', price: { monthly: 582.5, quarterly: 0, halfyearly: 0, yearly: 6990 }, color: '#10b981', gradient: 'from-emerald-500 to-teal-600' },
+  { id: 'team-monthly', tier: 'team', name: '团队版', nameEn: 'Team', description: '适合小型团队与创业公司', features: ['✅ 最多 10 名团队成员', '✅ 月度任务量：5000 次', '✅ Token 配额：500万/月', '✅ 64卦智能体系统', '✅ MCP 连接器（20个）', '✅ 团队管理控制台', '✅ 优先邮件+群组支持'], tokenQuota: '500万 token/月', price: { monthly: 999, quarterly: 2999, halfyearly: 5999, yearly: 12999 }, color: '#3b82f6', gradient: 'from-blue-500 to-indigo-600', popular: true },
+  { id: 'team-quarterly', tier: 'team', name: '团队版·季度', nameEn: 'Team Q', description: '季度付更优惠，立省 ¥998', features: ['✅ 最多 12 名团队成员', '✅ 月度任务量：6000 次', '✅ Token 配额：600万/月', '✅ MCP 连接器（25个）', '✅ 团队管理控制台'], tokenQuota: '600万 token/月', price: { monthly: 999.67, quarterly: 2999, halfyearly: 0, yearly: 0 }, color: '#3b82f6', gradient: 'from-blue-500 to-indigo-600' },
+  { id: 'team-halfyearly', tier: 'team', name: '团队版·半年', nameEn: 'Team H', description: '半年付最划算，立省 ¥5005', features: ['✅ 最多 15 名团队成员', '✅ 月度任务量：7000 次', '✅ Token 配额：800万/月', '✅ MCP 连接器（30个）'], tokenQuota: '800万 token/月', price: { monthly: 999.83, quarterly: 0, halfyearly: 5999, yearly: 0 }, color: '#3b82f6', gradient: 'from-blue-500 to-indigo-600' },
+  { id: 'team-yearly', tier: 'team', name: '团队版·年费', nameEn: 'Team Y', description: '年度订阅，享最大优惠，立省 ¥10893', features: ['✅ 最多 20 名团队成员', '✅ 月度任务量：10000 次', '✅ Token 配额：1000万/月', '✅ MCP 连接器（无限）', '✅ 专属客户成功经理'], tokenQuota: '1000万 token/月', price: { monthly: 1083.25, quarterly: 0, halfyearly: 0, yearly: 12999 }, color: '#3b82f6', gradient: 'from-blue-500 to-indigo-600' },
+  { id: 'enterprise-custom', tier: 'enterprise', name: '企业版', nameEn: 'Enterprise', description: '按需订阅，按实际 token 使用量计费，适合中大型企业', features: ['✅ 无限制团队成员', '✅ 无限制任务量', '✅ 按量计费', '✅ MCP 连接器（无限）', '✅ SSO 单点登录', '✅ 私有化部署方案', '✅ 7×24 专属技术支持'], tokenQuota: '按需弹性计费', price: { monthly: 2999, quarterly: 0, halfyearly: 0, yearly: 0 }, color: '#8b5cf6', gradient: 'from-violet-600 to-purple-700', enterpriseMinMonthly: 2999 },
+];
+
 // 企业账户信息（前端展示用）
 const COMPANY: CompanyInfo = {
   name: '深圳市斯密爱科技有限公司',
@@ -60,22 +73,42 @@ export function SubscriptionPanel() {
   const [showApproval, setShowApproval] = useState(false);
   const [approvalNote, setApprovalNote] = useState('');
 
-  // 加载订阅数据
+  // 加载订阅数据（带重试 + 兜底数据）
   useEffect(() => {
     const load = async () => {
+      const fallbackResult = { plans: FALLBACK_PLANS, company: COMPANY };
+      // 重试辅助函数
+      const withRetry = async (
+        fn: () => Promise<unknown>,
+        fallback: unknown,
+        retries = 2
+      ): Promise<unknown> => {
+        for (let i = 0; i <= retries; i++) {
+          try { return await fn(); }
+          catch (e) {
+            if (i === retries) {
+              console.warn('[Subscription] fetch 失败，使用兜底数据:', e);
+              return fallback;
+            }
+            await new Promise(r => setTimeout(r, 500 * (i + 1)));
+          }
+        }
+        return fallback;
+      };
       try {
         const [plansData, subData, pendingData] = await Promise.all([
-          api.getSubscriptionPlans().catch(() => ({ plans: [], company: null })),
-          api.getCurrentSubscription().catch(() => ({ active: null, history: [], total: 0 })),
-          api.getPendingSubscriptions().catch(() => ({ orders: [] })),
+          withRetry(() => api.getSubscriptionPlans(), fallbackResult) as Promise<{ plans: SubscriptionPlan[]; company: CompanyInfo }>,
+          withRetry(() => api.getCurrentSubscription(), { active: null, history: [], total: 0 }) as Promise<{ active: SubscriptionRecord | null; history: SubscriptionRecord[]; total: number }>,
+          withRetry(() => api.getPendingSubscriptions(), { orders: [] }) as Promise<{ orders: SubscriptionOrder[] }>,
         ]);
-        setPlans(plansData.plans || []);
-        setCompanyInfo(plansData.company || null);
-        setCurrentSub(subData.active);
-        setPendingOrders(pendingData.orders || []);
-        if (plansData.plans?.length) setShowApproval((plansData.plans || []).length > 0);
+        setPlans((plansData as { plans: SubscriptionPlan[]; company: CompanyInfo }).plans || FALLBACK_PLANS);
+        setCompanyInfo((plansData as { plans: SubscriptionPlan[]; company: CompanyInfo }).company || COMPANY);
+        setCurrentSub((subData as { active: SubscriptionRecord | null }).active);
+        setPendingOrders((pendingData as { orders: SubscriptionOrder[] }).orders || []);
       } catch (e) {
         console.error('[Subscription] 加载失败:', e);
+        setPlans(FALLBACK_PLANS);
+        setCompanyInfo(COMPANY);
       } finally {
         setLoading(false);
       }
