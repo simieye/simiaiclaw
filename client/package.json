@@ -7,7 +7,7 @@
   "author": "SIMIAICLAW Team",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && node postbuild.js",
     "build:web": "npm run build",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx",
@@ -22,6 +22,9 @@
     "build:mac": "npm run electron:build -- --mac",
     "build:win": "npm run electron:build -- --win",
     "build:linux": "npm run electron:build -- --linux",
+    "build:linux:x64": "npm run electron:build -- --linux x64",
+    "build:linux:arm64": "npm run electron:build -- --linux arm64",
+    "build:linux:dir": "npm run electron:build -- --linux dir",
     "build:all": "npm run electron:build -- --mac --win --linux"
   },
   "dependencies": {
@@ -68,7 +71,7 @@
       "buildResources": "electron/assets"
     },
     "files": [
-      "dist/**/*",
+      "dist/client/**/*",
       "dist-electron/**/*"
     ],
     "asar": true,
@@ -94,11 +97,21 @@
     },
     "linux": {
       "target": [
-        "AppImage",
-        "deb"
+        { "target": "AppImage", "arch": ["x64", "arm64"] },
+        { "target": "deb",      "arch": ["x64", "arm64"] },
+        { "target": "tar.gz",  "arch": ["x64", "arm64"] }
       ],
       "icon": "electron/assets",
-      "category": "Development"
+      "category": "Development",
+      "desktop": {
+        "Name": "龙虾集群控制台",
+        "Comment": "SIMIAICLAW 龙虾集群太极64卦系统 - AI智能体协同工作台",
+        "Keywords": "AI;智能体;Electron;多平台;MCP",
+        "StartupWMClass": "龙虾集群控制台"
+      },
+      "executableName": "simiaiclaw-client",
+      "maintainer": "SIMIAICLAW Team <support@simiaiclaw.com>",
+      "vendor": "SIMIAICLAW"
     },
     "nsis": {
       "oneClick": false,

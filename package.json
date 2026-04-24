@@ -11,6 +11,8 @@
     "start": "node dist/index.js",
     "web": "tsx src/index.ts web",
     "full": "tsx src/index.ts full",
+    "build:linux": "cd client && npm run build:linux",
+    "build:linux:dir": "npm run build:all && cd client && npm run build:linux",
     "test": "jest",
     "lint": "eslint src --ext .ts",
     "cli": "tsx src/cli/index.ts"

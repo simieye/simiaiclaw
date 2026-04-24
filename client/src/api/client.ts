@@ -3,7 +3,7 @@
  * API 客户端 — 对接后端 Express API（含多租户认证）
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000/api';
 
 export interface TenantInfo {
   id: string;

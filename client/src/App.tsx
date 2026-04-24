@@ -61,6 +61,7 @@ import { OPCWorkbench } from './components/OPCWorkbench';
 import { NewsLanding } from './components/NewsLanding';
 import { KnowledgeBase } from './components/KnowledgeBase';
 import { AgentKnowledgeGraph } from './components/AgentKnowledgeGraph';
+import { ECommerceAssistant } from './components/ECommerceAssistant';
 
 type AppTab = 'dashboard' | 'agents' | 'opc' | 'knowledge' | 'graph' | 'logs' | 'settings';
 
@@ -177,12 +178,33 @@ function AuthPage({ onSuccess }: { onSuccess: (user: AuthUser, tenant: TenantInf
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [isLoading, setIsLoading] = useState(false);
 
-  // 表单状态
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // 自动登录凭证（默认账号）
+  const AUTO_EMAIL = 'hmwhtm@gmail.com';
+  const AUTO_PASSWORD = 'htmhmw911';
+
+  // 表单状态 — 自动预填
+  const [email, setEmail] = useState(AUTO_EMAIL);
+  const [password, setPassword] = useState(AUTO_PASSWORD);
   const [displayName, setDisplayName] = useState('');
   const [tenantName, setTenantName] = useState('');
   const [error, setError] = useState('');
+
+  // 组件挂载时自动登录
+  useEffect(() => {
+    const autoLogin = async () => {
+      setError('');
+      setIsLoading(true);
+      try {
+        const { user, tenant } = await api.login({ email: AUTO_EMAIL, password: AUTO_PASSWORD });
+        onSuccess(user, tenant);
+      } catch {
+        // 自动登录失败时不显示错误，静默等待用户手动登录
+        setIsLoading(false);
+      }
+    };
+    autoLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -452,6 +474,7 @@ function MainConsole({
   const [skillPanelOpen, setSkillPanelOpen] = useState(false);
   const [downloadModalOpen, setDownloadModalOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<string>('account');
+  const [ecommerceOpen, setEcommerceOpen] = useState(false);
 
   // 监听来自 HeyGen 按钮的导航事件
   useEffect(() => {
@@ -548,6 +571,19 @@ function MainConsole({
               <span className="bg-white/20 text-[10px] px-1 rounded">App</span>
             </button>
 
+            {/* 🌍 外贸跨境电商助手 */}
+            <button
+              onClick={() => setEcommerceOpen(v => !v)}
+              className={`flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg transition-all ${
+                ecommerceOpen
+                  ? 'bg-amber-600/80 text-white shadow-lg shadow-amber-500/20'
+                  : 'bg-gradient-to-r from-amber-600/70 to-orange-600/70 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg shadow-amber-500/20'
+              }`}
+            >
+              <span>🌍</span>
+              <span className="hidden sm:inline">外贸助手</span>
+            </button>
+
             {/* 🤖 智能体 & 技能商店入口 */}
             <button
               onClick={() => setSkillPanelOpen(true)}
@@ -636,6 +672,15 @@ function MainConsole({
       {/* 多端下载 App 弹窗 */}
       {downloadModalOpen && (
         <AppDownloadModal onClose={() => setDownloadModalOpen(false)} />
+      )}
+
+      {/* 🌍 外贸跨境电商全能助手 */}
+      {ecommerceOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="w-full max-w-5xl">
+            <ECommerceAssistant onClose={() => setEcommerceOpen(false)} />
+          </div>
+        </div>
       )}
 
       <Toaster position="bottom-right" theme="dark" richColors />

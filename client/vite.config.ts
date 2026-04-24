@@ -17,7 +17,9 @@ export default defineConfig({
     alias: { '@': path.resolve(__dirname, './src') },
   },
   build: {
-    outDir: '../dist/client',
+    outDir: 'dist/client',
     emptyOutDir: true,
+    // Electron 打包必须用相对路径，否则 file:// 协议无法解析 /assets/...
+    base: './',
   },
 });
