@@ -204,7 +204,7 @@ function IndustryModal({ tool, onClose }: { tool: IndustryTool; onClose: () => v
         <div className="overflow-y-auto flex-1 p-5 space-y-5">
           {/* Agent 矩阵 */}
           <div>
-            <h3 className="text-sm font-semibold text-slate-300 mb-3">🦞 专属智能体矩阵</h3>
+            <h3 className="text-sm font-semibold text-slate-300 mb-3">🦞 专属智能体集群矩阵</h3>
             <div className="grid grid-cols-2 gap-2">
               {tool.agents.map((agent, i) => (
                 <div key={i} className="flex items-center gap-2 bg-slate-800/60 rounded-lg px-3 py-2">
@@ -692,6 +692,59 @@ export function OPCWorkbench() {
                   <div className="text-xs text-slate-400 mt-0.5">{tool.tasks.toLocaleString()} 任务</div>
                 </button>
               ))}
+            </div>
+          </div>
+
+          {/* AI 技能与创意工具 */}
+          <div>
+            <h3 className="text-sm font-semibold text-slate-300 mb-3">🧠 AI 技能 & 创意工具</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* Rexwit */}
+              <div className="bg-gradient-to-br from-orange-950/40 to-red-950/40 border border-orange-800/40 rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-2xl">🎨</span>
+                  <div>
+                    <div className="text-sm font-bold text-orange-300">Rexwit 本地AI</div>
+                    <div className="text-[10px] text-orange-400/60">免费本地图片&3D生成</div>
+                  </div>
+                  <span className="ml-auto text-xs bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded-full">NEW</span>
+                </div>
+                <p className="text-xs text-slate-400 mb-2">Qwen/Flux/Hunyuan3D/Nano Banana Pro · 完全免费 · 无限生成</p>
+                <div className="flex gap-2">
+                  <a href="https://rexwit.com" target="_blank" rel="noreferrer" className="flex-1 text-center text-xs bg-orange-600 hover:bg-orange-500 text-white py-1.5 rounded-lg transition-colors">官网下载</a>
+                  <button onClick={() => window.dispatchEvent(new CustomEvent('settings-tab-rexwite'))} className="flex-1 text-center text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 py-1.5 rounded-lg transition-colors">集成说明</button>
+                </div>
+              </div>
+              {/* SkillHub */}
+              <div className="bg-gradient-to-br from-emerald-950/40 to-teal-950/40 border border-emerald-800/40 rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-2xl">🌐</span>
+                  <div>
+                    <div className="text-sm font-bold text-emerald-300">SkillHub 市场</div>
+                    <div className="text-[10px] text-emerald-400/60">1000+ AI Skills 商店</div>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 mb-2">Claude/Cursor/Codex 多平台 · 一键安装到智能体</p>
+                <div className="flex gap-2">
+                  <button onClick={() => window.dispatchEvent(new CustomEvent('skillhub-tab'))} className="flex-1 text-center text-xs bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 rounded-lg transition-colors">进入市场</button>
+                  <a href="https://www.skillhub.club/web/openclaw" target="_blank" rel="noreferrer" className="flex-1 text-center text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 py-1.5 rounded-lg transition-colors">OpenClaw入口</a>
+                </div>
+              </div>
+              {/* Happycapy */}
+              <div className="bg-gradient-to-br from-amber-950/40 to-orange-950/40 border border-amber-800/40 rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-2xl">🦫</span>
+                  <div>
+                    <div className="text-sm font-bold text-amber-300">Happycapy Skills</div>
+                    <div className="text-[10px] text-amber-400/60">Claude Code 技能商店</div>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 mb-2">canvas-design / skill-creator / supabase 最佳实践等 45+ Skills</p>
+                <div className="flex gap-2">
+                  <button onClick={() => window.dispatchEvent(new CustomEvent('happycapy-tab'))} className="flex-1 text-center text-xs bg-amber-600 hover:bg-amber-500 text-white py-1.5 rounded-lg transition-colors">浏览技能</button>
+                  <a href="https://github.com/happycapy-ai/Happycapy-skills" target="_blank" rel="noreferrer" className="flex-1 text-center text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 py-1.5 rounded-lg transition-colors">GitHub</a>
+                </div>
+              </div>
             </div>
           </div>
 

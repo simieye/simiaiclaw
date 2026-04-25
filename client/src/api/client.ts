@@ -593,6 +593,59 @@ class ApiClient {
   }> {
     return this.request(`${this.base}/anthropic/api-keys`);
   }
+
+  // ══════════════════════════════════════════════════════════════
+  // HeyGen LiveAvatar API
+  // 实时数字人 WebRTC 流
+  // ══════════════════════════════════════════════════════════════
+
+  // 获取 LiveAvatar 状态
+  async getLiveAvatarStatus(): Promise<{
+    configured: boolean;
+    apiBase: string;
+    docsUrl: string;
+    features: string[];
+    pricing: string;
+    models: string[];
+  }> {
+    return this.request(`${this.base}/liveavatar/status`);
+  }
+
+  // 创建 LiveAvatar 会话（获取 Embed URL）
+  async createLiveAvatarSession(params: {
+    avatarId?: string;
+    isSandbox?: boolean;
+    mode?: 'full' | 'lite';
+  }): Promise<{
+    success: boolean;
+    sessionId: string;
+    embedUrl: string;
+    embedScript: string;
+    mode: string;
+    isSandbox: boolean;
+    expiresIn: string;
+    message: string;
+  }> {
+    return this.request(`${this.base}/liveavatar/session`, {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  }
+
+  // 获取可用数字人列表
+  async getLiveAvatarAvatars(): Promise<{
+    avatars: Array<{
+      id: string;
+      name: string;
+      thumbnail: string | null;
+      is_available: boolean;
+      type: string;
+    }>;
+    total: number;
+    note?: string;
+  }> {
+    return this.request(`${this.base}/liveavatar/avatars`);
+  }
 }
 
 // ==================== Skill / Agent 类型 ====================

@@ -1,5 +1,5 @@
 /**
- * NLAgentDialog — 自然语言生成智能体/Skill对话框
+ * NLAgentDialog — 自然语言生成智能体集群/Skill对话框
  * 多步引导：自然语言输入 → AI解析 → 预览确认 → 保存
  */
 import React, { useState, useEffect, useRef } from 'react';
@@ -130,7 +130,7 @@ function generateAgentFromText(text: string): { agent: GeneratedAgent; skills: G
   const agentName = `智能${primary}助手`;
   const agent: GeneratedAgent = {
     name: agentName,
-    description: `基于您的描述「${text.slice(0, 30)}...」自动生成的专业${primary}智能体`,
+    description: `基于您的描述「${text.slice(0, 30)}...」自动生成的专业${primary}智能体集群`,
     icon: tpl.icon,
     color: tpl.color,
     systemPrompt: tpl.systemPrompt,
@@ -220,7 +220,7 @@ export function NLAgentDialog({ onClose, onAgentCreated }: Props) {
       `🧠 匹配64卦角色：${keywords[0]}卦位专家模式`,
       `⚙️ 生成系统指令：基于「${naturalText.slice(0, 20)}...」`,
       `🔧 构建关联技能：生成 ${Math.min(keywords.length, 3)} 个专业技能`,
-      `✨ 组装智能体配置：系统提示词 + Skill包`,
+      `✨ 组装智能体集群配置：系统提示词 + Skill包`,
     ];
     setGenSteps(steps);
 
@@ -243,7 +243,7 @@ export function NLAgentDialog({ onClose, onAgentCreated }: Props) {
     setStep('preview');
   };
 
-  // 保存智能体
+  // 保存智能体集群
   const handleSave = async () => {
     if (!genAgent) return;
     setSaving(true);
@@ -281,12 +281,12 @@ export function NLAgentDialog({ onClose, onAgentCreated }: Props) {
           <div className="flex items-center gap-3">
             <span className="text-2xl">✨</span>
             <div>
-              <h2 className="text-lg font-bold text-white">自然语言生成智能体</h2>
+              <h2 className="text-lg font-bold text-white">✨ 自然语言生成智能体集群</h2>
               <p className="text-xs text-indigo-200 mt-0.5">
                 {step === 'input' && '用自然语言描述你的需求，AI 自动构建 Agent + Skill'}
                 {step === 'generating' && '🤖 正在解析并生成配置...'}
-                {step === 'preview' && '📋 预览并确认生成的智能体配置'}
-                {step === 'done' && '🎉 智能体创建完成！'}
+                {step === 'preview' && '📋 预览并确认生成的智能体集群配置'}
+                {step === 'done' && '🎉 智能体集群创建完成！'}
               </p>
             </div>
           </div>
@@ -316,7 +316,7 @@ export function NLAgentDialog({ onClose, onAgentCreated }: Props) {
             <div className="space-y-5">
               <div>
                 <label className="text-xs font-medium text-slate-400 mb-2 block">
-                  🤖 用一句话描述你想要创建的智能体
+                  🦞 用一句话描述你想要创建的智能体集群
                 </label>
                 <textarea
                   ref={textareaRef}
@@ -332,7 +332,7 @@ export function NLAgentDialog({ onClose, onAgentCreated }: Props) {
 
               {/* 64卦能力映射 */}
               <div className="bg-slate-800/40 rounded-xl p-3 border border-slate-700/40">
-                <p className="text-xs font-medium text-slate-400 mb-2">🦞 64卦智能体角色映射</p>
+                <p className="text-xs font-medium text-slate-400 mb-2">🦞 64卦智能体集群角色映射</p>
                 <div className="grid grid-cols-4 gap-1.5">
                   {[
                     { icon: '⚔️', label: '乾宫·情报', tag: '调研/竞品' },
@@ -412,10 +412,10 @@ export function NLAgentDialog({ onClose, onAgentCreated }: Props) {
           {/* Step 3: 预览确认 */}
           {step === 'preview' && genAgent && (
             <div className="space-y-5">
-              {/* 智能体编辑 */}
+              {/* 智能体集群编辑 */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-xs font-semibold text-slate-400">🤖 智能体配置</h4>
+                  <h4 className="text-xs font-semibold text-slate-400">🦞 智能体集群配置</h4>
                   <button onClick={() => setEditMode(!editMode)} className="text-[10px] text-indigo-400 hover:text-indigo-300">
                     {editMode ? '收起编辑' : '✏️ 编辑'}
                   </button>
@@ -428,7 +428,7 @@ export function NLAgentDialog({ onClose, onAgentCreated }: Props) {
                         className="w-12 bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-center text-lg" />
                       <div className="flex-1">
                         <input value={agentName} onChange={e => setAgentName(e.target.value)}
-                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white" placeholder="智能体名称" />
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white" placeholder="智能体集群名称" />
                       </div>
                     </div>
                     <input value={agentDesc} onChange={e => setAgentDesc(e.target.value)}
@@ -521,12 +521,12 @@ export function NLAgentDialog({ onClose, onAgentCreated }: Props) {
           {step === 'done' && (
             <div className="text-center py-8 space-y-4">
               <div className="text-7xl mb-2">🎉</div>
-              <div className="text-xl font-bold text-white">智能体创建成功！</div>
-              <p className="text-sm text-slate-400">「{agentName}」已添加到您的智能体列表</p>
+              <div className="text-xl font-bold text-white">🦞 智能体集群创建成功！</div>
+              <p className="text-sm text-slate-400">「{agentName}」已添加到您的智能体集群</p>
               <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 text-left max-w-sm mx-auto">
                 <p className="text-xs text-emerald-400 font-medium mb-2">✨ 包含内容</p>
                 <ul className="text-xs text-slate-400 space-y-1">
-                  <li>• 1个自定义智能体（带系统指令）</li>
+                  <li>• 1个自定义智能体集群节点（带系统指令）</li>
                   <li>• {genSkills.length}个关联技能包</li>
                   <li>• 64卦角色身份分配</li>
                   <li>• 可立即开始对话</li>

@@ -172,13 +172,14 @@ const MCP_TEMPLATES: MCPServerTemplate[] = [
   },
   {
     id: 'heygen',
-    name: 'HeyGen Video Agent',
-    description: '自然语言一键生成视频 · AI 数字人 · 175+ 语言 · $0.033/秒',
+    name: 'HeyGen (Video + LiveAvatar)',
+    description: 'HeyGen 视频生成 · LiveAvatar 实时数字人 WebRTC · AI 数字人 · 175+ 语言',
     category: 'ai',
     icon: '🎬',
     fields: [
-      { key: 'apiKey', label: 'HeyGen API Key', type: 'password', required: true, placeholder: 'sk-...', helpText: '从 developers.heygen.com 获取 API Key' },
-      { key: 'defaultAvatar', label: '默认数字人 ID (可选)', type: 'text', required: false, placeholder: 'avatar-xxx' },
+      { key: 'apiKey', label: 'HeyGen API Key', type: 'password', required: true, placeholder: 'sk-...', helpText: '从 developers.heygen.com 获取（用于视频生成）' },
+      { key: 'liveavatarApiKey', label: 'LiveAvatar API Key (可选)', type: 'password', required: false, placeholder: 'ccb84e37-...', helpText: '从 app.liveavatar.com/developers 获取（用于实时数字人，费用: 1-2积分/分钟）' },
+      { key: 'defaultAvatar', label: '默认数字人 ID (可选)', type: 'text', required: false, placeholder: 'default / avatar-xxx' },
       { key: 'defaultVoice', label: '默认语音 ID (可选)', type: 'text', required: false, placeholder: 'voice-xxx' },
     ],
     docsUrl: 'https://developers.heygen.com/',
@@ -308,6 +309,29 @@ const MCP_TEMPLATES: MCPServerTemplate[] = [
       { key: 'region', label: '目标市场', type: 'select', required: false, options: ['US', 'EU', 'UK', 'AU'] },
     ],
     docsUrl: 'https://open.teees.cn/',
+  },
+// ══════════════════════════════════════════════════════════════
+// OpenSwarm 多智能体编排平台
+// ══════════════════════════════════════════════════════════════
+  {
+    id: 'openswarm',
+    name: 'OpenSwarm',
+    description: '多智能体并行编排 · 无限画布空间 · MCP 工具集成（Gmail/Calendar/Drive）· 人类决策审批',
+    category: 'ai',
+    icon: '🐝',
+    fields: [
+      { key: 'apiKey', label: 'Anthropic API Key', type: 'password', required: true, placeholder: 'sk-ant-...', helpText: '用于驱动 OpenSwarm AI 代理的 Anthropic API Key（从 console.anthropic.com 获取）' },
+      { key: 'workspacePath', label: '本地工作目录 (可选)', type: 'text', required: false, placeholder: '/path/to/openswarm-workspace', helpText: 'OpenSwarm 本地数据目录，默认 ~/.openswarm' },
+      { key: 'model', label: '骨干模型', type: 'select', required: false, options: ['claude-opus-4-5', 'claude-sonnet-4-5', 'claude-haiku-3-5', 'gpt-4o', 'gemini-2.5-pro'], helpText: 'OpenSwarm 代理使用的 LLM 模型' },
+      { key: 'googleClientId', label: 'Google OAuth Client ID (可选)', type: 'password', required: false, placeholder: 'xxx.apps.googleusercontent.com', helpText: '启用 Gmail/Calendar/Drive MCP 工具需要' },
+    ],
+    mcpServers: [
+      { name: 'openswarm-gmail', url: 'gmail-mcp', description: 'Gmail 邮件读写 · 日历管理', auth: 'oauth' },
+      { name: 'openswarm-calendar', url: 'calendar-mcp', description: 'Google Calendar 事件管理', auth: 'oauth' },
+      { name: 'openswarm-drive', url: 'drive-mcp', description: 'Google Drive 文件操作', auth: 'oauth' },
+      { name: 'openswarm-reddit', url: 'reddit-mcp', description: 'Reddit 内容抓取与发帖', auth: 'apikey' },
+    ],
+    docsUrl: 'https://docs.openswarm.com',
   },
 // ══════════════════════════════════════════════════════════════
 // 全球社媒 & 通讯平台 OAuth
@@ -517,7 +541,7 @@ function buildModelMarketplace(): AIModel[] {
   add('gpt-4o-image', 'GPT-4o Image Gen', 'openai', 'OpenAI', ['image'], 'OpenAI 官方生图模型', 0, 0, 0, 'pro', ['图像生成', '官方'], '优秀');
   add('gpt-4o-video', 'GPT-4o Video Gen', 'openai', 'OpenAI', ['video'], 'OpenAI 官方生视频模型', 0, 0, 0, 'pro', ['视频生成', '官方'], '顶级');
   add('chatgpt-images-2', 'ChatGPT Images 2.0', 'openai', 'OpenAI', ['image'], 'GPT-4o 原生图像生成 v2，超高分辨率+精确文字渲染', 0, 0, 0, 'popular', ['图像生成', '官方', 'Images', 'v2'], '顶级');
-  add('gpt-image-2', 'GPT Image 2', 'openai', 'OpenAI', ['image'], 'OpenAI 下一代生图旗舰，摄影级质量', 0, 0, 0, 'pro', ['图像生成', '官方', '最新'], '顶级');
+  add('gpt-image-2', 'GPT Image 2', 'openai', 'OpenAI', ['image'], 'GPT Image 2 官方旗舰 · Arena 图像榜第一 · 支持文生图/图生图/mask局部重绘 · 2K/4K · 精确中文文字渲染', 0, 0, 0, 'pro', ['图像生成', '官方', '最新', 'Arena第一'], '顶级');
   add('whisper', 'Whisper', 'openai', 'OpenAI', ['audio'], '语音转文字，领先 ASR', 0.1, 0, 0, 'free', ['语音识别', 'ASR'], '优秀');
   add('dall-e-3', 'DALL-E 3', 'openai', 'OpenAI', ['image'], 'OpenAI 官方绘画模型', 0, 0, 0, 'pro', ['图像生成', '绘画'], '顶级');
   add('gpt-4o-realtime', 'GPT-4o Realtime', 'openai', 'OpenAI', ['chat', 'audio'], '实时语音对话，多语言', 0, 0, 128000, 'pro', ['实时语音', '对话'], '优秀');
@@ -628,6 +652,7 @@ function buildModelMarketplace(): AIModel[] {
   add('pika-2', 'Pika 2', 'other', 'Pika Labs', ['video'], 'AI 视频生成，轻量化', 0, 0, 0, 'popular', ['视频生成', 'Pika'], '优秀');
   add('kling-1-5', '可灵 1.5', 'other', '快手可灵', ['video'], '国产视频生成旗舰', 0, 0, 0, 'pro', ['视频生成', '国产', '可灵'], '顶级');
   add('haiper-2', 'Haiper 2', 'other', 'Haiper AI', ['video'], '视频生成与增强', 0, 0, 0, 'popular', ['视频生成'], '优秀');
+  add('seedance-2', 'Seedance 2.0', 'other', 'ByteDance/Higgsfield', ['video', 'audio'], '字节跳动旗舰 · Higgsfield 全球首发 · 多模态输入 · 原生音频同步 · Arena 视频榜第一', 0, 0, 0, 'pro', ['视频生成', '字节', 'Higgsfield', 'Arena第一', '最新'], '顶级');
   add('cogvideo', 'CogVideoX', 'other', '智谱 AI', ['video'], '国产开源视频生成', 0, 0, 0, 'free', ['视频生成', '开源', '国产'], '优秀');
   add('hengen-1', 'Hengen 1.0', 'other', 'Hengen AI', ['image', 'video', 'chat'], '统一多模态生图+生视频旗舰，一个模型搞定图文视频全链路', 0, 0, 0, 'pro', ['统一多模态', '生图', '生视频', 'Hengen'], '顶级');
   add('hengen-pro', 'Hengen Pro', 'other', 'Hengen AI', ['image', 'video', 'chat'], 'Hengen 高端版，支持更长视频+4K', 0, 0, 0, 'enterprise', ['统一多模态', '生图', '生视频', '4K', 'Hengen'], '顶级');

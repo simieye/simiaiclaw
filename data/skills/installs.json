@@ -82,5 +82,53 @@
     "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
     "installedAt": "2026-04-23T10:41:30.463Z",
     "enabled": true
+  },
+  {
+    "skillId": "skill-anygen-universal",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-25T06:12:53.931Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-anygen-customer-service",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-25T06:12:56.514Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-anygen-business",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-25T06:12:59.719Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-google-workspace-email-guide",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-25T06:13:04.030Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-b2b-customer-tools",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-25T06:19:48.062Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-us-market-research-tools",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-25T06:19:48.939Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-us-market-info-sources",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-25T06:19:50.414Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-pixiedream-studio",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-25T06:25:19.496Z",
+    "enabled": true
   }
 ]

@@ -4,7 +4,7 @@
  */
 
 export type SkillSource = 'official' | 'community' | 'custom';
-export type SkillCategory = 'developer' | 'productivity' | 'creative' | 'business' | 'ai' | 'integration';
+export type SkillCategory = 'developer' | 'productivity' | 'creative' | 'business' | 'ai' | 'integration' | 'cross-border' | 'foreign-trade';
 
 export interface SkillReview {
   userId: string;

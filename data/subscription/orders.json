@@ -1,0 +1,50 @@
+{
+  "orders": [
+    {
+      "id": "ba256214-c3e5-4e19-8a2b-b9eed6c63bd1",
+      "orderNo": "SUB177700833127915E2B4",
+      "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+      "userId": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+      "planId": "personal-monthly",
+      "tier": "personal",
+      "billingCycle": "monthly",
+      "amount": 19900,
+      "currency": "CNY",
+      "status": "pending",
+      "paymentMethod": "bank_transfer",
+      "bankInfo": {
+        "name": "深圳市斯密爱科技有限公司",
+        "bankAccount": "4000020709200461489",
+        "bank": "中国工商银行股份有限公司深圳华城支行",
+        "legalPerson": "何明旺",
+        "unifiedCode": "91440300MAG1CEBT8B"
+      },
+      "expiresAt": "2026-05-24T05:25:31.276Z",
+      "createdAt": "2026-04-24T05:25:31.276Z"
+    }
+  ],
+  "pendingApprovals": [
+    {
+      "id": "ba256214-c3e5-4e19-8a2b-b9eed6c63bd1",
+      "orderNo": "SUB177700833127915E2B4",
+      "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+      "userId": "ab7e8c63-5be2-4156-826b-a6bc38504b27",
+      "planId": "personal-monthly",
+      "tier": "personal",
+      "billingCycle": "monthly",
+      "amount": 19900,
+      "currency": "CNY",
+      "status": "pending",
+      "paymentMethod": "bank_transfer",
+      "bankInfo": {
+        "name": "深圳市斯密爱科技有限公司",
+        "bankAccount": "4000020709200461489",
+        "bank": "中国工商银行股份有限公司深圳华城支行",
+        "legalPerson": "何明旺",
+        "unifiedCode": "91440300MAG1CEBT8B"
+      },
+      "expiresAt": "2026-05-24T05:25:31.276Z",
+      "createdAt": "2026-04-24T05:25:31.276Z"
+    }
+  ]
+}

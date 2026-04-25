@@ -4,6 +4,7 @@
  */
 
 import { HexagramAgent, Palace, AgentStatus, Lane } from '../types';
+import { ANYGEN_ASSISTANTS, type AnyGenAssistantType } from './anygen';
 
 // ============================================================
 // 辅助函数
@@ -292,4 +293,35 @@ export function getAgentsByPalace(palace: Palace): HexagramAgent[] {
 export function getAvailableAgents(palace?: Palace): HexagramAgent[] {
   const agents = palace ? AGENTS_BY_PALACE[palace] : ALL_HEXAGRAM_AGENTS;
   return agents.filter(a => a.status === AgentStatus.IDLE);
+}
+
+// ============================================================
+// AnyGen.io 外贸助手 · 外部工具注册
+// ============================================================
+
+/** AnyGen 外部助手类型 */
+export interface AnyGenToolRef {
+  id: string;
+  name: string;
+  icon: string;
+  type: AnyGenAssistantType;
+  description: string;
+  url: string;
+  lanes: Lane[];
+  color: string;
+}
+
+export const ANYGEN_TOOLS: AnyGenToolRef[] = ANYGEN_ASSISTANTS.map(a => ({
+  id: a.id,
+  name: a.name,
+  icon: a.icon,
+  type: a.type,
+  description: a.description,
+  url: a.url,
+  lanes: a.lanes as Lane[],
+  color: a.color,
+}));
+
+export function getAnyGenTool(type: AnyGenAssistantType): AnyGenToolRef | undefined {
+  return ANYGEN_TOOLS.find(t => t.type === type);
 }

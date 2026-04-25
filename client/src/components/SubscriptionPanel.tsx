@@ -229,9 +229,11 @@ export function SubscriptionPanel() {
               </p>
               <div className="bg-white rounded-xl p-4 inline-block">
                 <div className="text-slate-400 text-xs mb-2">请扫描二维码完成支付</div>
-                <div className="w-32 h-32 bg-slate-200 rounded-lg flex items-center justify-center text-slate-400 mx-auto">
-                  <span>支付二维码</span>
-                </div>
+                <img
+                  src="/wechat-qrcode.png"
+                  alt="微信收款码"
+                  className="w-44 h-44 object-contain mx-auto rounded-lg"
+                />
               </div>
             </div>
           )}

@@ -205,7 +205,120 @@ const OFFICIAL_SKILLS: Omit<Skill, 'isInstalled' | 'reviews'>[] = [
     createdAt: '2025-01-01T00:00:00Z',
     updatedAt: '2025-01-01T00:00:00Z',
   },
+  {
+    id: 'skill-anygen-customer-service',
+    name: 'AnyGen 客服助手',
+    description: 'AnyGen 智能客服集成：多语言翻译、FAQ生成、情感分析、差评逆转、工单分类（跨境电商/外贸B2B）',
+    source: 'official',
+    category: 'integration',
+    tags: ['anygen', '客服', '外贸', '多语言', '情感分析', '差评逆转', '跨境电商'],
+    icon: '🎧',
+    installCount: 456,
+    rating: 4.6,
+    reviewCount: 38,
+    rewardPool: 3800,
+    rewardCount: 112,
+    isFeatured: true,
+    createdAt: '2025-01-15T00:00:00Z',
+    updatedAt: '2025-01-15T00:00:00Z',
+  },
+  {
+    id: 'skill-anygen-business',
+    name: 'AnyGen 业务助手',
+    description: 'AnyGen 外贸B2B业务集成：询盘分析、报价生成、合同审查、客户背调、物流协调、风险预警',
+    source: 'official',
+    category: 'integration',
+    tags: ['anygen', '外贸', 'B2B', '询盘', '报价', '合同', 'Alibaba', '背调'],
+    icon: '💼',
+    installCount: 389,
+    rating: 4.7,
+    reviewCount: 31,
+    rewardPool: 3200,
+    rewardCount: 95,
+    isFeatured: true,
+    createdAt: '2025-01-15T00:00:00Z',
+    updatedAt: '2025-01-15T00:00:00Z',
+  },
+  {
+    id: 'skill-anygen-universal',
+    name: 'AnyGen 全能助手',
+    description: 'AnyGen 全能型智能体：复杂任务规划、多步骤执行、PPT/报告生成、语音交互、多模态理解',
+    source: 'official',
+    category: 'integration',
+    tags: ['anygen', '全能', 'PPT', '报告', '语音', '多模态', '任务规划', '文档生成'],
+    icon: '🧠',
+    installCount: 678,
+    rating: 4.8,
+    reviewCount: 55,
+    rewardPool: 5600,
+    rewardCount: 178,
+    isFeatured: true,
+    createdAt: '2025-01-15T00:00:00Z',
+    updatedAt: '2025-01-15T00:00:00Z',
+  },
 ];
+
+// ============================================================
+// 跨境电商技能库（按需加载）
+// ============================================================
+function loadCrossBorderSkills(): Array<{
+  id: string; name: string; description: string; longDescription?: string;
+  source: 'community'; category: 'cross-border'; tags: string[]; icon: string;
+  installCount: number; rating: number; reviewCount: number; isFeatured: boolean;
+  officialHubUrl?: string; installCommand?: string;
+  createdAt: string; updatedAt: string;
+}> {
+  try {
+    const raw = readJSON<{ skills: unknown[] }>(path.join(DATA_DIR, 'cross-border-ecommerce-skills.json'), { skills: [] });
+    return (raw.skills as Array<{
+      id: string; name: string; description: string; longDescription?: string;
+      tags: string[]; icon: string; downloadCount: number; rating: number;
+      reviewCount: number; isFeatured: boolean; officialHubUrl?: string;
+      installCommand?: string; createdAt: string; updatedAt: string;
+    }>).map(s => ({
+      id: s.id, name: s.name, description: s.description, longDescription: s.longDescription,
+      source: 'community' as const, category: 'cross-border' as const,
+      tags: s.tags, icon: s.icon,
+      installCount: s.downloadCount, rating: s.rating, reviewCount: s.reviewCount,
+      isFeatured: s.isFeatured, officialHubUrl: s.officialHubUrl,
+      installCommand: s.installCommand,
+      createdAt: s.createdAt, updatedAt: s.updatedAt,
+    }));
+  } catch { return []; }
+}
+
+const CROSS_BORDER_SKILLS = loadCrossBorderSkills();
+
+// ============================================================
+// 外贸AI客户开发业务SOP技能库（按需加载）
+// ============================================================
+function loadForeignTradeSOPSkills(): Array<{
+  id: string; name: string; description: string; longDescription?: string;
+  source: 'official'; category: 'foreign-trade'; tags: string[]; icon: string;
+  installCount: number; rating: number; reviewCount: number; isFeatured: boolean;
+  officialHubUrl?: string; installCommand?: string;
+  createdAt: string; updatedAt: string;
+}> {
+  try {
+    const raw = readJSON<{ skills: unknown[] }>(path.join(DATA_DIR, 'foreign-trade-sop-skills.json'), { skills: [] });
+    return (raw.skills as Array<{
+      id: string; name: string; description: string; longDescription?: string;
+      tags: string[]; icon: string; downloadCount: number; rating: number;
+      reviewCount: number; isFeatured: boolean; officialHubUrl?: string;
+      installCommand?: string; createdAt: string; updatedAt: string;
+    }>).map(s => ({
+      id: s.id, name: s.name, description: s.description, longDescription: s.longDescription,
+      source: 'official' as const, category: 'foreign-trade' as const,
+      tags: s.tags, icon: s.icon,
+      installCount: s.downloadCount, rating: s.rating, reviewCount: s.reviewCount,
+      isFeatured: s.isFeatured, officialHubUrl: s.officialHubUrl,
+      installCommand: s.installCommand,
+      createdAt: s.createdAt, updatedAt: s.updatedAt,
+    }));
+  } catch { return []; }
+}
+
+const FOREIGN_TRADE_SOP_SKILLS = loadForeignTradeSOPSkills();
 
 // ============================================================
 // 服务类
@@ -222,10 +335,12 @@ class SkillService {
       installs.filter(i => i.tenantId === tenantId && i.enabled).map(i => i.skillId)
     );
 
-    // 合并官方 + 自定义/社区
+    // 合并官方 + 跨境电商 + 外贸SOP + 自定义/社区
     const officialMap = new Map(OFFICIAL_SKILLS.map(s => [s.id, s]));
     const allSkills = [
       ...OFFICIAL_SKILLS.map(s => ({ ...s, isInstalled: installedIds.has(s.id), reviews: [] as SkillReview[] })),
+      ...CROSS_BORDER_SKILLS.map(s => ({ ...s, isInstalled: installedIds.has(s.id) })),
+      ...FOREIGN_TRADE_SOP_SKILLS.map(s => ({ ...s, isInstalled: installedIds.has(s.id) })),
       ...baseSkills.filter(s => !officialMap.has(s.id)).map(s => ({
         ...s,
         isInstalled: installedIds.has(s.id),
@@ -250,6 +365,35 @@ class SkillService {
     }
 
     return result;
+  }
+
+  /** 获取跨境电商技能模块信息 */
+  getCrossBorderModules(): Array<{ id: string; name: string; icon: string; description: string; color: string; skillCount: number }> {
+    try {
+      const raw = readJSON<{ modules: Array<{ id: string; name: string; icon: string; description: string; color: string; skillCount: number }> }>(
+        path.join(DATA_DIR, 'cross-border-ecommerce-skills.json'), { modules: [] }
+      );
+      return raw.modules;
+    } catch { return []; }
+  }
+
+  /** 获取外贸AI客户开发SOP技能模块信息 */
+  getForeignTradeSOPModules(): Array<{ id: string; name: string; icon: string; description: string; color: string; skillCount: number; workflowIds: string[] }> {
+    try {
+      const raw = readJSON<{ modules: Array<{ id: string; name: string; icon: string; description: string; color: string; skillCount: number; workflowIds: string[] }> }>(
+        path.join(DATA_DIR, 'foreign-trade-sop-skills.json'), { modules: [] }
+      );
+      return raw.modules;
+    } catch { return []; }
+  }
+
+  /** 按模块ID获取跨境电商技能 */
+  getCrossBorderSkillsByModule(moduleId: string, tenantId: string): Skill[] {
+    const installs: SkillInstall[] = readJSON<SkillInstall[]>(INSTALLS_FILE, []);
+    const installedIds = new Set(installs.filter(i => i.tenantId === tenantId && i.enabled).map(i => i.skillId));
+    return CROSS_BORDER_SKILLS
+      .filter(s => (s as unknown as { _moduleId?: string })._moduleId === undefined)
+      .map(s => ({ ...s, isInstalled: installedIds.has(s.id) })) as Skill[];
   }
 
   /** 获取单个 Skill */
@@ -406,7 +550,7 @@ class SkillService {
 
     let name = '自定义助手';
     let description = '由自然语言创建';
-    let category: 'ai' | 'business' | 'creative' | 'productivity' | 'developer' | 'integration' = 'ai';
+    let category: 'ai' | 'business' | 'creative' | 'productivity' | 'developer' | 'integration' | 'cross-border' | 'foreign-trade' = 'ai';
     let icon = '🤖';
 
     // 关键词匹配

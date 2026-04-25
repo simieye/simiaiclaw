@@ -1,0 +1,272 @@
+[
+  {
+    "name": "360-panorama-viewer",
+    "description": ">",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "3d-web-experience",
+    "description": "Expert in building 3D experiences for the web - Three.js, React Three Fiber, Spline, WebGL, and interactive 3D scenes. Covers product configurators, 3D portfolios, immersive websites, and bringing depth to web experiences. Use when: 3D website, three.js, WebGL, react three fiber, 3D experience.",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "ai-image-generation",
+    "description": "|",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "ai-video-generation",
+    "description": "|",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "better-auth-best-practices",
+    "description": "Skill for integrating Better Auth - the comprehensive TypeScript authentication framework.",
+    "category": "security",
+    "installed": false
+  },
+  {
+    "name": "building-native-ui",
+    "description": "Complete guide for building beautiful apps with Expo Router. Covers fundamentals, styling, components, navigation, animations, patterns, and native tabs.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "canvas-design",
+    "description": "Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "capy-cortex",
+    "description": "Autonomous learning system - learns from mistakes, reflects on sessions, and gets smarter over time. The AI brain.",
+    "category": "meta",
+    "installed": false
+  },
+  {
+    "name": "capy-video-gen-skill",
+    "description": "Multi-shot AI video generation pipeline with face identity consistency. Converts scripts or ideas into complete videos using character extraction, storyboarding, frame generation, and video assembly. 300 experiments validated, 70% face distance improvement. Use when the user asks to create a video from a script, story, idea, or wants multi-shot video with consistent characters.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "claude-code-templates",
+    "description": "CLI tool for configuring and monitoring Claude Code with a comprehensive collection of 600+ AI agents, 200+ custom commands, 55+ external service integrations (MCPs), 60+ settings, 39+ hooks, and 14+ project templates. Use when users need to install or manage Claude Code components, browse available templates, run analytics/health checks, or set up development workflows. Integrates with Claude Code, Cursor, Cline, and 10+ other AI coding platforms.",
+    "category": "dev-tools",
+    "installed": false
+  },
+  {
+    "name": "contract-first-agents",
+    "description": "Contract-First Map-Reduce coordination protocol for native TeamCreate multi-agent teams. Wraps TeamCreate, Task (teammates), SendMessage with an upfront shared contract phase that eliminates 75% of integration errors. Based on 400+ experiment research proving 52.5% quality improvement over naive coordination.",
+    "category": "meta",
+    "installed": false
+  },
+  {
+    "name": "create-design-system-rules",
+    "description": "Generates custom design system rules for the user's codebase. Use when user says \"create design system rules\", \"generate rules for my project\", \"set up design rules\", \"customize design system guidelines\", or wants to establish project-specific conventions for Figma-to-code workflows. Requires Figma MCP server connection.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "data-storytelling",
+    "description": "Transform data into compelling narratives using visualization, context, and persuasive structure. Use when presenting analytics to stakeholders, creating data reports, or building executive presentations.",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "film-creator",
+    "description": "|",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "find-skills",
+    "description": "Helps users discover and install agent skills when they ask questions like \"how do I do X\", \"find a skill for X\", \"is there a skill that can...\", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.",
+    "category": "meta",
+    "installed": false
+  },
+  {
+    "name": "frontend-slides",
+    "description": "Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. Use when the user wants to build a presentation, convert a PPT/PPTX to web, or create slides for a talk/pitch. Helps non-designers discover their aesthetic through visual exploration rather than abstract choices.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "goplaces",
+    "description": "Query Google Places API (New) via the goplaces CLI for text search, place details, resolve, and reviews. Use for human-friendly place lookup or JSON output for scripts.",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "happycapy-feishu",
+    "description": "为 HappyCapy 安装并授权飞书（Lark）MCP，让 Claude 直接操作飞书消息、文档、多维表格、日历等。当用户提到安装飞书 MCP、配置飞书、接入飞书、飞书 MCP setup、connect feishu/lark、飞书重新授权、飞书 token 过期、lark mcp 失效等场景时，必须使用此 skill。",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "happycapy-skill-creator",
+    "description": "Automate HappyCapy skill creation by finding and adapting existing skills from anthropics/skills repository. Handles environment constraints (Python 3.11, Node.js 24, no Docker). Use when user wants to create or adapt skills for specific tasks.",
+    "category": "meta",
+    "installed": false
+  },
+  {
+    "name": "happycapy-social-publisher",
+    "description": "",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "image-enhancer",
+    "description": "Improves the quality of images, especially screenshots, by enhancing resolution, sharpness, and clarity. Perfect for preparing images for presentations, documentation, or social media posts.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "latex-document",
+    "description": ">",
+    "category": "content-doc",
+    "installed": false
+  },
+  {
+    "name": "llm-council",
+    "description": ">-",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "mobile-design",
+    "description": "Mobile-first design thinking and decision-making for iOS and Android apps. Touch interaction, performance patterns, platform conventions. Teaches principles, not fixed values. Use when building React Native, Flutter, or native mobile apps.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "nano-banana-pro",
+    "description": "Generate or edit images via Gemini 3 Pro Image (Nano Banana Pro) with AI Gateway support.",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "next-best-practices",
+    "description": "Next.js best practices - file conventions, RSC boundaries, data patterns, async APIs, metadata, error handling, route handlers, image/font optimization, bundling",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "oss-contributor-swarm",
+    "description": "Autonomous 9-agent swarm that continuously contributes to open source projects on GitHub. Finds good-first-issues, analyzes requirements, writes code/tests/docs, creates PRs, and responds to reviews - all automatically with learning.",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "pdf",
+    "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill.",
+    "category": "content-doc",
+    "installed": false
+  },
+  {
+    "name": "pptx",
+    "description": ">",
+    "category": "content-doc",
+    "installed": false
+  },
+  {
+    "name": "prompt-improver",
+    "description": "Optimize prompts for better AI responses. Use when user asks to improve a prompt, refine a prompt, make a prompt better, optimize prompting, review their prompt, or says \"/improve-prompt\". Transforms vague requests into clear, specific, actionable prompts.",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "redbook-creator-publish",
+    "description": "小红书帖子创作与发布技能。用于：(1) 生成小红书风格的帖子内容（标题+正文+标签）(2) 生成帖子相关的配图 (3) 自动上传到小红书创作者平台（默认自动上传，失败时自动提供手动指引） (4) 生成本地预览HTML文件。触发词：小红书创作、create redbook、小红书、红书、笔记创作、帖子创作",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "reddit-post-skill",
+    "description": "Master authentic Reddit content generator using emotion-first, phased architecture. Creates posts that sound genuinely human through cognitive state simulation, not just rule-following. Use when the user asks to write a Reddit post, create Reddit content, or needs help with Reddit engagement. Includes adversarial committee review, Claude-ism detection, and interactive refinement workflow.",
+    "category": "social-comm",
+    "installed": false
+  },
+  {
+    "name": "reddit-post-writer",
+    "description": "Master authentic Reddit content generator using emotion-first, phased architecture. Creates posts that sound genuinely human through cognitive state simulation, not just rule-following. Use when the user asks to write a Reddit post, create Reddit content, or needs help with Reddit engagement. Includes adversarial committee review, Claude-ism detection, and interactive refinement workflow.",
+    "category": "social-comm",
+    "installed": false
+  },
+  {
+    "name": "resume-assistant",
+    "description": "智能简历助手,通过五个AI代理提供全流程求职支持:(1)故事挖掘-发现经历亮点;(2)职位推荐-匹配合适岗位;(3)简历优化-针对JD定制内容;(4)模拟面试-实战演练与反馈;(5)能力提升-差距分析与计划。适用于简历创建、优化、面试准备、职业规划等求职相关任务。",
+    "category": "content-doc",
+    "installed": false
+  },
+  {
+    "name": "skill-creator",
+    "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations.",
+    "category": "meta",
+    "installed": false
+  },
+  {
+    "name": "slack-gif-creator",
+    "description": "Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like \"make me a GIF of X doing Y for Slack.",
+    "category": "social-comm",
+    "installed": false
+  },
+  {
+    "name": "supabase-postgres-best-practices",
+    "description": "Postgres performance optimization and best practices from Supabase. Use this skill when writing, reviewing, or optimizing Postgres queries, schema designs, or database configurations.",
+    "category": "data",
+    "installed": false
+  },
+  {
+    "name": "treatment-plans",
+    "description": "Generate concise (3-4 page), focused medical treatment plans in LaTeX/PDF format for all clinical specialties. Supports general medical treatment, rehabilitation therapy, mental health care, chronic disease management, perioperative care, and pain management. Includes SMART goal frameworks, evidence-based interventions with minimal text citations, regulatory compliance (HIPAA), and professional formatting. Prioritizes brevity and clinical actionability.",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "video-downloader",
+    "description": "Downloads videos from YouTube and other platforms for offline viewing, editing, or archival. Handles various formats and quality options.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "video-frames",
+    "description": "Extract frames or short clips from videos using ffmpeg.",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "weather",
+    "description": "Get current weather and forecasts (no API key required).",
+    "category": "other",
+    "installed": false
+  },
+  {
+    "name": "world-class-carousel",
+    "description": "Generate world-class Instagram carousel content on any topic. Produces 7-10 publication-ready slides (1080x1350) with AI-generated visuals, precise typography, Instagram music recommendations, optimized captions, and hashtags. Uses Aristotelian first-principles framework with 7 content archetypes, 6 hook patterns, a mandatory Bullshit Test quality gate, and a comprehensive design system. Fully generalized -- works for ANY topic. Triggers: instagram carousel, create carousel, carousel post, make carousel slides, instagram slides, carousel content, slide deck for instagram, swipeable post",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "writing-clearly-and-concisely",
+    "description": "Use when writing prose humans will read—documentation, commit messages, error messages, explanations, reports, or UI text. Applies Strunk's timeless rules for clearer, stronger, more professional writing.",
+    "category": "content-doc",
+    "installed": false
+  },
+  {
+    "name": "xiaohongshu-recruiter",
+    "description": "用于在小红书上发布高质量的 AI 相关岗位招聘帖子。包含自动生成极客风格的招聘封面图和详情图，并提供自动化发布脚本。当用户需要发布招聘信息、寻找 Agent 设计师或其他 AI 领域人才时使用。",
+    "category": "design-media",
+    "installed": false
+  },
+  {
+    "name": "youtube-music",
+    "description": "Search and play music tracks on YouTube Music through MCP integration. Use when user wants to search for songs, play music, or discover tracks on YouTube Music platform.",
+    "category": "other",
+    "installed": false
+  }
+]

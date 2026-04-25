@@ -1,8 +1,8 @@
 /**
- * AgentSkillPanel — 智能体与技能商店面板
+ * AgentSkillPanel — 智能体集群与技能商店面板
  * 右上角设置入口，支持：
  *  1. 技能商店（官方/社区/自定义）
- *  2. 自然语言创建自定义 Agent
+ *  2. 自然语言创建自定义智能体集群
  *  3. 打赏激励系统
  */
 import React, { useEffect, useState, useRef } from 'react';
@@ -577,7 +577,55 @@ export function AgentSkillPanel({ onClose }: Props) {
 
           {/* ── 新建 ───────────────────────────────────────── */}
           {skillTab === 'create' && (
-            <div className="max-w-xl mx-auto space-y-6">
+            <div className="max-w-3xl mx-auto space-y-6">
+              {/* SkillHub & Happycapy 入口 */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <a
+                  href="https://www.skillhub.club/web/openclaw"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-gradient-to-br from-emerald-950/40 to-teal-950/40 border border-emerald-800/40 rounded-xl p-4 hover:border-emerald-500/40 transition-all"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">🌐</span>
+                    <div>
+                      <div className="text-sm font-semibold text-emerald-300">SkillHub.club</div>
+                      <div className="text-[10px] text-emerald-400/60">AI 技能市场</div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400">1000+ Skills · Claude/Cursor/Codex 多平台</p>
+                  <div className="text-[10px] text-emerald-400 mt-1">↗ 访问 OpenClaw 入口 →</div>
+                </a>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('happycapy-tab'))}
+                  className="bg-gradient-to-br from-amber-950/40 to-orange-950/40 border border-amber-800/40 rounded-xl p-4 text-left hover:border-amber-500/40 transition-all"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">🦫</span>
+                    <div>
+                      <div className="text-sm font-semibold text-amber-300">Happycapy Skills</div>
+                      <div className="text-[10px] text-amber-400/60">Claude Code 技能库</div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400">45+ Skills · canvas-design/supabase/ai-image</p>
+                  <div className="text-[10px] text-amber-400 mt-1">📦 浏览已安装 →</div>
+                </button>
+                <button
+                  onClick={() => window.dispatchEvent(new CustomEvent('settings-tab-rexwite'))}
+                  className="bg-gradient-to-br from-orange-950/40 to-red-950/40 border border-orange-800/40 rounded-xl p-4 text-left hover:border-orange-500/40 transition-all"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">🎨</span>
+                    <div>
+                      <div className="text-sm font-semibold text-orange-300">Rexwit 本地AI</div>
+                      <div className="text-[10px] text-orange-400/60">免费图片&3D生成</div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400">Qwen/Flux/Hunyuan3D · 无限生成</p>
+                  <div className="text-[10px] text-orange-400 mt-1">📥 下载公测版 →</div>
+                </button>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* 自然语言创建 Agent */}
                 <div className="bg-slate-800/60 rounded-xl border border-slate-700/50 p-4">

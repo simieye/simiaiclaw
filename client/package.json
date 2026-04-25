@@ -33,6 +33,7 @@
     "@capacitor/core": "^8.3.1",
     "@capacitor/haptics": "^8.0.2",
     "@capacitor/ios": "^8.3.1",
+    "@heygen/liveavatar-web-sdk": "^0.0.16",
     "@tanstack/react-query": "^5.17.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.3.1",
@@ -98,9 +99,27 @@
     },
     "linux": {
       "target": [
-        { "target": "AppImage", "arch": ["x64", "arm64"] },
-        { "target": "deb",      "arch": ["x64", "arm64"] },
-        { "target": "tar.gz",  "arch": ["x64", "arm64"] }
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
       ],
       "icon": "electron/assets",
       "category": "Development",

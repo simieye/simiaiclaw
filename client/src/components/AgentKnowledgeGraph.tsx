@@ -1,6 +1,6 @@
 /**
- * SIMIAICLAW 智能体知识图谱可视化
- * 运行时可视化 · SkillHub/MCP/多智能体数据互通
+ * SIMIAICLAW 智能体集群知识图谱可视化
+ * 运行时可视化 · SkillHub/MCP/多智能体集群数据互通
  */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { toast } from 'sonner';
@@ -55,8 +55,8 @@ interface AgentRuntime {
 // ══════════════════════════════════════════════════════════════
 
 const AGENT_NODES: GraphNode[] = [
-  // 核心智能体
-  { id: 'agent_main', type: 'agent', name: '龙虾集群主控', icon: '🦞', color: 'text-cyan-400', bg: 'bg-cyan-950/60', border: 'border-cyan-500/50', sub: '主控智能体', status: 'active', metrics: { label: 'QPS', value: '128', color: 'text-cyan-400' }, skills: 24, knowledge: 7 },
+  // 核心智能体集群
+  { id: 'agent_main', type: 'agent', name: '龙虾集群主控', icon: '🦞', color: 'text-cyan-400', bg: 'bg-cyan-950/60', border: 'border-cyan-500/50', sub: '主控智能体集群', status: 'active', metrics: { label: 'QPS', value: '128', color: 'text-cyan-400' }, skills: 24, knowledge: 7 },
   { id: 'agent_fin', type: 'agent', name: '行业分析师', icon: '📊', color: 'text-amber-400', bg: 'bg-amber-950/60', border: 'border-amber-500/50', sub: '金融 · 投顾', status: 'active', metrics: { label: '日分析', value: '3,421', color: 'text-amber-400' }, skills: 18, knowledge: 4 },
   { id: 'agent_cs', type: 'agent', name: '龙虾客服助手', icon: '💬', color: 'text-emerald-400', bg: 'bg-emerald-950/60', border: 'border-emerald-500/50', sub: '多轮对话 · FAQ', status: 'active', metrics: { label: '日咨询', value: '8,930', color: 'text-emerald-400' }, skills: 12, knowledge: 3 },
   { id: 'agent_content', type: 'agent', name: '内容创作官', icon: '✍️', color: 'text-pink-400', bg: 'bg-pink-950/60', border: 'border-pink-500/50', sub: '文案 · 视频 · 多语言', status: 'idle', metrics: { label: '产出', value: '156篇/日', color: 'text-pink-400' }, skills: 15, knowledge: 2 },
@@ -145,7 +145,7 @@ const GRAPH_EDGES: GraphEdge[] = [
 
 // 节点类型配置
 const NODE_TYPE_CONFIG: Record<string, { label: string; color: string }> = {
-  agent:    { label: '🤖 智能体', color: 'text-cyan-400' },
+  agent:    { label: '🦞 智能体集群', color: 'text-cyan-400' },
   skill:    { label: '⚡ 技能', color: 'text-yellow-400' },
   knowledge: { label: '📚 知识库', color: 'text-amber-400' },
   mcp:      { label: '🔌 MCP平台', color: 'text-purple-400' },
@@ -593,7 +593,7 @@ export function AgentKnowledgeGraph() {
       {/* 标题栏 */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold taiji-gradient">🕸️ 智能体知识图谱</h2>
+          <h2 className="text-xl font-bold taiji-gradient">🕸️ 智能体集群知识图谱</h2>
           <p className="text-sm text-slate-400 mt-1">运行时可视化 · SkillHub · MCP多平台 · 数据互通</p>
         </div>
         <div className="flex items-center gap-3 flex-shrink-0">
@@ -614,7 +614,7 @@ export function AgentKnowledgeGraph() {
       {/* 全局统计 */}
       <div className="grid grid-cols-5 gap-3">
         {[
-          { icon: '🤖', label: '智能体', value: AGENT_NODES.length, color: 'text-cyan-400', bg: 'bg-cyan-950/40', border: 'border-cyan-800/40' },
+          { icon: '🦞', label: '智能体集群', value: AGENT_NODES.length, color: 'text-cyan-400', bg: 'bg-cyan-950/40', border: 'border-cyan-800/40' },
           { icon: '⚡', label: '已用技能', value: `${connectedSkills}/${skillhubTotal}+`, color: 'text-yellow-400', bg: 'bg-yellow-950/40', border: 'border-yellow-800/40', sub: 'SkillHub全局' },
           { icon: '📚', label: '知识库', value: KNOWLEDGE_NODES.length, color: 'text-amber-400', bg: 'bg-amber-950/40', border: 'border-amber-800/40', sub: '文档向量库' },
           { icon: '🔌', label: 'MCP平台', value: `${connectedMCP}/${mcpTotal}`, color: 'text-purple-400', bg: 'bg-purple-950/40', border: 'border-purple-800/40', sub: '多平台连接' },
@@ -792,7 +792,7 @@ export function AgentKnowledgeGraph() {
               <RuntimeEventFeed events={[]} nodes={positions} />
             </div>
 
-            {/* 智能体运行时指标 */}
+            {/* 智能体集群运行时指标 */}
             <div className="glass-card border border-slate-700/50 rounded-2xl p-4 space-y-3">
               <h3 className="text-sm font-semibold text-slate-300">📊 运行时指标</h3>
               <div className="space-y-2">
@@ -826,7 +826,7 @@ export function AgentKnowledgeGraph() {
           {/* 智能体列表 */}
           <div>
             <h3 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
-              🤖 智能体节点（{AGENT_NODES.length}）
+              🦞 智能体集群节点（{AGENT_NODES.length}）
             </h3>
             <div className="grid grid-cols-3 gap-3">
               {AGENT_NODES.map(agent => {
