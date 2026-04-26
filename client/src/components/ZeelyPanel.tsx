@@ -80,7 +80,7 @@ export function ZeelyPanel() {
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [apiKey, setApiKey] = useState('');
-  const [activeTab, setActiveTab] = useState<'video' | 'static'>('video');
+  const [activeTab, setActiveTab] = useState<'video' | 'static' | 'avatar'>('video');
   const [generating, setGenerating] = useState<string | null>(null);
   const [logOutput, setLogOutput] = useState('');
 

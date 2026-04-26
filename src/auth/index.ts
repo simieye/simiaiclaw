@@ -196,6 +196,13 @@ function planConfig(plan: Tenant['plan']): TenantConfig {
   return configs[plan];
 }
 
+// ==================== 全局超级管理员配置 ====================
+const SUPER_ADMIN_EMAIL = (process.env.SUPER_ADMIN_EMAIL || 'hmwhtm@gmail.com').toLowerCase();
+
+function isSuperAdmin(userId: string, email: string): boolean {
+  return email.toLowerCase() === SUPER_ADMIN_EMAIL;
+}
+
 // ==================== AuthService ====================
 
 export class AuthService {
@@ -205,6 +212,16 @@ export class AuthService {
   constructor() {
     this.tenants = loadTenants();
     this.users = loadUsers();
+  }
+
+  /** 检查用户是否为超级管理员（通过邮箱判断） */
+  isAdmin(email: string): boolean {
+    return email.toLowerCase() === SUPER_ADMIN_EMAIL;
+  }
+
+  /** 通过邮箱查找用户 */
+  getUserByEmail(email: string): User | undefined {
+    return this.users.find(u => u.email.toLowerCase() === email.toLowerCase());
   }
 
   private persist() {
@@ -244,8 +261,8 @@ export class AuthService {
       // 加入已有租户
       const t = this.tenants.find(t => t.slug === tenantSlug || t.id === tenantSlug);
       if (!t) return { success: false, error: '租户不存在' };
-      if (t.members.length >= t.quotas.maxUsers) {
-        return { success: false, error: `租户已达成员上限（${t.quotas.maxUsers}人）` };
+      if (t.members.length >= t.config.maxUsers) {
+        return { success: false, error: `租户已达成员上限（${t.config.maxUsers}人）` };
       }
       tenant = t;
     } else {
@@ -515,15 +532,23 @@ export function authMiddleware(auth: AuthService) {
   };
 }
 
-export function requireAuth(req: Record<string, unknown>, res: Record<string, { status: (code: number) => { json: (data: unknown) => void } }>, next: () => void) {
+interface MiddlewareResponse {
+  status(code: number): MiddlewareResponse;
+  json(data: unknown): void;
+}
+
+/** 兼容 Express.RequestHandler 的中间件类型别名（用于 as unknown as 转换） */
+type ExpressHandler = (req: Record<string, unknown>, res: MiddlewareResponse, next: () => void) => void;
+
+export const requireAuth: ExpressHandler = (req, res, next) => {
   if (!(req.auth as JWTPayload | null)) {
     return res.status(401).json({ error: '请先登录' });
   }
   return next();
-}
+};
 
-export function requireRole(...roles: UserRole[]) {
-  return (req: Record<string, unknown>, res: Record<string, { status: (code: number) => { json: (data: unknown) => void } }>, next: () => void) => {
+export function requireRole(...roles: UserRole[]): ExpressHandler {
+  return (req, res, next) => {
     const auth = req.auth as JWTPayload | null;
     if (!auth) return res.status(401).json({ error: '请先登录' });
     const hierarchy: UserRole[] = ['viewer', 'member', 'admin', 'owner'];
@@ -535,6 +560,21 @@ export function requireRole(...roles: UserRole[]) {
     return next();
   };
 }
+
+/** 超级管理员中间件 — 仅允许 SUPER_ADMIN_EMAIL（默认 hmwhtm@gmail.com）访问 */
+export function requireSuperAdmin(getUser: (userId: string) => { email: string } | null): ExpressHandler {
+  return (req, res, next) => {
+    const auth = req.auth as JWTPayload | null;
+    if (!auth) return res.status(401).json({ error: '请先登录' });
+    const user = getUser(auth.userId);
+    if (!user || !isSuperAdmin(auth.userId, user.email)) {
+      return res.status(403).json({ error: '权限不足，仅管理员可访问' });
+    }
+    return next();
+  };
+}
+
+export { SUPER_ADMIN_EMAIL };
 
 // ==================== 单例导出 ====================
 export const authService = new AuthService();

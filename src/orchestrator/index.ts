@@ -11,7 +11,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { Task, TaskType, TaskStatus, TaskPriority, Palace, Lane } from '../types';
+import { Task, TaskType, AgentStatus, TaskStatus, TaskPriority, Palace, Lane } from '../types';
 import { ALL_HEXAGRAM_AGENTS, AGENTS_BY_PALACE, getAgent, getAvailableAgents } from '../agents/registry';
 import { openSpace, skillEvolver } from '../openspace';
 import { clawTip } from '../clawtip';
@@ -216,10 +216,10 @@ export class Orchestrator {
     });
 
     // Step 5: 模拟任务执行
-    agent.status = 'working';
+    agent.status = AgentStatus.WORKING;
     agent.lastActive = new Date();
     task.assignedTo = agent.id;
-    task.status = 'running';
+    task.status = TaskStatus.RUNNING;
     task.startedAt = new Date();
 
     // 模拟AI执行（实际接入LLM时替换此部分）
@@ -227,7 +227,7 @@ export class Orchestrator {
 
     // Step 6: 完成任务
     this.taskManager.complete(task.id, output);
-    agent.status = 'idle';
+    agent.status = AgentStatus.IDLE;
     agent.stats.tasksCompleted++;
     agent.lastActive = new Date();
 

@@ -1,14 +1,14 @@
 /**
- * SIMIAICLAW 龙虾集群 · OpenSwarm 多智能体编排平台集成面板
- * 整合 openswarm.com + docs.openswarm.com
+ * SIMIAICLAW 龙虾集群 · simiaiclaw 龙虾集群多智能体编排平台集成面板
+ * 整合 simiaiclaw.com + docs.simiaiclaw.com
  * 功能: 多 Agent 并行 · 无限画布 · MCP 工具(Gmail/Calendar/Drive/Reddit) · 人类审批
  */
 
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 
-const OPENSWARM_URL = 'https://openswarm.com';
-const OPENSWARM_DOCS = 'https://docs.openswarm.com';
+const OPENSWARM_URL = 'https://simiaiclaw.com';
+const OPENSWARM_DOCS = 'https://docs.simiaiclaw.com';
 const OPENSWARM_GITHUB = 'https://github.com/openswarm-ai/openswarm';
 
 const CAPABILITIES = [
@@ -61,7 +61,7 @@ const MCP_TOOLS = [
 
 const STEPS = [
   { step: 1, icon: '🔗', title: '连接工具', desc: '配置 Anthropic API Key 和 MCP 工具（选 Gmail/Reddit 等）' },
-  { step: 2, icon: '🐝', title: '派发任务', desc: '用自然语言描述任务，OpenSwarm 分解并分配给多个 Agent' },
+  { step: 2, icon: '🐝', title: '派发任务', desc: '用自然语言描述任务，simiaiclaw 龙虾集群分解并分配给多个 Agent' },
   { step: 3, icon: '🛡️', title: '审批执行', desc: 'Agent 提交提案，人类审批后执行实际操作' },
   { step: 4, icon: '🗂️', title: '查看结果', desc: '在画布上实时追踪所有 Agent 进展，汇总结果' },
 ];
@@ -122,7 +122,7 @@ export function OpenSwarmPanel({ onClose }: Props) {
           🐝
         </div>
         <div>
-          <div style={{ fontSize: 18, fontWeight: 700, color: '#fff' }}>OpenSwarm 多智能体编排平台</div>
+          <div style={{ fontSize: 18, fontWeight: 700, color: '#fff' }}>simiaiclaw 龙虾集群多智能体编排平台</div>
           <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
             真正并行 · 无限画布 · MCP 工具集成 · 人类决策审批
           </div>
@@ -173,9 +173,9 @@ export function OpenSwarmPanel({ onClose }: Props) {
         <>
           <div style={{ marginBottom: 16 }}>
             <p style={{ fontSize: 13, color: '#94a3b8', lineHeight: 1.7 }}>
-              <strong style={{ color: '#fbbf24' }}>OpenSwarm</strong> 是一个<strong style={{ color: '#fff' }}>多智能体并行编排平台</strong>，
+              <strong style={{ color: '#fbbf24' }}>simiaiclaw 龙虾集群</strong>是一个<strong style={{ color: '#fff' }}>多智能体并行编排平台</strong>，
               通过 Spatial Canvas 可视化工作空间，让多个 AI Agent 同时协作完成任务。
-              区别于传统串行 Agent，OpenSwarm 实现了真正的并行执行，同时保留人类决策权，确保每一个关键操作都经过审批。
+              区别于传统串行 Agent，simiaiclaw 实现了真正的并行执行，同时保留人类决策权，确保每一个关键操作都经过审批。
             </p>
           </div>
 
@@ -202,8 +202,8 @@ export function OpenSwarmPanel({ onClose }: Props) {
           {/* 外部链接 */}
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {[
-              { icon: '🌐', label: 'openswarm.com', href: OPENSWARM_URL },
-              { icon: '📖', label: 'docs.openswarm.com', href: OPENSWARM_DOCS },
+              { icon: '🌐', label: 'simiaiclaw.com', href: OPENSWARM_URL },
+              { icon: '📖', label: 'docs.simiaiclaw.com', href: OPENSWARM_DOCS },
               { icon: '💻', label: 'GitHub', href: OPENSWARM_GITHUB },
             ].map(link => (
               <a
@@ -237,7 +237,7 @@ export function OpenSwarmPanel({ onClose }: Props) {
         <>
           <div style={{ marginBottom: 16 }}>
             <p style={{ fontSize: 13, color: '#94a3b8', lineHeight: 1.7 }}>
-              OpenSwarm 支持丰富的 <strong style={{ color: '#fbbf24' }}>MCP (Model Context Protocol)</strong> 工具集成，
+              simiaiclaw 龙虾集群支持丰富的 <strong style={{ color: '#fbbf24' }}>MCP (Model Context Protocol)</strong> 工具集成，
               通过 OAuth/API Key 认证连接外部平台，让 AI Agent 真正执行实际操作。
             </p>
           </div>
@@ -267,7 +267,7 @@ export function OpenSwarmPanel({ onClose }: Props) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
                   <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-                  <span style={{ fontSize: 11, color: '#64748b' }}>MCP Connected · via OpenSwarm</span>
+                  <span style={{ fontSize: 11, color: '#64748b' }}>MCP Connected · via simiaiclaw</span>
                 </div>
               </div>
             ))}
@@ -282,7 +282,7 @@ export function OpenSwarmPanel({ onClose }: Props) {
               💡 配置 MCP 工具
             </div>
             <div style={{ fontSize: 12, color: '#94a3b8', lineHeight: 1.7 }}>
-              在 Settings → MCP 连接器 → OpenSwarm 中配置 <code style={{ background: 'rgba(51,65,85,0.5)', padding: '1px 5px', borderRadius: 4 }}>Anthropic API Key</code> 和所需的 MCP 工具凭据。
+              在 Settings → MCP 连接器 → simiaiclaw 中配置 <code style={{ background: 'rgba(51,65,85,0.5)', padding: '1px 5px', borderRadius: 4 }}>Anthropic API Key</code> 和所需的 MCP 工具凭据。
               Gmail / Calendar / Drive 需要 Google OAuth 认证。
             </div>
           </div>
@@ -372,7 +372,7 @@ export function OpenSwarmPanel({ onClose }: Props) {
       {activeSection === 'workflow' && (
         <>
           <p style={{ fontSize: 13, color: '#94a3b8', lineHeight: 1.7, marginBottom: 20 }}>
-            使用 OpenSwarm 完成一个典型任务的标准流程：
+            使用 simiaiclaw 龙虾集群完成一个典型任务的标准流程：
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginBottom: 20 }}>
@@ -412,11 +412,11 @@ export function OpenSwarmPanel({ onClose }: Props) {
             background: 'rgba(16,185,129,0.08)',
             border: '1px solid rgba(16,185,129,0.2)',
           }}>
-            <div style={{ fontSize: 12, color: '#34d399', fontWeight: 600, marginBottom: 6 }}>🚀 SIMIAICLAW × OpenSwarm</div>
+            <div style={{ fontSize: 12, color: '#34d399', fontWeight: 600, marginBottom: 6 }}>🚀 SIMIAICLAW 龙虾集群 · 多智能体编排</div>
             <div style={{ fontSize: 12, color: '#94a3b8', lineHeight: 1.7 }}>
-              将 OpenSwarm 的多 Agent 并行能力与 SIMIAICLAW 的太极64卦分工体系结合，
+              将 simiaiclaw 的多 Agent 并行能力与 SIMIAICLAW 的太极64卦分工体系结合，
               可实现：<strong style={{ color: '#fff' }}>任务分解 → 多 Agent 并行执行 → 结果汇总</strong> 的完整闭环。
-              在 Settings → MCP 连接器中添加 OpenSwarm，即可在 SIMIAICLAW 中调用其 Agent 能力。
+              在 Settings → MCP 连接器中添加 simiaiclaw，即可在 SIMIAICLAW 中调用其 Agent 能力。
             </div>
           </div>
         </>

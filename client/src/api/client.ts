@@ -198,6 +198,25 @@ class ApiClient {
     return data;
   }
 
+  async checkIsAdmin(): Promise<boolean> {
+    const headers = this.authHeader();
+    const res = await fetch(`${this.base}/auth/is-admin`, { headers });
+    if (res.status === 401 && this.refreshToken) {
+      try {
+        await this.refresh();
+        const retryRes = await fetch(`${this.base}/auth/is-admin`, { headers: this.authHeader() });
+        if (!retryRes.ok) return false;
+        const data = await retryRes.json() as { isAdmin: boolean };
+        return data.isAdmin ?? false;
+      } catch {
+        return false;
+      }
+    }
+    if (!res.ok) return false;
+    const data = await res.json() as { isAdmin: boolean };
+    return data.isAdmin ?? false;
+  }
+
   async fetchMe(): Promise<{ user: AuthUser; activeTenant: TenantInfo | null }> {
     const res = await fetch(`${this.base}/auth/me`, { headers: this.authHeader() });
     const data = await res.json();
@@ -646,6 +665,70 @@ class ApiClient {
   }> {
     return this.request(`${this.base}/liveavatar/avatars`);
   }
+
+  // ── AI 短剧工作室 ────────────────────────────────────────
+  async getStudioScripts(): Promise<{ scripts: StudioScript[] }> {
+    return this.request(`${this.base}/v1/studio/drama/scripts`);
+  }
+
+  async getStudioScript(id: string): Promise<StudioScript> {
+    return this.request(`${this.base}/v1/studio/drama/scripts/${id}`);
+  }
+
+  async createStudioScript(params: {
+    genre: string;
+    template: string;
+    title: string;
+    synopsis?: string;
+    characterCount?: number;
+    shotCount?: number;
+  }): Promise<StudioScript> {
+    return this.request(`${this.base}/v1/studio/drama/scripts/generate`, {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  }
+
+  async createTemplateScript(params: {
+    template: string;
+    title: string;
+    genre: string;
+    extraShots?: number;
+  }): Promise<StudioScript> {
+    return this.request(`${this.base}/v1/studio/drama/scripts/template`, {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+  }
+
+  async updateStudioScript(id: string, patch: Partial<StudioScript>): Promise<StudioScript> {
+    return this.request(`${this.base}/v1/studio/drama/scripts/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    });
+  }
+
+  async getStudioCharacters(): Promise<{ characters: StudioCharacter[] }> {
+    return this.request(`${this.base}/v1/studio/drama/characters`);
+  }
+
+  async createStudioCharacter(data: Omit<StudioCharacter, 'id' | 'createdAt' | 'updatedAt'>): Promise<StudioCharacter> {
+    return this.request(`${this.base}/v1/studio/drama/characters`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteStudioCharacter(id: string): Promise<void> {
+    return this.request(`${this.base}/v1/studio/drama/characters/${id}`, { method: 'DELETE' });
+  }
+
+  async updateStudioShot(shotId: string, patch: Partial<StudioShot>): Promise<StudioShot> {
+    return this.request(`${this.base}/v1/studio/drama/shots/${shotId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    });
+  }
 }
 
 // ==================== Skill / Agent 类型 ====================
@@ -788,4 +871,63 @@ export interface SubscriptionStats {
   byCycle: Record<string, number>;
 }
 
+
+// ── AI 短剧工作室 类型 ─────────────────────────────────────
+export type DramaGenre = '霸总' | '甜宠' | '重生' | '逆袭' | '穿越' | '悬疑' | '复仇' | '职场' | '校园' | '玄幻' | '搞笑' | '科幻';
+export type ScriptTemplateType = '爽文逆袭' | '霸总甜宠' | '复仇打脸' | '职场升职' | '穿越逆天' | '重生复仇' | '悬疑反转' | '搞笑段子';
+export type VideoPlatform = '可灵' | '即梦' | 'Pika' | 'Seedance' | '即梦-图生视频' | '可灵-图生视频';
+
+export interface StudioCharacter {
+  id: string;
+  name: string;
+  age?: string;
+  gender?: '男' | '女' | '中性';
+  personality?: string;
+  appearance?: string;
+  role: '主角' | '配角' | '反派' | 'NPC';
+  avatarPrompt?: string;
+  negativePrompt?: string;
+  voiceId?: string;
+  imageUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StudioShot {
+  id: string;
+  scriptId: string;
+  seq: number;
+  scene: string;
+  camera: '特写' | '近景' | '中景' | '远景' | '航拍' | '手持跟拍' | '固定';
+  angle: '平视' | '仰拍' | '俯拍' | '过肩' | '荷兰角';
+  duration?: number;
+  characterIds: string[];
+  action: string;
+  dialogue?: string;
+  visualPrompt: string;
+  negativePrompt?: string;
+  imageUrl?: string;
+  videoUrl?: string;
+  videoStatus: 'idle' | 'generating' | 'done' | 'failed';
+  videoError?: string;
+  model?: VideoPlatform;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StudioScript {
+  id: string;
+  title: string;
+  genre: DramaGenre;
+  template: ScriptTemplateType;
+  totalShots: number;
+  targetDuration?: number;
+  synopsis?: string;
+  tags: string[];
+  characters: StudioCharacter[];
+  shots: StudioShot[];
+  status: 'draft' | 'scripting' | 'shooting' | 'done';
+  createdAt: string;
+  updatedAt: string;
+}
 export const api = new ApiClient(API_BASE);

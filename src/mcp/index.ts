@@ -311,7 +311,7 @@ const MCP_TEMPLATES: MCPServerTemplate[] = [
     docsUrl: 'https://open.teees.cn/',
   },
 // ══════════════════════════════════════════════════════════════
-// OpenSwarm 多智能体编排平台
+// simiaiclaw 龙虾集群多智能体编排平台
 // ══════════════════════════════════════════════════════════════
   {
     id: 'openswarm',
@@ -516,17 +516,17 @@ function buildModelMarketplace(): AIModel[] {
   const add = (
     id: string, name: string, provider: ModelProvider, providerName: string,
     capabilities: ModelCapability[], description: string,
-    priceIn?: number, priceOut?: number, context: number,
-    tier: AIModel['tier'], tags: string[], quality?: string
+    priceIn?: number, priceOut?: number, context?: number,
+    tier?: AIModel['tier'], tags?: string[], quality?: string
   ) => {
     models.push({
       id, name, provider, providerName, capabilities, description,
-      pricePer1KInput: priceIn, pricePer1KOutput: priceOut,
-      contextWindow: context, quality, tier,
+      pricePer1KInput: priceIn ?? 0, pricePer1KOutput: priceOut ?? 0,
+      contextWindow: context ?? 0, quality: quality ?? '', tier: tier ?? 'free',
       isEnabled: true, isConnected: false, apiKeyConfigured: false,
       usageCount: Math.floor(Math.random() * 500000),
       rating: 3.5 + Math.random() * 1.5,
-      tags, createdAt: now, updatedAt: now,
+      tags: tags ?? [], createdAt: now, updatedAt: now,
     });
   };
 
@@ -946,6 +946,8 @@ export const modelService = {
       google: { name: 'Google AI', icon: '🔍', count: 0 },
       deepseek: { name: 'DeepSeek', icon: '🔮', count: 0 },
       local: { name: '开源/本地', icon: '🖥️', count: 0 },
+      ollama: { name: 'Ollama', icon: '🦙', count: 0 },
+      huobao: { name: '火豹 API', icon: '🐯', count: 0 },
       other: { name: '其他厂商', icon: '🌐', count: 0 },
     };
     store.models.forEach(m => { providers[m.provider].count++; });
