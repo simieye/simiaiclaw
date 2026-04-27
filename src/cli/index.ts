@@ -64,7 +64,7 @@ async function main() {
       const report = heartbeatMonitor.generateHealthReport();
       console.log('💓 Heartbeat 健康报告');
       console.log(`   系统状态: ${report.overallStatus}`);
-      console.log(`   在线智能体: ${report.activeAgents}/${report.agents?.total || 64}`);
+      console.log(`   在线智能体: ${report.activeAgents}`);
       const palaceHealth = heartbeatMonitor.getHealthByPalace();
       Object.entries(palaceHealth).forEach(([palace, h]) => {
         const pct = h.total > 0 ? Math.round(h.up / h.total * 100) : 0;

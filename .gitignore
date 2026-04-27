@@ -33,3 +33,15 @@ yarn-error.log*
 # Misc
 *.local
 Thumbs.db
+
+# RetouchAI build artifacts
+RetouchAI/backend/**/__pycache__/
+RetouchAI/frontend/.next/
+RetouchAI/frontend/node_modules/
+RetouchAI/backend/venv/
+RetouchAI/backend/.venv/
+# Embedded git repos (not submodules)
+OpenSpace/
+RetouchAI/
+# SOP docs - optional
+tiktok_viral_sop.md

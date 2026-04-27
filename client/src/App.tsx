@@ -88,6 +88,7 @@ import { AnyGenPanel } from './components/AnyGenPanel';
 import { AIDramaStudioPanel } from './components/AIDramaStudioPanel';
 import { OPCEcoKnowledge, type EcoSubMenu } from './components/OPCEcoKnowledge';
 import { GlobalTradeEco } from './components/GlobalTradeEco';
+import { CrossBorderLobsterSystem } from './components/CrossBorderLobsterSystem';
 
 type AppTab = 'dashboard' | 'cluster' | 'agents' | 'opc' | 'knowledge' | 'graph' | 'logs' | 'settings' | 'opceco';
 
@@ -794,6 +795,7 @@ function MainConsole({
                   { id: 'claws-course', label: '课程目录', icon: '📚' },
                   { id: 'clawsecoknowledge', label: '龙虾社知识库', icon: '🧠' },
                   { id: 'modularknowledge', label: '模块化知识库', icon: '🗂️' },
+                  { id: 'lobster-system', label: '龙虾集群获客运营系统', icon: '🦞' },
                 ] as { id: string; label: string; icon: string }[]).map(item => (
                   <button
                     key={item.id}
@@ -1403,6 +1405,12 @@ function SettingsView({ authUser, activeTenant, settingsTab: externalTab, onSett
         <div className="rounded-2xl border border-slate-700/60 overflow-hidden bg-slate-900/60 flex flex-col"
              style={{ height: 'calc(100vh - 120px)' }}>
           <ModularKnowledgeBase />
+        </div>
+      )}
+      {settingsTab === 'lobster-system' && (
+        <div className="rounded-2xl border border-slate-700/60 overflow-hidden bg-slate-950 flex flex-col"
+             style={{ height: 'calc(100vh - 120px)' }}>
+          <CrossBorderLobsterSystem />
         </div>
       )}
     </div>

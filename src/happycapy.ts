@@ -1,10 +1,11 @@
 import type { Express } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, '..', 'data', 'skills', 'happycapy-skills');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { fileURLToPath } = require('url');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const __dirname3 = path.dirname(fileURLToPath(__filename));
+const DATA_DIR = path.join(__dirname3, '..', 'data', 'skills', 'happycapy-skills');
 const SKILLS_INDEX = path.join(DATA_DIR, 'skills-index.json');
 const GITHUB_REPO = 'happycapy-ai/Happycapy-skills';
 const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_REPO}/main/skills`;
@@ -22,7 +23,7 @@ async function fetchSkillIndex(): Promise<SkillMeta[]> {
   try {
     const res = await fetch(API_BASE);
     if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-    const items: { name: string }[] = await res.json();
+    const items = await res.json() as { name: string }[];
 
     const skills: SkillMeta[] = await Promise.all(
       items.map(async (item) => {
@@ -106,7 +107,7 @@ export function registerHappycapyRoutes(app: Express) {
       // 可选：拉取 references/、scripts/、assets/
       const metaRes = await fetch(`${API_BASE}/${safeName}`);
       if (metaRes.ok) {
-        const files: { name: string; type: string; download_url: string | null }[] = await metaRes.json();
+        const files = await metaRes.json() as { name: string; type: string; download_url: string | null }[];
         for (const file of files) {
           if (file.type === 'file' && file.download_url && !['SKILL.md', 'README.md'].includes(file.name)) {
             try {

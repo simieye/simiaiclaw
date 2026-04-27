@@ -130,5 +130,293 @@
     "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
     "installedAt": "2026-04-25T06:25:19.496Z",
     "enabled": true
+  },
+  {
+    "skillId": "skill-custom-ai-shortdrama-studio",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-26T13:04:45.394Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-ecommerce-fulfillment",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T04:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-ecommerce-ads-optimization",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T04:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-instagram-growth-hack",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T04:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-linkedin-b2b-outreach",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T04:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-943aed50",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-0a69266d",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-c72b2211",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-d6fdabe0",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-44db1e07",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-92b79e80",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-3001e332",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-d113c77a",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-98957287",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-2c7ded75",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-fb1f4bbe",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-a94b111c",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-334b5578",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-4c6af0b9",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-ec0c8c8f",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-88198937",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-9f558cce",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-f6fd1be6",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-17160982",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-6ca390e4",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-a92bf983",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-475faea2",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-5ca48edb",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-1162959c",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-3ba21173",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-dc2d3e80",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-70936e8a",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-606b6a89",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-561a7d13",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-56f0dc35",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-13f56bd0",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-021dcad7",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-c67fb5c8",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-6fe69c3b",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-40697950",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-e6304a30",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-2df69dfe",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-ef996203",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-12c57d6e",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-0d18551e",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-ae0b7644",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-9545ea7f",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
+  },
+  {
+    "skillId": "skill-custom-664e25be",
+    "tenantId": "a1e21e39-28ec-4fe1-a3fb-2b185f8e5269",
+    "installedAt": "2026-04-27T12:00:00.000Z",
+    "enabled": true
   }
 ]
