@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "🦞 SIMIAICLAW 龙虾集群控制台 - 多平台AI智能体管理",
+  "homepage": "https://github.com/simieye/simiaiclaw",
   "main": "dist-electron/main.js",
   "author": "SIMIAICLAW Team",
   "scripts": {
