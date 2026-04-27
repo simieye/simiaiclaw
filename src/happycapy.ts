@@ -1,10 +1,8 @@
 import type { Express } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { fileURLToPath } = require('url');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const __dirname3 = path.dirname(fileURLToPath(__filename));
+import { fileURLToPath } from 'url';
+const __dirname3 = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname3, '..', 'data', 'skills', 'happycapy-skills');
 const SKILLS_INDEX = path.join(DATA_DIR, 'skills-index.json');
 const GITHUB_REPO = 'happycapy-ai/Happycapy-skills';

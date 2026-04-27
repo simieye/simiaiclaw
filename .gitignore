@@ -30,9 +30,9 @@ yarn-error.log*
 # CodeBuddy
 .codebuddy/
 
-# Misc
-*.local
-Thumbs.db
+# Sensitive data (not for public repo)
+data/
+
 
 # RetouchAI build artifacts
 RetouchAI/backend/**/__pycache__/

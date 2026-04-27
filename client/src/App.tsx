@@ -77,6 +77,15 @@ import { LiveAvatarPanel } from './components/LiveAvatarPanel';
 import { OpenSwarmPanel } from './components/OpenSwarmPanel';
 import { GPTImagePanel } from './components/GPTImagePanel';
 import { HiggsfieldPanel } from './components/HiggsfieldPanel';
+import SocialMatrixPanel from './components/SocialMatrixPanel';
+import ProductGalleryPanel from './components/ProductGalleryPanel';
+import BrandAssetPanel from './components/BrandAssetPanel';
+import D3AssetPanel from './components/D3AssetPanel';
+import GlobalLayoutPanel from './components/GlobalLayoutPanel';
+import PartnerListPanel from './components/PartnerListPanel';
+import GlobalChamberPanel from './components/GlobalChamberPanel';
+import RetailChainPanel from './components/RetailChainPanel';
+import GlobalEcommercePanel from './components/GlobalEcommercePanel';
 import { PromptsrefPanel } from './components/PromptsrefPanel';
 import { StaticAdGeneratorPanel } from './components/StaticAdGeneratorPanel';
 import { CrossBorderEcommercePanel } from './components/CrossBorderEcommercePanel';
@@ -89,6 +98,7 @@ import { AIDramaStudioPanel } from './components/AIDramaStudioPanel';
 import { OPCEcoKnowledge, type EcoSubMenu } from './components/OPCEcoKnowledge';
 import { GlobalTradeEco } from './components/GlobalTradeEco';
 import { CrossBorderLobsterSystem } from './components/CrossBorderLobsterSystem';
+import { CrmPanel } from './components/CrmPanel';
 
 type AppTab = 'dashboard' | 'cluster' | 'agents' | 'opc' | 'knowledge' | 'graph' | 'logs' | 'settings' | 'opceco';
 
@@ -552,6 +562,7 @@ function MainConsole({
   const [opcEcoActive, setOpcEcoActive] = useState<string | null>(null);
   const [clawsEcoOpen, setClawsEcoOpen] = useState(false);
   const [clawsEcoActive, setClawsEcoActive] = useState<string | null>(null);
+  const [crmOpen, setCrmOpen] = useState(false);
 
   const handleSetSettingsTab = (tab: string) => {
     setSettingsTab(tab);
@@ -613,6 +624,13 @@ function MainConsole({
     window.addEventListener('skillhub-tab', handler5);
     return () => window.removeEventListener('skillhub-tab', handler5);
   }, [onTabChange]);
+
+  // 监听 CRM 客户管理系统按钮
+  useEffect(() => {
+    const handler = () => setCrmOpen(true);
+    window.addEventListener('crm-tab', handler);
+    return () => window.removeEventListener('crm-tab', handler);
+  }, []);
 
   useEffect(() => {
     const handler7 = () => {
@@ -764,8 +782,8 @@ function MainConsole({
                         : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
                     }`}
                   >
-                    <span>{item.icon}</span>
-                    <span className="font-medium">{item.label}</span>
+                    <span className="w-[22px] text-left shrink-0 leading-none flex items-center justify-center">{item.icon}</span>
+                    <span className="font-medium text-left flex-1 leading-snug">{item.label}</span>
                   </button>
                 ))}
               </div>
@@ -796,6 +814,16 @@ function MainConsole({
                   { id: 'clawsecoknowledge', label: '龙虾社知识库', icon: '🧠' },
                   { id: 'modularknowledge', label: '模块化知识库', icon: '🗂️' },
                   { id: 'lobster-system', label: '龙虾集群获客运营系统', icon: '🦞' },
+                  { id: 'crm-system', label: '多渠道AI客户管理CRM', icon: '🎯' },
+                  { id: 'adsystem', label: '集成广告投流系统', icon: '📢' },
+                  { id: 'geosystem', label: 'GEO营销系统', icon: '🌐' },
+                  { id: 'aiservice', label: '海外版AI全域营销全能机器人客服', icon: '🤖' },
+                  { id: 'flipbook', label: 'Flipbook可视化视频浏览器', icon: '📖' },
+                  { id: 'feishu', label: '飞书OpenClaw协作平台', icon: '📮' },
+                  { id: 'socialmatrix', label: '全球社媒矩阵营销系统', icon: '📊' },
+                  { id: 'brand-center', label: '品牌中心', icon: '🏢' },
+                  { id: 'asset-center', label: '资产中心', icon: '💎' },
+                  { id: 'global-system', label: '全球化布局系统', icon: '🌍' },
                 ] as { id: string; label: string; icon: string }[]).map(item => (
                   <button
                     key={item.id}
@@ -803,6 +831,11 @@ function MainConsole({
                       setClawsEcoActive(item.id);
                       if (item.id === 'claws-course') {
                         setClawsEcoOpen(false);
+                      } else if (item.id === 'crm-system') {
+                        setClawsEcoOpen(false);
+                        setCrmOpen(true);
+                      } else if (item.id === 'adsystem' || item.id === 'geosystem' || item.id === 'aiservice' || item.id === 'flipbook' || item.id === 'feishu' || item.id === 'brand-center' || item.id === 'asset-center' || item.id === 'global-system') {
+                        // 仅展开子菜单，不做其他动作
                       } else {
                         setClawsEcoOpen(false);
                         handleSetSettingsTab(item.id);
@@ -814,10 +847,198 @@ function MainConsole({
                         : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
                     )}
                   >
-                    <span>{item.icon}</span>
-                    <span className="font-medium">{item.label}</span>
+                    <span className="w-[22px] text-left shrink-0 leading-none flex items-center justify-center">{item.icon}</span>
+                    <span className="font-medium text-left flex-1 leading-snug">{item.label}</span>
                   </button>
                 ))}
+
+                {/* 集成广告投流系统展开 */}
+                {clawsEcoActive === 'adsystem' && (
+                  <div className="ml-2 mt-2 space-y-1">
+                    {[
+                      { id: 'google-ads', label: '🔵 谷歌Google广告增长系统', url: 'https://business.google.com/cn/google-ads/', icon: '🔵' },
+                      { id: 'facebook-ads', label: '📘 Facebook广告增长系统', url: 'https://adsmanager.facebook.com/adsmanager/manage/campaigns?act=699684032104423&nav_entry_point=comet_bookmark&nav_source=comet', icon: '📘' },
+                    ].map(sub => (
+                      <a
+                        key={sub.id}
+                        href={sub.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-blue-300 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20"
+                      >
+                        <span className="w-[22px] text-left shrink-0 flex items-center justify-center">{sub.icon}</span>
+                        <span className="font-medium flex-1 leading-snug">{sub.label}</span>
+                        <span className="ml-auto text-[10px] text-slate-600 shrink-0">↗</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {/* GEO营销系统展开 */}
+                {clawsEcoActive === 'geosystem' && (
+                  <div className="ml-2 mt-2 space-y-1">
+                    <a
+                      href="https://app.dageno.ai/hmwhtm/simiai_top/geo/overview"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-blue-300 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🌐</span>
+                      <span className="font-medium flex-1 leading-snug">GEO营销系统</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">↗</span>
+                    </a>
+                  </div>
+                )}
+
+                {/* 海外版AI全域营销全能机器人客服展开 */}
+                {clawsEcoActive === 'aiservice' && (
+                  <div className="ml-2 mt-2 space-y-1">
+                    {[
+                      { id: '3chat-main', label: '🤖 AI客服系统主站', url: 'https://app.3chat.ai/embedded-app/subapp?url=/butler/channels/overview', icon: '🤖' },
+                      { id: '3chat-api', label: '📖 API接入指南', url: 'https://3chat-ai-open.apidog.io/', icon: '📖' },
+                      { id: 'manychat', label: '📘 ManyChat', url: 'https://manychat.com/', icon: '📘' },
+                    ].map(sub => (
+                      <a
+                        key={sub.id}
+                        href={sub.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-blue-300 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20"
+                      >
+                        <span className="w-[22px] text-left shrink-0 flex items-center justify-center">{sub.icon}</span>
+                        <span className="font-medium flex-1 leading-snug">{sub.label}</span>
+                        <span className="ml-auto text-[10px] text-slate-600 shrink-0">↗</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {/* Flipbook可视化视频浏览器展开 */}
+                {clawsEcoActive === 'flipbook' && (
+                  <div className="ml-2 mt-2 space-y-1">
+                    <a
+                      href="https://flipbook.page/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-blue-300 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">📖</span>
+                      <span className="font-medium flex-1 leading-snug">Flipbook可视化视频浏览器</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">↗</span>
+                    </a>
+                  </div>
+                )}
+
+                {/* 飞书OpenClaw协作平台展开 */}
+                {clawsEcoActive === 'feishu' && (
+                  <div className="ml-2 mt-2 space-y-1">
+                    {[
+                      { id: 'feishu-drive', label: '📁 飞书协作平台', url: 'https://ecnuhusq37i2.feishu.cn/drive/home/', icon: '📁' },
+                      { id: 'feishu-aily', label: '🤖 飞书Aily智能助手', url: 'https://aily.feishu.cn/bots/agent_4jyu24p7nn0m0?lang=zh-CN&open_in_browser=true', icon: '🤖' },
+                    ].map(sub => (
+                      <a
+                        key={sub.id}
+                        href={sub.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-blue-300 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20"
+                      >
+                        <span className="w-[22px] text-left shrink-0 flex items-center justify-center">{sub.icon}</span>
+                        <span className="font-medium flex-1 leading-snug">{sub.label}</span>
+                        <span className="ml-auto text-[10px] text-slate-600 shrink-0">↗</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {/* 品牌中心展开 */}
+                {clawsEcoActive === 'brand-center' && (
+                  <div className="ml-2 mt-2 space-y-1">
+                    <button
+                      onClick={() => { setClawsEcoOpen(false); handleSetSettingsTab('productgallery'); }}
+                      className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🖼️</span>
+                      <span className="font-medium flex-1 leading-snug">产品多维展览馆</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">→</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* 资产中心展开 */}
+                {clawsEcoActive === 'asset-center' && (
+                  <div className="ml-2 mt-2 space-y-1">
+                    <button
+                      onClick={() => { setClawsEcoOpen(false); handleSetSettingsTab('brandasset'); }}
+                      className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🎨</span>
+                      <span className="font-medium flex-1 leading-snug">品牌资产中心</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">Logo/Banner/字体</span>
+                      <span className="ml-auto text-[10px] text-cyan-400 shrink-0">→</span>
+                    </button>
+                    <button
+                      onClick={() => { setClawsEcoOpen(false); handleSetSettingsTab('3dasset'); }}
+                      className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-purple-300 hover:bg-purple-500/10 border border-transparent hover:border-purple-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🎲</span>
+                      <span className="font-medium flex-1 leading-snug">3D 资产中心</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">Meshy.ai AI生成</span>
+                      <span className="ml-auto text-[10px] text-purple-400 shrink-0">→</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* 全球化布局系统展开 */}
+                {clawsEcoActive === 'global-system' && (
+                  <div className="ml-2 mt-2 space-y-1">
+                    <button
+                      onClick={() => { setClawsEcoOpen(false); handleSetSettingsTab('globallayout'); }}
+                      className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-green-300 hover:bg-green-500/10 border border-transparent hover:border-green-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🌏</span>
+                      <span className="font-medium flex-1 leading-snug">全球化布局本地化营销</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">区域市场策略</span>
+                      <span className="ml-auto text-[10px] text-green-400 shrink-0">→</span>
+                    </button>
+                    <button
+                      onClick={() => { setClawsEcoOpen(false); handleSetSettingsTab('partnerlist'); }}
+                      className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🏢</span>
+                      <span className="font-medium flex-1 leading-snug">线下实体合作渠道</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">合作商列表</span>
+                      <span className="ml-auto text-[10px] text-amber-400 shrink-0">→</span>
+                    </button>
+                    <button
+                      onClick={() => { setClawsEcoOpen(false); handleSetSettingsTab('globalchamber'); }}
+                      className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-blue-300 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🏛️</span>
+                      <span className="font-medium flex-1 leading-snug">全球商协会合作</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">政府/贸促</span>
+                      <span className="ml-auto text-[10px] text-blue-400 shrink-0">→</span>
+                    </button>
+                    <button
+                      onClick={() => { setClawsEcoOpen(false); handleSetSettingsTab('retailchain'); }}
+                      className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-orange-300 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🏬</span>
+                      <span className="font-medium flex-1 leading-snug">全球线下商超连锁渠道</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">零售连锁</span>
+                      <span className="ml-auto text-[10px] text-orange-400 shrink-0">→</span>
+                    </button>
+                    <button
+                      onClick={() => { setClawsEcoOpen(false); handleSetSettingsTab('globalecommerce'); }}
+                      className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-all text-slate-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20"
+                    >
+                      <span className="w-[22px] text-left shrink-0 flex items-center justify-center">🛒</span>
+                      <span className="font-medium flex-1 leading-snug">全球主流电商平台入驻</span>
+                      <span className="ml-auto text-[10px] text-slate-600 shrink-0">Marketplace</span>
+                      <span className="ml-auto text-[10px] text-cyan-400 shrink-0">→</span>
+                    </button>
+                  </div>
+                )}
 
                 {/* 课程目录展开 */}
                 {clawsEcoActive === 'claws-course' && (
@@ -1178,6 +1399,9 @@ function MainConsole({
         </div>
       )}
 
+      {/* 🎯 多渠道AI客户管理CRM */}
+      {crmOpen && <CrmPanel onClose={() => setCrmOpen(false)} />}
+
       <Toaster position="bottom-right" theme="dark" richColors />
     </div>
   );
@@ -1395,6 +1619,15 @@ function SettingsView({ authUser, activeTenant, settingsTab: externalTab, onSett
       {settingsTab === 'payments' && <PaymentsView status={status} />}
       {settingsTab === 'globallogin' && <GlobalLoginPanel />}
       {settingsTab === 'newslanding' && <NewsLanding />}
+      {settingsTab === 'socialmatrix' && <SocialMatrixPanel />}
+      {settingsTab === 'productgallery' && <ProductGalleryPanel />}
+      {settingsTab === 'brandasset' && <BrandAssetPanel />}
+      {settingsTab === '3dasset' && <D3AssetPanel />}
+      {settingsTab === 'globallayout' && <GlobalLayoutPanel />}
+      {settingsTab === 'partnerlist' && <PartnerListPanel />}
+      {settingsTab === 'globalchamber' && <GlobalChamberPanel />}
+      {settingsTab === 'retailchain' && <RetailChainPanel />}
+      {settingsTab === 'globalecommerce' && <GlobalEcommercePanel />}
       {settingsTab === 'clawsecoknowledge' && (
         <div className="rounded-2xl border border-slate-700/60 overflow-hidden bg-slate-900/60 flex flex-col"
              style={{ height: 'calc(100vh - 120px)' }}>

@@ -116,7 +116,7 @@ async function startWebServer(full = false) {
   // ── Auth 路由 ──────────────────────────────────────────────
 
   // 注册（创建账号 + 创建/加入租户）
-  apiRouter.post('/api/auth/register', async (req, res) => {
+  apiRouter.post('/auth/register', async (req, res) => {
     const { email, password, displayName, tenantName, tenantSlug } = req.body;
     const result = await authService.register({ email, password, displayName, tenantName, tenantSlug });
     if (!result.success) {
@@ -130,7 +130,7 @@ async function startWebServer(full = false) {
   });
 
   // 登录
-  apiRouter.post('/api/auth/login', async (req, res) => {
+  apiRouter.post('/auth/login', async (req, res) => {
     const { email, password, tenantId } = req.body;
     const result = await authService.login({ email, password, tenantId });
     if (!result.success) {
@@ -144,7 +144,7 @@ async function startWebServer(full = false) {
   });
 
   // 刷新 Token
-  apiRouter.post('/api/auth/refresh', (req, res) => {
+  apiRouter.post('/auth/refresh', (req, res) => {
     const { refreshToken } = req.body;
     if (!refreshToken) return res.status(400).json({ error: '缺少 refreshToken' });
     const result = authService.refreshToken(refreshToken);
@@ -155,7 +155,7 @@ async function startWebServer(full = false) {
   });
 
   // 获取当前用户信息
-  apiRouter.get('/api/auth/me', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.get('/auth/me', requireAuth as ReqHandler, (req, res) => {
     const user = authService.getUser(req.auth!.userId);
     if (!user) return res.status(404).json({ error: '用户不存在' });
     const tenants = authService.getUserTenants(req.auth!.userId);
@@ -178,7 +178,7 @@ async function startWebServer(full = false) {
   });
 
   // 切换活跃租户
-  apiRouter.post('/api/auth/switch-tenant', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/auth/switch-tenant', requireAuth as ReqHandler, (req, res) => {
     const { tenantId } = req.body;
     const result = authService.switchTenant(req.auth!.userId, tenantId);
     if (!result.success) return res.status(400).json({ error: result.error });
@@ -186,7 +186,7 @@ async function startWebServer(full = false) {
   });
 
   // 获取用户的租户列表
-  apiRouter.get('/api/auth/tenants', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.get('/auth/tenants', requireAuth as ReqHandler, (req, res) => {
     const tenants = authService.getUserTenants(req.auth!.userId);
     res.json({
       tenants: tenants.map(t => ({
@@ -198,21 +198,21 @@ async function startWebServer(full = false) {
   });
 
   // 邀请成员（生成邀请码）
-  apiRouter.post('/api/tenants/invite', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/tenants/invite', requireAuth as ReqHandler, (req, res) => {
     const { email, role } = req.body;
     const result = authService.inviteMember(req.auth!.tenantId, req.auth!.userId, email, role);
     res.json(result);
   });
 
   // 更新用户资料
-  apiRouter.patch('/api/auth/me', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.patch('/auth/me', requireAuth as ReqHandler, (req, res) => {
     const user = authService.updateUser(req.auth!.userId, req.body);
     if (!user) return res.status(404).json({ error: '用户不存在' });
     res.json({ user });
   });
 
   // ── 系统状态（已认证） ────────────────────────────────────
-  apiRouter.get('/api/status', (_req, res) => {
+  apiRouter.get('/status', (_req, res) => {
     const status = orchestrator.getSystemStatus();
     const payments = (status as Record<string, unknown>);
     if (paymentGateway) {
@@ -233,7 +233,7 @@ async function startWebServer(full = false) {
   });
 
   // 执行指令（已认证）
-  apiRouter.post('/api/execute', async (req, res) => {
+  apiRouter.post('/execute', async (req, res) => {
     const tenantId = req.auth?.tenantId;
     if (!tenantId) {
       return res.status(401).json({ success: false, message: '请先登录' });
@@ -248,7 +248,7 @@ async function startWebServer(full = false) {
   });
 
   // 健康报告
-  apiRouter.get('/api/health', (_req, res) => {
+  apiRouter.get('/health', (_req, res) => {
     res.json(heartbeatMonitor.generateHealthReport());
   });
 
@@ -257,7 +257,7 @@ async function startWebServer(full = false) {
   // ══════════════════════════════════════════════════════════════
 
   // 获取蜂群系统状态
-  apiRouter.get('/api/swarm/status', (_req, res) => {
+  apiRouter.get('/swarm/status', (_req, res) => {
     const status = orchestrator.getSystemStatus();
     const tasks = Array.from((orchestrator as unknown as { taskManager: { tasks: Map<string, Task> } }).taskManager.tasks.values()).map(t => ({
       id: t.id, type: t.type, title: t.title, description: t.description,
@@ -271,7 +271,7 @@ async function startWebServer(full = false) {
   });
 
   // 获取所有智能体列表
-  apiRouter.get('/api/swarm/agents', (_req, res) => {
+  apiRouter.get('/swarm/agents', (_req, res) => {
     const { ALL_HEXAGRAM_AGENTS } = require('./agents/registry');
     res.json(ALL_HEXAGRAM_AGENTS.map((a: HexagramAgent) => ({
       id: a.id, name: a.name, palace: a.palace, role: a.role,
@@ -282,7 +282,7 @@ async function startWebServer(full = false) {
   });
 
   // 按宫位获取智能体
-  apiRouter.get('/api/swarm/palace/:palace', (req, res) => {
+  apiRouter.get('/swarm/palace/:palace', (req, res) => {
     const { ALL_HEXAGRAM_AGENTS } = require('./agents/registry');
     const palaceAgents = ALL_HEXAGRAM_AGENTS.filter((a: HexagramAgent) => a.palace === req.params.palace);
     res.json(palaceAgents.map((a: HexagramAgent) => ({
@@ -294,13 +294,13 @@ async function startWebServer(full = false) {
   });
 
   // 获取任务队列
-  apiRouter.get('/api/swarm/tasks', (_req, res) => {
+  apiRouter.get('/swarm/tasks', (_req, res) => {
     const status = orchestrator.getSystemStatus();
     res.json(status.tasks);
   });
 
   // 执行蜂群指令
-  apiRouter.post('/api/swarm/execute', async (req, res) => {
+  apiRouter.post('/swarm/execute', async (req, res) => {
     const { command, lane } = req.body;
     if (!command) return res.status(400).json({ success: false, message: '缺少 command 字段' });
     try {
@@ -312,7 +312,7 @@ async function startWebServer(full = false) {
   });
 
   // 演示模式：批量执行演示任务
-  apiRouter.post('/api/swarm/demo', async (req, res) => {
+  apiRouter.post('/swarm/demo', async (req, res) => {
     const { command, lane } = req.body;
     const demoCmds = command ? [command] : [
       '跨境选品上架', '外贸GEO可见性', '自媒体爆款', 'Prompt Gap',
@@ -326,7 +326,7 @@ async function startWebServer(full = false) {
   });
 
   // 蜂群心跳状态
-  apiRouter.get('/api/swarm/heartbeat', (_req, res) => {
+  apiRouter.get('/swarm/heartbeat', (_req, res) => {
     res.json({
       nodeCount: heartbeatMonitor.nodeCount,
       healthByPalace: heartbeatMonitor.getHealthByPalace(),
@@ -335,13 +335,13 @@ async function startWebServer(full = false) {
   });
 
   // LLM 统计
-  apiRouter.get('/api/llm/stats', (_req, res) => {
+  apiRouter.get('/llm/stats', (_req, res) => {
     res.json(llmClient.getStats());
   });
 
   // ── Anthropic API Key 管理 ──────────────────────────────────
   // 获取 API Key 详情（调用 Anthropic Admin API，仅超级管理员）
-  apiRouter.get('/api/anthropic/api-key/:apiKeyId', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, async (req, res) => {
+  apiRouter.get('/anthropic/api-key/:apiKeyId', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, async (req, res) => {
     const { apiKeyId } = req.params;
     const result = await getAnthropicApiKey(apiKeyId);
     if (result.success) {
@@ -359,7 +359,7 @@ async function startWebServer(full = false) {
   });
 
   // 超级管理员身份检查
-  apiRouter.get('/api/auth/is-admin', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.get('/auth/is-admin', requireAuth as ReqHandler, (req, res) => {
     const user = authService.getUser(req.auth!.userId);
     const isAdmin = user ? authService.isAdmin(user.email) : false;
     res.json({
@@ -370,7 +370,7 @@ async function startWebServer(full = false) {
   });
 
   // 列出所有 API Keys（仅超级管理员）
-  apiRouter.get('/api/anthropic/api-keys', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, async (_req, res) => {
+  apiRouter.get('/anthropic/api-keys', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, async (_req, res) => {
     const result = await listAnthropicApiKeys();
     if (result.success) {
       res.json({
@@ -387,36 +387,36 @@ async function startWebServer(full = false) {
   });
 
   // 获取 LLM 路由信息（包含 Anthropic 配置状态）
-  apiRouter.get('/api/llm/routing', (_req, res) => {
+  apiRouter.get('/llm/routing', (_req, res) => {
     res.json(llmClient.getRoutingInfo());
   });
 
   // 支付统计（仅超级管理员 hmwhtm@gmail.com）
-  apiRouter.get('/api/payments/stats', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, (_req, res) => {
+  apiRouter.get('/payments/stats', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, (_req, res) => {
     res.json(paymentGateway.getStats());
   });
 
   // 待审批支付列表（仅超级管理员）
-  apiRouter.get('/api/payments/pending', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, (_req, res) => {
+  apiRouter.get('/payments/pending', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, (_req, res) => {
     res.json(paymentGateway.getPendingApprovals());
   });
 
   // 审批支付（仅超级管理员）
-  apiRouter.post('/api/payments/approve', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, async (req, res) => {
+  apiRouter.post('/payments/approve', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, async (req, res) => {
     const { paymentId, approverNote } = req.body;
     const ok = await paymentGateway.approve(paymentId, approverNote);
     res.json({ success: ok });
   });
 
   // 拒绝支付（仅超级管理员）
-  apiRouter.post('/api/payments/reject', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, async (req, res) => {
+  apiRouter.post('/payments/reject', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, async (req, res) => {
     const { paymentId, reason } = req.body;
     const ok = await paymentGateway.reject(paymentId, reason);
     res.json({ success: ok });
   });
 
   // 发起支付
-  apiRouter.post('/api/payments/pay', async (req, res) => {
+  apiRouter.post('/payments/pay', async (req, res) => {
     try {
       const result = await paymentGateway.pay(req.body);
       res.json(result);
@@ -426,7 +426,7 @@ async function startWebServer(full = false) {
   });
 
   // 零钱包充值
-  apiRouter.post('/api/payments/deposit', async (req, res) => {
+  apiRouter.post('/payments/deposit', async (req, res) => {
     const { userId, amount, provider } = req.body;
     const result = await paymentGateway.deposit(userId, amount, provider);
     res.json(result);
@@ -437,20 +437,20 @@ async function startWebServer(full = false) {
   // ══════════════════════════════════════════════════════════════
 
   // 获取订阅计划列表
-  apiRouter.get('/api/subscription/plans', (_req, res) => {
+  apiRouter.get('/subscription/plans', (_req, res) => {
     const plans = subscriptionService.getPlans();
     res.json({ plans, company: COMPANY_INFO });
   });
 
   // 获取单个订阅计划详情
-  apiRouter.get('/api/subscription/plans/:planId', (req, res) => {
+  apiRouter.get('/subscription/plans/:planId', (req, res) => {
     const plan = subscriptionService.getPlanById(req.params.planId);
     if (!plan) return res.status(404).json({ error: '订阅计划不存在' });
     res.json({ plan, company: COMPANY_INFO });
   });
 
   // 获取当前租户的订阅状态
-  apiRouter.get('/api/subscription/current', (req, res) => {
+  apiRouter.get('/subscription/current', (req, res) => {
     const tenantId = req.auth?.tenantId;
     if (!tenantId) return res.status(401).json({ error: '请先登录' });
     const active = subscriptionService.getActiveSubscription(tenantId);
@@ -459,7 +459,7 @@ async function startWebServer(full = false) {
   });
 
   // 创建订阅订单（生成待支付订单）
-  apiRouter.post('/api/subscription/orders', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/subscription/orders', requireAuth as ReqHandler, (req, res) => {
     const { planId, billingCycle, paymentMethod } = req.body as {
       planId: string;
       billingCycle: 'monthly' | 'quarterly' | 'halfyearly' | 'yearly';
@@ -483,13 +483,13 @@ async function startWebServer(full = false) {
   });
 
   // 取消订阅订单
-  apiRouter.delete('/api/subscription/orders/:orderId', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.delete('/subscription/orders/:orderId', requireAuth as ReqHandler, (req, res) => {
     const ok = subscriptionService.cancelOrder(req.params.orderId);
     res.json({ success: ok });
   });
 
   // 获取待审批的订阅订单（管理员）
-  apiRouter.get('/api/subscription/pending', (req, res) => {
+  apiRouter.get('/subscription/pending', (req, res) => {
     const tenantId = req.auth?.tenantId;
     if (!tenantId) return res.status(401).json({ error: '请先登录' });
     const tenant = authService.getTenant(tenantId);
@@ -502,7 +502,7 @@ async function startWebServer(full = false) {
   });
 
   // 审批通过订阅订单（管理员）
-  apiRouter.post('/api/subscription/approve', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/subscription/approve', requireAuth as ReqHandler, (req, res) => {
     const { orderId, note } = req.body as { orderId: string; note?: string };
     if (!orderId) return res.status(400).json({ error: '缺少 orderId' });
     const tenant = authService.getTenant(req.auth!.tenantId);
@@ -516,7 +516,7 @@ async function startWebServer(full = false) {
   });
 
   // 拒绝订阅订单（管理员）
-  apiRouter.post('/api/subscription/reject', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/subscription/reject', requireAuth as ReqHandler, (req, res) => {
     const { orderId, reason } = req.body as { orderId: string; reason: string };
     if (!orderId) return res.status(400).json({ error: '缺少 orderId' });
     if (!reason) return res.status(400).json({ error: '缺少拒绝原因' });
@@ -525,12 +525,12 @@ async function startWebServer(full = false) {
   });
 
   // 订阅统计（仅超级管理员）
-  apiRouter.get('/api/subscription/stats', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, (_req, res) => {
+  apiRouter.get('/subscription/stats', requireSuperAdmin(authService.getUser.bind(authService)) as ReqHandler, (_req, res) => {
     res.json(subscriptionService.getStats());
   });
 
   // OpenSpace 知识库
-  apiRouter.get('/api/openspace/search', (req, res) => {
+  apiRouter.get('/openspace/search', (req, res) => {
     const { q, lane } = req.query;
     const results = openSpace.search(
       String(q || ''),
@@ -545,7 +545,7 @@ async function startWebServer(full = false) {
   const { skillService } = await import('./skills');
 
   // 获取技能列表（支持 source/category/search 过滤）
-  apiRouter.get('/api/skills', (req, res) => {
+  apiRouter.get('/skills', (req, res) => {
     const tenantId = req.auth?.tenantId || 'demo';
     const { source, category, search } = req.query;
     const skills = skillService.getAllSkills(tenantId, {
@@ -557,7 +557,7 @@ async function startWebServer(full = false) {
   });
 
   // 获取单个技能详情
-  apiRouter.get('/api/skills/:id', (req, res) => {
+  apiRouter.get('/skills/:id', (req, res) => {
     const tenantId = req.auth?.tenantId || 'demo';
     const skill = skillService.getSkill(req.params.id, tenantId);
     if (!skill) return res.status(404).json({ error: '技能不存在' });
@@ -565,19 +565,19 @@ async function startWebServer(full = false) {
   });
 
   // 安装技能
-  apiRouter.post('/api/skills/:id/install', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/skills/:id/install', requireAuth as ReqHandler, (req, res) => {
     const ok = skillService.installSkill(req.params.id, req.auth!.tenantId);
     res.json({ success: ok });
   });
 
   // 卸载技能
-  apiRouter.delete('/api/skills/:id/install', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.delete('/skills/:id/install', requireAuth as ReqHandler, (req, res) => {
     const ok = skillService.uninstallSkill(req.params.id, req.auth!.tenantId);
     res.json({ success: ok });
   });
 
   // 创建自定义技能（需登录）
-  apiRouter.post('/api/skills', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/skills', requireAuth as ReqHandler, (req, res) => {
     const { name, description, longDescription, category, tags, instructions, icon } = req.body;
     if (!name || !description || !category) {
       return res.status(400).json({ error: '缺少必填字段: name, description, category' });
@@ -590,7 +590,7 @@ async function startWebServer(full = false) {
   });
 
   // 打赏技能
-  apiRouter.post('/api/skills/:id/reward', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/skills/:id/reward', requireAuth as ReqHandler, (req, res) => {
     const { amount } = req.body;
     if (!amount || amount <= 0) return res.status(400).json({ error: '打赏金额无效' });
     const ok = skillService.rewardSkill(req.params.id, req.auth!.tenantId, Number(amount));
@@ -642,7 +642,7 @@ async function startWebServer(full = false) {
   }
 
   // 浏览技能目录（top 排行榜）
-  apiRouter.get('/api/skillhub/catalog', async (req, res) => {
+  apiRouter.get('/skillhub/catalog', async (req, res) => {
     try {
       const limit = Math.min(Number(req.query.limit) || 24, 100);
       const skills = await runSkillHubCmd(['top', '--limit', String(limit), '--json']);
@@ -654,7 +654,7 @@ async function startWebServer(full = false) {
   });
 
   // 热门技能（24小时趋势）
-  apiRouter.get('/api/skillhub/trending', async (req, res) => {
+  apiRouter.get('/skillhub/trending', async (req, res) => {
     try {
       const limit = Math.min(Number(req.query.limit) || 20, 100);
       const skills = await runSkillHubCmd(['trending', '--limit', String(limit), '--json']);
@@ -666,7 +666,7 @@ async function startWebServer(full = false) {
   });
 
   // 最新技能
-  apiRouter.get('/api/skillhub/latest', async (req, res) => {
+  apiRouter.get('/skillhub/latest', async (req, res) => {
     try {
       const limit = Math.min(Number(req.query.limit) || 20, 100);
       const skills = await runSkillHubCmd(['latest', '--limit', String(limit), '--json']);
@@ -678,7 +678,7 @@ async function startWebServer(full = false) {
   });
 
   // 搜索技能（语义搜索）
-  apiRouter.post('/api/skillhub/search', async (req, res) => {
+  apiRouter.post('/skillhub/search', async (req, res) => {
     try {
       const { query, limit = 20 } = req.body as { query?: string; limit?: number };
       if (!query?.trim()) return res.status(400).json({ error: '缺少搜索关键词' });
@@ -691,7 +691,7 @@ async function startWebServer(full = false) {
   });
 
   // 智能推荐（基于任务类型）
-  apiRouter.get('/api/skillhub/recommend', async (req, res) => {
+  apiRouter.get('/skillhub/recommend', async (req, res) => {
     try {
       const { task = 'all', query = 'AI agent development', limit = 10 } = req.query as Record<string, string>;
       const skills = await runSkillHubCmd(['recommend', '--task', task, '--query', `"${query}"`, '--limit', String(limit), '--json']);
@@ -703,7 +703,7 @@ async function startWebServer(full = false) {
   });
 
   // 一键安装技能（通过 npx @skill-hub/cli）
-  apiRouter.post('/api/skillhub/install', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/skillhub/install', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { skillSlug, targetAgent, targetType = 'agent', hexagramId } = req.body as {
         skillSlug: string; targetAgent?: string; targetType?: string; hexagramId?: string;
@@ -730,7 +730,7 @@ async function startWebServer(full = false) {
   });
 
   // 获取已从 SkillHub 安装的技能列表
-  apiRouter.get('/api/skillhub/installed', (req, res) => {
+  apiRouter.get('/skillhub/installed', (req, res) => {
     const tenantId = req.auth?.tenantId || 'demo';
     const installed = skillService.getSkillHubInstalls(tenantId);
     res.json({ skills: installed, total: installed.length });
@@ -766,7 +766,7 @@ async function startWebServer(full = false) {
   }
 
   // OpenSpace 状态检测
-  apiRouter.get('/api/openspace/status', async (_req, res) => {
+  apiRouter.get('/openspace/status', async (_req, res) => {
     try {
       const result = await runOpenSpaceCmd(['--version']);
       const isInstalled = !(result as any).error;
@@ -783,7 +783,7 @@ async function startWebServer(full = false) {
   });
 
   // OpenSpace 云端技能市场（搜索社区技能）
-  apiRouter.get('/api/openspace/cloud/skills', async (req, res) => {
+  apiRouter.get('/openspace/cloud/skills', async (req, res) => {
     try {
       const { q = '', category, limit = 20 } = req.query;
       // 通过 MCP server 列出云端技能
@@ -796,7 +796,7 @@ async function startWebServer(full = false) {
   });
 
   // 从云端下载技能
-  apiRouter.post('/api/openspace/cloud/download', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/openspace/cloud/download', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { skillId, targetDir } = req.body as { skillId: string; targetDir?: string };
       if (!skillId) return res.status(400).json({ error: '缺少 skillId' });
@@ -810,7 +810,7 @@ async function startWebServer(full = false) {
   });
 
   // 上传技能到云端
-  apiRouter.post('/api/openspace/cloud/upload', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/openspace/cloud/upload', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { skillPath, visibility = 'public' } = req.body as { skillPath: string; visibility?: string };
       if (!skillPath) return res.status(400).json({ error: '缺少 skillPath' });
@@ -824,7 +824,7 @@ async function startWebServer(full = false) {
   });
 
   // OpenSpace 自进化状态（本地技能管理）
-  apiRouter.get('/api/openspace/local/skills', (_req, res) => {
+  apiRouter.get('/openspace/local/skills', (_req, res) => {
     // 返回本地 OpenSpace 知识库中的技能条目
     const stats = openSpace.getStats();
     res.json({
@@ -863,7 +863,7 @@ async function startWebServer(full = false) {
   }
 
   // HeyGen 状态检测
-  apiRouter.get('/api/heygen/status', (_req, res) => {
+  apiRouter.get('/heygen/status', (_req, res) => {
     const apiKey = process.env.HEYGEN_API_KEY;
     res.json({
       configured: !!apiKey,
@@ -874,7 +874,7 @@ async function startWebServer(full = false) {
   });
 
   // 创建 Video Agent 任务（自然语言生成视频）
-  apiRouter.post('/api/heygen/video/generate', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/heygen/video/generate', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { prompt, avatarId, voiceId, width = 720, height = 1280 } = req.body as {
         prompt: string; avatarId?: string; voiceId?: string; width?: number; height?: number;
@@ -908,7 +908,7 @@ async function startWebServer(full = false) {
   });
 
   // 查询视频生成状态
-  apiRouter.get('/api/heygen/video/:videoId', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.get('/heygen/video/:videoId', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { videoId } = req.params;
       const apiKey = process.env.HEYGEN_API_KEY;
@@ -925,7 +925,7 @@ async function startWebServer(full = false) {
   });
 
   // 获取可用数字人和语音列表
-  apiRouter.get('/api/heygen/resources', requireAuth as ReqHandler, async (_req, res) => {
+  apiRouter.get('/heygen/resources', requireAuth as ReqHandler, async (_req, res) => {
     try {
       const apiKey = process.env.HEYGEN_API_KEY;
       if (!apiKey) return res.status(503).json({ error: 'HEYGEN_API_KEY 未配置' });
@@ -950,17 +950,17 @@ async function startWebServer(full = false) {
   // ══════════════════════════════════════════════════════════════
 
   // 状态检测
-  apiRouter.get('/api/higgsfield/status', (_req, res) => {
+  apiRouter.get('/higgsfield/status', (_req, res) => {
     res.json(getHiggsfieldStatus());
   });
 
   // 预置提示词
-  apiRouter.get('/api/higgsfield/presets', (_req, res) => {
+  apiRouter.get('/higgsfield/presets', (_req, res) => {
     res.json({ presets: PRESET_PROMPTS });
   });
 
   // 费用估算
-  apiRouter.get('/api/higgsfield/estimate', (req, res) => {
+  apiRouter.get('/higgsfield/estimate', (req, res) => {
     const { resolution = '720p', duration = 8, generate_audio = false } = req.query;
     const cost = estimateCost({
       resolution: resolution as '480p' | '720p',
@@ -971,7 +971,7 @@ async function startWebServer(full = false) {
   });
 
   // 一站式视频生成（提交 + 轮询直到完成）
-  apiRouter.post('/api/higgsfield/generate', async (req, res) => {
+  apiRouter.post('/higgsfield/generate', async (req, res) => {
     try {
       const {
         prompt,
@@ -1045,7 +1045,7 @@ async function startWebServer(full = false) {
   });
 
   // 估算生成费用（POST 版，支持复杂参数）
-  apiRouter.post('/api/higgsfield/estimate', (req, res) => {
+  apiRouter.post('/higgsfield/estimate', (req, res) => {
     const { resolution = '720p', duration = 8, generate_audio = false } = req.body;
     const cost = estimateCost({
       resolution,
@@ -1062,7 +1062,7 @@ async function startWebServer(full = false) {
   // ══════════════════════════════════════════════════════════════
 
   // LiveAvatar 状态检测
-  apiRouter.get('/api/liveavatar/status', (_req, res) => {
+  apiRouter.get('/liveavatar/status', (_req, res) => {
     const apiKey = process.env.HEYGEN_LIVEAVATAR_API_KEY || process.env.HEYGEN_API_KEY;
     res.json({
       configured: !!apiKey,
@@ -1075,7 +1075,7 @@ async function startWebServer(full = false) {
   });
 
   // 创建 LiveAvatar 会话（获取 Embed URL 或 Session Token）
-  apiRouter.post('/api/liveavatar/session', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/liveavatar/session', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { avatarId, isSandbox = true, mode = 'full' } = req.body as {
         avatarId?: string;
@@ -1135,7 +1135,7 @@ async function startWebServer(full = false) {
   });
 
   // 获取可用数字人列表（从 HeyGen 资源接口）
-  apiRouter.get('/api/liveavatar/avatars', requireAuth as ReqHandler, async (_req, res) => {
+  apiRouter.get('/liveavatar/avatars', requireAuth as ReqHandler, async (_req, res) => {
     try {
       const apiKey = process.env.HEYGEN_LIVEAVATAR_API_KEY || process.env.HEYGEN_API_KEY;
       if (!apiKey) {
@@ -1174,7 +1174,7 @@ async function startWebServer(full = false) {
   // ══════════════════════════════════════════════════════════════
 
   // Dageno 状态检测
-  apiRouter.get('/api/dageno/status', (_req, res) => {
+  apiRouter.get('/dageno/status', (_req, res) => {
     const apiKey = process.env.DAGENO_API_KEY;
     const workspaceId = process.env.DAGENO_WORKSPACE_ID || 'hmwhtm/simiai_top';
     res.json({
@@ -1237,7 +1237,7 @@ async function startWebServer(full = false) {
   // Arena 图像榜第一 · 支持文生图/图生图/mask重绘/4K
   // ══════════════════════════════════════════════════════════════
 
-  apiRouter.get('/api/gpt-image/status', async (_req, res) => {
+  apiRouter.get('/gpt-image/status', async (_req, res) => {
     const apiKey = process.env.OPENAI_API_KEY;
     const gatewayKey = process.env.GPT_IMAGE_GATEWAY_KEY;
     res.json({
@@ -1254,7 +1254,7 @@ async function startWebServer(full = false) {
     });
   });
 
-  apiRouter.post('/api/gpt-image/generate', async (req, res) => {
+  apiRouter.post('/gpt-image/generate', async (req, res) => {
     try {
       const {
         prompt,
@@ -1405,7 +1405,7 @@ async function startWebServer(full = false) {
    * POST /api/ad-generator/personas
    * 根据品牌研究文本，AI 生成 6 个详细的客户画像
    */
-  apiRouter.post('/api/ad-generator/personas', async (req, res) => {
+  apiRouter.post('/ad-generator/personas', async (req, res) => {
     try {
       const { brandResearch, productType } = req.body as {
         brandResearch?: string;
@@ -1502,12 +1502,12 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
 
   // Gemini 状态检测
-  apiRouter.get('/api/gemini/status', (_req, res) => {
+  apiRouter.get('/gemini/status', (_req, res) => {
     res.json(geminiClient.getStatus());
   });
 
   // 文案生成（POST，完整响应）
-  apiRouter.post('/api/gemini/text', async (req, res) => {
+  apiRouter.post('/gemini/text', async (req, res) => {
     try {
       const { prompt, model, temperature, maxTokens, systemPrompt, imageBase64, imageMimeType } = req.body as {
         prompt?: string;
@@ -1550,7 +1550,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 文案生成（流式，SSE）
-  apiRouter.post('/api/gemini/text/stream', async (req, res) => {
+  apiRouter.post('/gemini/text/stream', async (req, res) => {
     try {
       const { prompt, model, temperature, maxTokens, systemPrompt } = req.body as {
         prompt?: string;
@@ -1586,7 +1586,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 多模态图片分析（图+文生成描述）
-  apiRouter.post('/api/gemini/analyze', async (req, res) => {
+  apiRouter.post('/gemini/analyze', async (req, res) => {
     try {
       const { imageBase64, prompt, mimeType = 'image/png' } = req.body as {
         imageBase64?: string;
@@ -1616,7 +1616,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 图像生成（Vertex AI Imagen 3）
-  apiRouter.post('/api/gemini/image', async (req, res) => {
+  apiRouter.post('/gemini/image', async (req, res) => {
     try {
       const {
         prompt,
@@ -1668,12 +1668,12 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
 
   // NotebookLM 状态检测
-  apiRouter.get('/api/notebooklm/status', (_req, res) => {
+  apiRouter.get('/notebooklm/status', (_req, res) => {
     res.json(notebookLMService.getStatus());
   });
 
   // 创建知识库笔记本
-  apiRouter.post('/api/notebooklm/notebooks', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/notebooklm/notebooks', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { name, description } = req.body as { name?: string; description?: string };
       if (!name?.trim()) return res.status(400).json({ error: '请提供笔记本名称（name）' });
@@ -1690,7 +1690,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 列出知识库笔记本
-  apiRouter.get('/api/notebooklm/notebooks', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.get('/notebooklm/notebooks', requireAuth as ReqHandler, async (req, res) => {
     try {
       const notebooks = await notebookLMService.listNotebooks(req.auth!.tenantId);
       res.json({ notebooks, total: notebooks.length });
@@ -1700,7 +1700,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取单个笔记本
-  apiRouter.get('/api/notebooklm/notebooks/:id', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.get('/notebooklm/notebooks/:id', requireAuth as ReqHandler, async (req, res) => {
     try {
       const notebook = await notebookLMService.getNotebook(req.params.id);
       if (!notebook) return res.status(404).json({ error: '笔记本不存在' });
@@ -1711,7 +1711,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 删除笔记本
-  apiRouter.delete('/api/notebooklm/notebooks/:id', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.delete('/notebooklm/notebooks/:id', requireAuth as ReqHandler, async (req, res) => {
     try {
       const ok = await notebookLMService.deleteNotebook(req.params.id);
       res.json({ success: ok });
@@ -1721,7 +1721,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 添加来源（URL 或文件）
-  apiRouter.post('/api/notebooklm/notebooks/:id/sources', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/notebooklm/notebooks/:id/sources', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { type, content, fileName, mimeType, url } = req.body as {
         type?: 'file' | 'url';
@@ -1748,7 +1748,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取笔记本的来源列表
-  apiRouter.get('/api/notebooklm/notebooks/:id/sources', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.get('/notebooklm/notebooks/:id/sources', requireAuth as ReqHandler, async (req, res) => {
     try {
       const sources = await notebookLMService.listSources(req.params.id);
       res.json({ sources, total: sources.length });
@@ -1758,7 +1758,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 知识库问答
-  apiRouter.post('/api/notebooklm/notebooks/:id/ask', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/notebooklm/notebooks/:id/ask', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { query, sessionId } = req.body as { query?: string; sessionId?: string };
       if (!query?.trim()) return res.status(400).json({ error: '请提供问题（query）' });
@@ -1784,7 +1784,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 生成音频摘要（Audio Overview）
-  apiRouter.post('/api/notebooklm/notebooks/:id/audio', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/notebooklm/notebooks/:id/audio', requireAuth as ReqHandler, async (req, res) => {
     try {
       const { narratorName, suggestedTopics } = req.body as {
         narratorName?: string;
@@ -1811,7 +1811,7 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
 
   // OneEval 状态检测
-  apiRouter.get('/api/oneeval/status', async (_req, res) => {
+  apiRouter.get('/oneeval/status', async (_req, res) => {
     try {
       const status = await oneEvalService.getStatus();
       res.json(status);
@@ -1823,7 +1823,7 @@ Return ONLY valid JSON array.`;
   // 发起评测（自然语言输入）
   // POST /api/oneeval/eval
   // Body: { request: string, model?: string, apiKey?: string, benchmarks?: string[] }
-  apiRouter.post('/api/oneeval/eval', async (req, res) => {
+  apiRouter.post('/oneeval/eval', async (req, res) => {
     try {
       const { request, model, apiKey, apiBase, modelType, timeout, benchmarks, language } = req.body as {
         request?: string;
@@ -1865,7 +1865,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 流式评测（SSE）
-  apiRouter.post('/api/oneeval/eval/stream', async (req, res) => {
+  apiRouter.post('/oneeval/eval/stream', async (req, res) => {
     try {
       const { request, model, apiKey, apiBase, modelType, timeout, benchmarks, language } = req.body as {
         request?: string;
@@ -1907,7 +1907,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 列出支持的 Benchmark 列表
-  apiRouter.get('/api/oneeval/benchmarks', (_req, res) => {
+  apiRouter.get('/oneeval/benchmarks', (_req, res) => {
     res.json({
       benchmarks: [
         { name: 'MMLU', dimension: '通用知识', dataset: 'hendrycks/MMLU', metrics: ['accuracy', 'pass@k'], domains: ['知识理解'] },
@@ -1933,7 +1933,7 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
 
   // Ollama 状态检测
-  apiRouter.get('/api/ollama/status', async (_req, res) => {
+  apiRouter.get('/ollama/status', async (_req, res) => {
     const result = await llmClient.checkOllama();
     res.json({
       ...result,
@@ -1951,7 +1951,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取 Ollama 可用模型列表
-  apiRouter.get('/api/ollama/models', async (_req, res) => {
+  apiRouter.get('/ollama/models', async (_req, res) => {
     try {
       const result = await llmClient.checkOllama();
       res.json({
@@ -1965,7 +1965,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 启动 Ollama 容器（可选，快速启动）
-  apiRouter.post('/api/ollama/start', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/ollama/start', requireAuth as ReqHandler, async (req, res) => {
     const { useDocker = false } = req.body as { useDocker?: boolean };
     const cmd = useDocker
       ? 'docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama'
@@ -1985,7 +1985,7 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
 
   // 火豹 API 状态检测
-  apiRouter.get('/api/huobao/status', async (_req, res) => {
+  apiRouter.get('/huobao/status', async (_req, res) => {
     const result = await llmClient.checkHuobao();
     res.json({
       ...result,
@@ -1997,7 +1997,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 火豹 API 模型列表（通过代理转发，避免 CORS）
-  apiRouter.get('/api/huobao/models', requireAuth as ReqHandler, async (_req, res) => {
+  apiRouter.get('/huobao/models', requireAuth as ReqHandler, async (_req, res) => {
     const apiKey = process.env.HUABAO_API_KEY;
     if (!apiKey) return res.status(503).json({ error: 'HUABAO_API_KEY 未配置' });
     try {
@@ -2012,7 +2012,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 火豹聊天补全代理（透传到 huobaoapi.com，避免前端 CORS）
-  apiRouter.post('/api/huobao/chat', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/huobao/chat', requireAuth as ReqHandler, async (req, res) => {
     const apiKey = process.env.HUABAO_API_KEY;
     if (!apiKey) return res.status(503).json({ error: 'HUABAO_API_KEY 未配置' });
     try {
@@ -2047,7 +2047,7 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
 
   // 获取当前 LLM 引擎状态和智能路由信息
-  apiRouter.get('/api/llm/routing', (_req, res) => {
+  apiRouter.get('/llm/routing', (_req, res) => {
     const info = llmClient.getRoutingInfo();
     res.json({
       ...info,
@@ -2073,7 +2073,7 @@ Return ONLY valid JSON array.`;
   const { HEXAGRAM_64, PALACE_META, getHexagramsByPalace } = await import('./data/hexagram64');
 
   // 获取64卦完整数据
-  apiRouter.get('/api/hexagrams', (_req, res) => {
+  apiRouter.get('/hexagrams', (_req, res) => {
     res.json({
       hexagrams: HEXAGRAM_64,
       palaces: PALACE_META,
@@ -2087,7 +2087,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取单个卦详情
-  apiRouter.get('/api/hexagrams/:id', (req, res) => {
+  apiRouter.get('/hexagrams/:id', (req, res) => {
     const hex = HEXAGRAM_64.find(h => h.id === req.params.id);
     if (!hex) return res.status(404).json({ error: '卦位不存在' });
     const { getCollabChain } = require('./data/hexagram64');
@@ -2095,14 +2095,14 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取自定义 Agent 列表
-  apiRouter.get('/api/agents/custom', (req, res) => {
+  apiRouter.get('/agents/custom', (req, res) => {
     const tenantId = req.auth?.tenantId || 'demo';
     const agents = skillService.getCustomAgents(tenantId);
     res.json({ agents, total: agents.length });
   });
 
   // 自然语言创建自定义 Agent
-  apiRouter.post('/api/agents/custom/from-text', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/agents/custom/from-text', requireAuth as ReqHandler, (req, res) => {
     const { naturalLanguage } = req.body;
     if (!naturalLanguage) return res.status(400).json({ error: '请提供自然语言描述' });
     const agent = skillService.createAgentFromNaturalLanguage(
@@ -2112,14 +2112,14 @@ Return ONLY valid JSON array.`;
   });
 
   // 更新自定义 Agent
-  apiRouter.patch('/api/agents/custom/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.patch('/agents/custom/:id', requireAuth as ReqHandler, (req, res) => {
     const agent = skillService.updateCustomAgent(req.params.id, req.auth!.tenantId, req.body);
     if (!agent) return res.status(404).json({ error: 'Agent 不存在' });
     res.json({ agent });
   });
 
   // 删除自定义 Agent
-  apiRouter.delete('/api/agents/custom/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.delete('/agents/custom/:id', requireAuth as ReqHandler, (req, res) => {
     const ok = skillService.deleteCustomAgent(req.params.id, req.auth!.tenantId);
     res.json({ success: ok });
   });
@@ -2129,16 +2129,16 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
   const { mcpService } = await import('./mcp');
 
-  apiRouter.get('/api/mcp/templates', (_req, res) => {
+  apiRouter.get('/mcp/templates', (_req, res) => {
     res.json({ templates: mcpService.getTemplates() });
   });
 
-  apiRouter.get('/api/mcp/servers', (req, res) => {
+  apiRouter.get('/mcp/servers', (req, res) => {
     const tenantId = req.auth?.tenantId || 'demo';
     res.json({ servers: mcpService.getServers(tenantId) });
   });
 
-  apiRouter.post('/api/mcp/servers', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/mcp/servers', requireAuth as ReqHandler, (req, res) => {
     const { templateId, name, config } = req.body;
     if (!templateId || !config) return res.status(400).json({ error: '缺少 templateId 或 config' });
     try {
@@ -2149,17 +2149,17 @@ Return ONLY valid JSON array.`;
     }
   });
 
-  apiRouter.patch('/api/mcp/servers/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.patch('/mcp/servers/:id', requireAuth as ReqHandler, (req, res) => {
     const server = mcpService.updateServer(req.params.id, req.body);
     if (!server) return res.status(404).json({ error: '服务器不存在' });
     res.json({ server });
   });
 
-  apiRouter.delete('/api/mcp/servers/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.delete('/mcp/servers/:id', requireAuth as ReqHandler, (req, res) => {
     res.json({ success: mcpService.deleteServer(req.params.id) });
   });
 
-  apiRouter.post('/api/mcp/servers/:id/test', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/mcp/servers/:id/test', requireAuth as ReqHandler, async (req, res) => {
     const result = await mcpService.testConnection(req.params.id);
     res.json(result);
   });
@@ -2169,7 +2169,7 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
   const { modelService } = await import('./mcp');
 
-  apiRouter.get('/api/models', (req, res) => {
+  apiRouter.get('/models', (req, res) => {
     const { provider, capability, tier, search, enabled } = req.query;
     const models = modelService.getModels({
       provider: provider as any,
@@ -2181,15 +2181,15 @@ Return ONLY valid JSON array.`;
     res.json({ models, total: models.length });
   });
 
-  apiRouter.get('/api/models/stats', (_req, res) => {
+  apiRouter.get('/models/stats', (_req, res) => {
     res.json(modelService.getStats());
   });
 
-  apiRouter.get('/api/models/providers', (_req, res) => {
+  apiRouter.get('/models/providers', (_req, res) => {
     res.json({ providers: modelService.getProviders() });
   });
 
-  apiRouter.patch('/api/models/:id/connect', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.patch('/models/:id/connect', requireAuth as ReqHandler, (req, res) => {
     const { apiKey } = req.body;
     if (!apiKey) return res.status(400).json({ error: '需要提供 API Key' });
     const model = modelService.connectModel(req.params.id, apiKey);
@@ -2197,7 +2197,7 @@ Return ONLY valid JSON array.`;
     res.json({ model, message: `${model.name} 已连接` });
   });
 
-  apiRouter.patch('/api/models/:id/disconnect', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.patch('/models/:id/disconnect', requireAuth as ReqHandler, (req, res) => {
     const model = modelService.disconnectModel(req.params.id);
     if (!model) return res.status(404).json({ error: '模型不存在' });
     res.json({ model });
@@ -2221,7 +2221,7 @@ Return ONLY valid JSON array.`;
   type AnyGenAssistantType = 'customer-service' | 'business' | 'universal';
 
   // 获取 AnyGen 助手列表
-  apiRouter.get('/api/anygen/assistants', (_req, res) => {
+  apiRouter.get('/anygen/assistants', (_req, res) => {
     res.json({
       assistants: ANYGEN_ASSISTANTS.map(a => ({
         id: a.id,
@@ -2242,14 +2242,14 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取单个助手详情
-  apiRouter.get('/api/anygen/assistants/:type', (req, res) => {
+  apiRouter.get('/anygen/assistants/:type', (req, res) => {
     const assistant = ANYGEN_ASSISTANTS.find(a => a.type === req.params.type);
     if (!assistant) return res.status(404).json({ error: '助手类型不存在', hint: '支持: customer-service / business / universal' });
     res.json({ assistant });
   });
 
   // 获取邀请链接（带邀请码）
-  apiRouter.get('/api/anygen/invite-url', (req, res) => {
+  apiRouter.get('/anygen/invite-url', (req, res) => {
     const { type = 'universal' } = req.query;
     const assistant = ANYGEN_ASSISTANTS.find(a => a.type === (type as AnyGenAssistantType));
     if (!assistant) return res.status(404).json({ error: '助手类型不存在' });
@@ -2263,7 +2263,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 新建对话
-  apiRouter.post('/api/anygen/conversations', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/anygen/conversations', requireAuth as ReqHandler, (req, res) => {
     const { type, title } = req.body as { type?: AnyGenAssistantType; title?: string };
     const conversation = anygenService.createConversation(
       req.auth!.tenantId,
@@ -2275,20 +2275,20 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取对话历史
-  apiRouter.get('/api/anygen/conversations', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.get('/anygen/conversations', requireAuth as ReqHandler, (req, res) => {
     const conversations = anygenService.getAllConversations(req.auth!.tenantId);
     res.json({ conversations, total: conversations.length });
   });
 
   // 获取单个对话
-  apiRouter.get('/api/anygen/conversations/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.get('/anygen/conversations/:id', requireAuth as ReqHandler, (req, res) => {
     const conversation = anygenService.getConversation(req.params.id, req.auth!.tenantId);
     if (!conversation) return res.status(404).json({ error: '对话不存在' });
     res.json({ conversation });
   });
 
   // 发送消息
-  apiRouter.post('/api/anygen/conversations/:id/messages', requireAuth as ReqHandler, async (req, res) => {
+  apiRouter.post('/anygen/conversations/:id/messages', requireAuth as ReqHandler, async (req, res) => {
     const { content, attachments } = req.body as { content: string; attachments?: string[] };
     if (!content?.trim()) return res.status(400).json({ error: '消息内容不能为空' });
     try {
@@ -2306,19 +2306,19 @@ Return ONLY valid JSON array.`;
   });
 
   // 删除对话
-  apiRouter.delete('/api/anygen/conversations/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.delete('/anygen/conversations/:id', requireAuth as ReqHandler, (req, res) => {
     const ok = anygenService.deleteConversation(req.params.id, req.auth!.tenantId);
     res.json({ success: ok });
   });
 
   // 更新配置
-  apiRouter.patch('/api/anygen/config', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.patch('/anygen/config', requireAuth as ReqHandler, (req, res) => {
     anygenService.updateConfig(req.body);
     res.json({ success: true, config: anygenService.loadConfig() });
   });
 
   // 获取配置
-  apiRouter.get('/api/anygen/config', (_req, res) => {
+  apiRouter.get('/anygen/config', (_req, res) => {
     res.json({ config: anygenService.loadConfig() });
   });
 
@@ -2328,18 +2328,18 @@ Return ONLY valid JSON array.`;
   // ══════════════════════════════════════════════════════════════
 
   // 获取 SOP 系统统计
-  apiRouter.get('/api/anygen/sop/stats', (req, res) => {
+  apiRouter.get('/anygen/sop/stats', (req, res) => {
     const tenantId = req.auth?.tenantId;
     res.json(sopEngine.getStats(tenantId));
   });
 
   // 获取 SOP 分类列表
-  apiRouter.get('/api/anygen/sop/categories', (_req, res) => {
+  apiRouter.get('/anygen/sop/categories', (_req, res) => {
     res.json({ categories: sopEngine.getCategories() });
   });
 
   // 获取 SOP 模板列表（支持分类/赛道/搜索过滤）
-  apiRouter.get('/api/anygen/sop/templates', (req, res) => {
+  apiRouter.get('/anygen/sop/templates', (req, res) => {
     const tenantId = req.auth?.tenantId;
     const { category, lane, search } = req.query;
     let templates = sopEngine.getAllTemplates(tenantId);
@@ -2357,7 +2357,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取单个 SOP 模板详情
-  apiRouter.get('/api/anygen/sop/templates/:id', (req, res) => {
+  apiRouter.get('/anygen/sop/templates/:id', (req, res) => {
     const tenantId = req.auth?.tenantId;
     const template = sopEngine.getTemplate(req.params.id, tenantId);
     if (!template) return res.status(404).json({ error: 'SOP 模板不存在' });
@@ -2365,7 +2365,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 创建自定义 SOP 模板（需登录）
-  apiRouter.post('/api/anygen/sop/templates', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/anygen/sop/templates', requireAuth as ReqHandler, (req, res) => {
     const tenantId = req.auth!.tenantId;
     const body = req.body as {
       name: string; description?: string; category: string; lanes?: string[]; tags?: string[];
@@ -2387,7 +2387,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 更新 SOP 模板（需是创建者）
-  apiRouter.patch('/api/anygen/sop/templates/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.patch('/anygen/sop/templates/:id', requireAuth as ReqHandler, (req, res) => {
     const tenantId = req.auth!.tenantId;
     const template = sopEngine.getTemplate(req.params.id, tenantId);
     if (!template) return res.status(404).json({ error: 'SOP 模板不存在' });
@@ -2396,7 +2396,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 删除自定义 SOP 模板
-  apiRouter.delete('/api/anygen/sop/templates/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.delete('/anygen/sop/templates/:id', requireAuth as ReqHandler, (req, res) => {
     const template = sopEngine.getTemplate(req.params.id);
     if (!template || template.author !== req.auth?.tenantId) {
       return res.status(404).json({ error: '模板不存在或无权删除' });
@@ -2406,7 +2406,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 触发 SOP 执行
-  apiRouter.post('/api/anygen/sop/execute', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/anygen/sop/execute', requireAuth as ReqHandler, (req, res) => {
     const { templateId, trigger, input } = req.body as {
       templateId?: string; trigger?: { type: string; source?: string }; input?: Record<string, unknown>;
     };
@@ -2426,14 +2426,14 @@ Return ONLY valid JSON array.`;
   });
 
   // 获取执行实例列表
-  apiRouter.get('/api/anygen/sop/executions', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.get('/anygen/sop/executions', requireAuth as ReqHandler, (req, res) => {
     const { status } = req.query;
     const executions = sopEngine.getTenantExecutions(req.auth!.tenantId, status as any);
     res.json({ executions, total: executions.length });
   });
 
   // 获取单个执行实例
-  apiRouter.get('/api/anygen/sop/executions/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.get('/anygen/sop/executions/:id', requireAuth as ReqHandler, (req, res) => {
     const execution = sopEngine.getExecution(req.params.id);
     if (!execution) return res.status(404).json({ error: '执行实例不存在' });
     if (execution.tenantId !== req.auth!.tenantId) return res.status(403).json({ error: '无权访问' });
@@ -2441,7 +2441,7 @@ Return ONLY valid JSON array.`;
   });
 
   // 人工确认 SOP 节点
-  apiRouter.post('/api/anygen/sop/executions/:executionId/confirm', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.post('/anygen/sop/executions/:executionId/confirm', requireAuth as ReqHandler, (req, res) => {
     const { nodeId, answer } = req.body as { nodeId?: string; answer?: string };
     if (!nodeId || answer === undefined) return res.status(400).json({ error: '缺少 nodeId 或 answer' });
     const ok = sopEngine.confirmNode(req.params.executionId, nodeId, answer, req.auth!.userId);
@@ -2450,17 +2450,124 @@ Return ONLY valid JSON array.`;
   });
 
   // 取消 SOP 执行
-  apiRouter.delete('/api/anygen/sop/executions/:id', requireAuth as ReqHandler, (req, res) => {
+  apiRouter.delete('/anygen/sop/executions/:id', requireAuth as ReqHandler, (req, res) => {
     const ok = sopEngine.cancelExecution(req.params.id, req.auth!.tenantId);
     res.json({ success: ok });
   });
+
+  // ══════════════════════════════════════════════════════════════
+  // CRM 多渠道客户管理系统 API
+  // 集成：sonov.io邮件营销 / 谷歌广告 / 全球社媒 / simiaiclaw.com询盘
+  // ══════════════════════════════════════════════════════════════
+  const { crmService } = await import('./crm');
+
+  // 仪表盘
+  apiRouter.get('/crm/dashboard', requireAuth as ReqHandler, (req, res) => {
+    const dash = crmService.getDashboard(req.auth!.tenantId);
+    res.json(dash);
+  });
+
+  // 初始化示例数据
+  apiRouter.post('/crm/init-demo', requireAuth as ReqHandler, (req, res) => {
+    crmService.seedDemoData(req.auth!.tenantId);
+    res.json({ success: true });
+  });
+
+  // 客户列表
+  apiRouter.get('/crm/customers', requireAuth as ReqHandler, (req, res) => {
+    const { search, source, status, tag } = req.query;
+    const customers = crmService.getCustomers(req.auth!.tenantId, {
+      search: search as string,
+      source: source as any,
+      status: status as any,
+      tag: tag as string,
+    });
+    res.json(customers);
+  });
+
+  // 添加客户
+  apiRouter.post('/crm/customers', requireAuth as ReqHandler, (req, res) => {
+    const customer = crmService.addCustomer(req.auth!.tenantId, req.body);
+    res.json(customer);
+  });
+
+  // 更新客户
+  apiRouter.put('/crm/customers/:id', requireAuth as ReqHandler, (req, res) => {
+    const customer = crmService.updateCustomer(req.params.id, req.auth!.tenantId, req.body);
+    if (!customer) return res.status(404).json({ error: '客户不存在' });
+    res.json(customer);
+  });
+
+  // 删除客户
+  apiRouter.delete('/crm/customers/:id', requireAuth as ReqHandler, (req, res) => {
+    const ok = crmService.deleteCustomer(req.params.id, req.auth!.tenantId);
+    res.json({ success: ok });
+  });
+
+  // 邮件账号管理
+  apiRouter.get('/crm/email-accounts', requireAuth as ReqHandler, (req, res) => {
+    res.json(crmService.getEmailAccounts(req.auth!.tenantId));
+  });
+
+  apiRouter.post('/crm/email-accounts', requireAuth as ReqHandler, (req, res) => {
+    const account = crmService.addEmailAccount(req.auth!.tenantId, req.body);
+    res.json(account);
+  });
+
+  apiRouter.delete('/crm/email-accounts/:id', requireAuth as ReqHandler, (req, res) => {
+    res.json({ success: crmService.deleteEmailAccount(req.params.id, req.auth!.tenantId) });
+  });
+
+  // 邮件营销活动
+  apiRouter.get('/crm/campaigns', requireAuth as ReqHandler, (req, res) => {
+    res.json(crmService.getCampaigns(req.auth!.tenantId));
+  });
+
+  apiRouter.post('/crm/campaigns', requireAuth as ReqHandler, (req, res) => {
+    const campaign = crmService.createCampaign(req.auth!.tenantId, req.body, req.auth!.userId);
+    res.json(campaign);
+  });
+
+  apiRouter.post('/crm/campaigns/:id/send', requireAuth as ReqHandler, (req, res) => {
+    const customers = crmService.getCustomers(req.auth!.tenantId);
+    const result = crmService.sendCampaign(req.params.id, req.auth!.tenantId, customers);
+    res.json(result);
+  });
+
+  // 渠道来源管理
+  apiRouter.get('/crm/channels', requireAuth as ReqHandler, (req, res) => {
+    res.json(crmService.getChannels(req.auth!.tenantId));
+  });
+
+  apiRouter.post('/crm/channels', requireAuth as ReqHandler, (req, res) => {
+    const channel = crmService.addChannel(req.auth!.tenantId, req.body);
+    res.json(channel);
+  });
+
+  apiRouter.put('/crm/channels/:id', requireAuth as ReqHandler, (req, res) => {
+    const channel = crmService.updateChannel(req.params.id, req.auth!.tenantId, req.body);
+    if (!channel) return res.status(404).json({ error: '渠道不存在' });
+    res.json(channel);
+  });
+
+  apiRouter.delete('/crm/channels/:id', requireAuth as ReqHandler, (req, res) => {
+    res.json({ success: crmService.deleteChannel(req.params.id, req.auth!.tenantId) });
+  });
+
+  // 活动日志
+  apiRouter.get('/crm/activity', requireAuth as ReqHandler, (req, res) => {
+    const limit = parseInt(req.query.limit as string || '50');
+    res.json(crmService.getRecentActivity(req.auth!.tenantId, limit));
+  });
+
+  console.log('🎯 CRM 多渠道AI客户管理系统路由已注册: /api/crm/*');
 
   // ══════════════════════════════════════════════════════════════
   // AnyGen 外贸助手 Webhook 触发器（支持外部事件接入）
   // ══════════════════════════════════════════════════════════════
 
   // 接收外部 Webhook 触发 SOP
-  apiRouter.post('/api/anygen/sop/webhook/:templateId', async (req, res) => {
+  apiRouter.post('/anygen/sop/webhook/:templateId', async (req, res) => {
     const { templateId } = req.params;
     const signature = (req.headers['x-sop-signature'] as string) || '';
     const template = sopEngine.getTemplate(templateId);
